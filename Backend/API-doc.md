@@ -39,7 +39,6 @@ Input Format
 {
     email: string,
     password: string,
-    name: string
 }
 ```
 
@@ -402,4 +401,3 @@ Response Format
     subgroup_id: int
 }
 ```
-
