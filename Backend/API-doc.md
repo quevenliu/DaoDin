@@ -251,6 +251,7 @@ Query:
 - location: string
 - sort: string
 - isJoined: boolean (send 0 or 1)
+- cursor: int
 
 Example:
 
@@ -268,7 +269,8 @@ Response Format
             description: string,
             status: string
         }, ...
-    ]
+    ],
+    next_cursor: int
 }
 ```
 
@@ -358,6 +360,8 @@ API URL: /api/chat/:group_id
 
 Method: GET
 
+Query: cursor: int
+
 response type: application/json
 
 Header
@@ -377,7 +381,8 @@ Response Format
             sended_at: string,
             picture: string
         }, ...
-    ]
+    ],
+    next_cursor: int
 }
 ```
 
