@@ -70,7 +70,8 @@ Input Format
     name: string,
     email: string,
     password: string,
-    picture: file
+    picture: file,
+    self_intro: string
 }
 ```
 
@@ -104,7 +105,8 @@ Response Format
     user_id: int,
     name: string,
     email: string,
-    picture: string
+    picture: string,
+    self_intro: string
 }
 ```
 
