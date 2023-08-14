@@ -166,14 +166,7 @@ Response Format
     category: string,
     location: string,
     description: string,
-    members: [
-        {
-            user_id: int,
-            name: string,
-            email: string,
-            picture: string
-        }
-    ]
+    status: string
 }
 ```
 
@@ -231,15 +224,18 @@ Query:
 
 Response Format
 ```
-[
-    {
-        group_id: int,
-        name: string,
-        category: string,
-        location: string,
-        description: string,
-    }
-]
+{
+    groups: [
+        {
+            group_id: int,
+            name: string,
+            category: string,
+            location: string,
+            description: string,
+            status: string
+        }
+    ]
+}
 ```
 
 ### Join Group
@@ -293,7 +289,7 @@ Response Format
 
 ## Chat Related API
 
-### Create Chat
+### Send Message
 
 API URL: /api/chat/:group_id
 
@@ -324,7 +320,7 @@ Response Format
 
 ### Get Chat List
 
-API URL: /api/chat/:group_id
+API URL: /api/chat/:group_id/:subgroup_id
 
 Method: GET
 
