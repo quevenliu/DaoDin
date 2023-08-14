@@ -68,10 +68,38 @@ Input Format
 ```
 {
     name: string,
-    email: string,
-    password: string,
-    picture: file,
     self_intro: string
+}
+```
+
+Response Format
+```
+{
+    user_id: int
+}
+```
+
+### Update User Profile Picture API
+
+API URL: /api/user/profile/picture
+
+Method: PUT
+
+response response type: application/json
+
+Header
+```
+{
+    Authorization: "Bearer ${JWT}"
+}
+```
+
+Send as form-data
+
+Input Format
+```
+{
+    picture: file
 }
 ```
 
