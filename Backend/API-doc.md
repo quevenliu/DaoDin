@@ -267,7 +267,7 @@ Response Format
             location: string,
             description: string,
             status: string
-        }
+        }, ...
     ]
 }
 ```
@@ -376,7 +376,7 @@ Response Format
             user_id: int,
             sended_at: string,
             picture: string
-        }
+        }, ...
     ]
 }
 ```
@@ -402,15 +402,17 @@ Response Format
 ```
 {
     matches: [
-        matched_group_id: int,
-        users: [
-            {
-                picture: string,
-                self_intro: string,
-                match_msg: string,
-                nickname: string
-            }
-        ]
+        {
+            matched_group_id: int,
+            users: [
+                {
+                    picture: string,
+                    self_intro: string,
+                    match_msg: string,
+                    nickname: string
+                }
+            ]
+        }, ...
     ]
 }
 ```
@@ -436,3 +438,31 @@ Response Format
     subgroup_id: int
 }
 ```
+
+## AI Model API
+
+Input format
+```
+{
+    data: [
+        {
+            user_id: int,
+            self_intro: string,
+            match_msg: string
+        },...
+    ]
+}
+```
+
+Response format
+```
+{
+    data: [
+        [
+            user_id: int
+        ],
+        [
+            user_id: int
+        ], ...
+    ]
+}```
