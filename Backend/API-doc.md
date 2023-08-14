@@ -250,6 +250,11 @@ Query:
 - category: string
 - location: string
 - sort: string
+- isJoined: boolean (send 0 or 1)
+
+Example:
+
+/api/group/search?category=movie&location=seoul&sort=recent&isJoined=0
 
 Response Format
 ```
@@ -349,7 +354,7 @@ Response Format
 
 ### Get Chat List
 
-API URL: /api/chat/:group_id/:subgroup_id
+API URL: /api/chat/:group_id
 
 Method: GET
 
@@ -412,7 +417,7 @@ Response Format
 
 ### Leave match
 
-API URL: /api/match/:group_id/:subgroup_id/leave
+API URL: /api/match/:group_id/leave
 
 Method: DELETE
 

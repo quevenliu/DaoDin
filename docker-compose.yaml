@@ -1,0 +1,59 @@
+services:
+  nginx:
+    container_name: daodin_nginx
+    image: nginx:mainline-alpine-slim
+    restart: always
+    volumes:
+      - ./nginx/fullchain.pem:${FULLCHAIN_PATH}
+      - ./nginx/options-ssl-nginx.conf:${SSL_CONF_PATH}
+      - ./nginx/ssl-dhparams.pem:${DH_PARAMS_PATH}
+      - ./nginx/privkey.pem:${PRIVKEY_PATH}
+      - ./nginx/default.conf:${DEFUALT_CONF_PATH}
+    expose:
+      - "80"
+      - "443"
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - daodin
+
+  app:
+    container_name: daodin_node
+    image: node:20-alpine
+    command: sh -c "cd /app/backend && npm install && node index.js"
+    init: true
+    restart: always
+    volumes:
+      - ./backend:/app/backend
+      - picture_storage:/app/picture_storage
+      - node_modules:/app/backend/node_modules
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - daodin
+    env_file:
+      - ${daodin_ENV_PATH}
+    depends_on:
+      - redis
+      - nginx
+  redis:
+    container_name: daodin_redis
+    restart: always
+    image: redis:7.0.12-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - daodin
+
+volumes:
+  node_modules:
+  redis_data:
+  picture_storage:
+
+
+networks:
+  daodin:
+    driver: bridge
