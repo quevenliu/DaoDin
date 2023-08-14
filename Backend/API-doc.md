@@ -49,7 +49,7 @@ Response Format
 }
 ```
 
-## Personal Profile Update API
+### Personal Profile Update API
 
 API URL: /api/user/profile
 
