@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";

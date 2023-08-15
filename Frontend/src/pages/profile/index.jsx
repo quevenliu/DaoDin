@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../../styles/font.module.scss";
 import { useRouter } from "next/router";
+import styles from "../../styles/font.module.scss";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 
@@ -21,7 +21,7 @@ export default function Home() {
       <Topbar />
       <div className="min-h-screen bg-backgroundColor p-14">
         <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-12 rounded-[20px] flex ">
-          <div className="w-36 h-36 bg-primaryColor rounded-full mr-11 shrink-0"></div>
+          <div className="w-36 h-36 bg-primaryColor rounded-full mr-11 shrink-0" />
           <div className="w-full">
             <div className="flex justify-between items-center px-2.5 mb-6">
               <p className={`${styles.content} text-3xl font-medium`}>Name</p>
@@ -47,7 +47,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <article className="w-full min-h-[100px] bg-backgroundColor rounded-[20px]"></article>
+            <article className="w-full min-h-[100px] bg-backgroundColor rounded-[20px]" />
           </div>
         </div>
 
