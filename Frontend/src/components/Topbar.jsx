@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/font.module.scss";
 
 export default function Topbar() {
   return (
     <div className="px-14 h-16 flex justify-between items-center bg-primaryColor">
-      <h1 className={`${styles.title} text-5xl text-white`}>DaoDin</h1>
+      <Link href="/">
+        <h1 className={`${styles.title} text-5xl text-white`}>DaoDin</h1>
+      </Link>
       <div className="flex gap-4">
         <button type="button">
           <Image
@@ -15,7 +18,7 @@ export default function Topbar() {
             height={40}
           />
         </button>
-        <button type="button">
+        <Link href="/profile">
           <Image
             src="/avatar.svg"
             alt="setting"
@@ -23,7 +26,7 @@ export default function Topbar() {
             width={40}
             height={40}
           />
-        </button>
+        </Link>
         <button type="button">
           <Image
             src="/setting.svg"
