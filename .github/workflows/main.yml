@@ -34,12 +34,22 @@ jobs:
         echo "${{secrets.SSH_KEY}}" > ./CICD/ssh_key.pem
         chmod 600 ./CICD/ssh_key.pem
 
-    - name: Pull git repo, and setup docker
+    - name: Init SSH EC2 instance, clone git repo, and setup docker
       if: steps.check_commit.outputs.skip == '0'
       run: |
         ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} '
-          cd DaoDin &&
-          git pull origin main &&
+          touch ./ssh_key.pem && 
+          echo "${{secrets.SSH_GITHUB_PRIV}}" > ./ssh_key.pem &&
+          chmod 600 ssh_key.pem && 
+          ssh-agent bash && 
+          eval `ssh-agent -s` &&
+          ssh-add ./ssh_key.pem &&
+          if [ -d "./DaoDin" ]; then
+            cd DaoDin &&
+            git pull origin main
+          else
+            git clone git@github.com:quevenliu/DaoDin.git
+          fi &&
           echo "${{secrets.BACKEND_ENV}}" > ./DaoDin/Backend/.env &&
           ./CICD/setup_docker.sh
         '
