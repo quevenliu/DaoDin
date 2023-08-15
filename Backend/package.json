@@ -1,21 +1,13 @@
 {
-  "name": "daodin-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "A backend API for a online social website.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/quevenliu/DaoDin.git"
-  },
-  "author": "quevenliu, jacky010080,  shaoyulinn, gino79445",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/quevenliu/DaoDin/issues"
-  },
-  "homepage": "https://github.com/quevenliu/DaoDin#readme",
+  "description": "",
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
