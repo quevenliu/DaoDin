@@ -379,7 +379,8 @@ Response Format
             message: string,
             user_id: int,
             sended_at: string,
-            picture: string
+            picture: string,
+            nickname: string
         }, ...
     ],
     next_cursor: int
