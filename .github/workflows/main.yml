@@ -43,7 +43,7 @@ jobs:
           chmod 600 ssh_key.pem && 
           ssh-agent bash && 
           ssh-add ./ssh_key.pem &&
-          git clone git@github.com:quevenliu/DaoDin.git
-          echo ${{secrets.BACKEND_ENV}} > ./DaoDin/Backend/.env
+          git clone git@github.com:quevenliu/DaoDin.git &&
+          echo ${{secrets.BACKEND_ENV}} > ./DaoDin/Backend/.env &&
           ./CICD/setup_docker.sh
         '
