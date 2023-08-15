@@ -33,11 +33,6 @@ jobs:
       run: |
         echo "${{secrets.SSH_KEY}}" > ./CICD/ssh_key.pem
         chmod 600 ./CICD/ssh_key.pem
-
-    - name: SSH init on EC2 instance
-      if: steps.check_commit.outputs.skip == '0'
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < "touch ./ssh_key.pem && echo ${{secrets.SSH_GITHUB_PRIV}} > ./ssh_key.pem ssh-add ./ssh_key.pem"
       
     - name: clone git repo
       if: steps.check_commit.outputs.skip == '0'
