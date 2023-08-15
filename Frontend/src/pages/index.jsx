@@ -1,7 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-const inter = Inter({ subsets: ["latin"] });
 
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
@@ -18,16 +15,17 @@ export default function Home() {
       </Head>
       <Topbar />
       <main className="min-h-screen px-44 pt-8 bg-backgroundColor">
+        <div />
         <div className="mb-8 flex gap-7">
           <button
             type="button"
-            className="w-[9%] px-8 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
+            className="w-32 px-7 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
           >
             Filter
           </button>
           <button
             type="button"
-            className="w-[9%] px-8 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
+            className="w-32 px-7 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
           >
             Sortby
           </button>
