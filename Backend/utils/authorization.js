@@ -1,4 +1,4 @@
-async function authorization(req, res) {
+async function authorization(req, res, next) {
 
   const failedResponse = { error: 'Wrong Token' };
 
@@ -30,7 +30,7 @@ async function authorization(req, res) {
 
   req.authorization_id = decodedUser.id;
 
-  return;
+  next();
 };
 
 module.exports = authorization;
