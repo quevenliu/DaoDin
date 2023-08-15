@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
 async function authorization(req, res, next) {
 
   const failedResponse = { error: 'Wrong Token' };
@@ -33,4 +36,27 @@ async function authorization(req, res, next) {
   next();
 };
 
-module.exports = authorization;
+function generateJWT(user_id) {
+
+  // Secret key for JWT encryption
+  const secretKey = process.env.JWT_KEY;
+
+  const payload = {
+    id: user_id,
+  };
+
+  const accessToken = jwt.sign(payload, secretKey, { algorithm: 'HS256' });
+
+  return accessToken;
+}
+
+function hashPassword(password) {
+  return crypto.createHash('sha256').update(password).digest('base64');
+}
+
+module.exports = {
+  authorization,
+  generateJWT,
+  hashPassword
+};
+
