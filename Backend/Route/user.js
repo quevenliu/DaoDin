@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const authorization = require('../utils/authorization');
+const authorization = require('../utils/authorization').authorization;
 const controller = require('../Controller/user');
-const upload = require('../utils/multer').upload;
+const { upload } = require('../utils/multer');
 
-app.use(express.json());
+router.use(express.json());
 
-app.post('/signup', controller.signup);
-app.post('/signin', controller.signin);
+router.post('/signup', controller.signup);
+router.post('/signin', controller.signin);
 
-app.use(authorization);
+router.use(authorization);
 
-app.put('/profile', controller.updateProfile);
-app.put('/profile/picture', upload.single('picture'), controller.updateProfilePicture);
-app.get('/profile', controller.getProfile);
+router.put('/profile', controller.updateProfile);
+router.put('/profile/picture', upload.single('picture'), controller.updateProfilePicture);
+router.get('/profile', controller.getProfile);
 
 module.exports = router;

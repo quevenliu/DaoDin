@@ -3,6 +3,8 @@ const generateJWT = require('../utils/authorization').generateJWT;
 const hashPassword = require('../utils/authorization').hashPassword;
 
 async function signup(req, res) {
+
+    console.log(req.body);
     if (!req.body.email || !req.body.password || !req.body.name) {
         return res.status(400).send('Missing value');
     }
