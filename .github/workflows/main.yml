@@ -14,9 +14,6 @@ jobs:
     env:
         BACKEND_ENV: ${{secrets.BACKEND_ENV}}   
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
     - name: Check commit description
       id: check_commit
       run: |
@@ -28,6 +25,22 @@ jobs:
           echo "Commit description does not contain --noRebuild"
           echo "skip=0" >> $GITHUB_OUTPUT
         fi
+    
+    - name: ssh init
+      if: steps.check_commit.outputs.skip == '0'
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < echo ${{secrets.SSH_GITHUB_PRIV}} > ./ssh_key.pem && 
+        ssh-add ./ssh_key.pem
+      
+    - name: clone git repo
+      if: steps.check_commit.outputs.skip == '0'
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < git clone git@github.com:quevenliu/DaoDin.git
+    
+    - name: write secrets
+      if: steps.check_commit.outputs.skip == '0'
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < echo ${{secrets.BACKEND_ENV}} > ./DaoDin/Backend/.env
 
     - name: Write SSH Key to file
       if: steps.check_commit.outputs.skip == '0'
