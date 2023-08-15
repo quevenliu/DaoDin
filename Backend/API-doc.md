@@ -106,7 +106,7 @@ Input Format
 Response Format
 ```
 {
-    user_id: int
+    imageUrl: string
 }
 ```
 
