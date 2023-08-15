@@ -1,8 +1,8 @@
 const express = require('express');
-const userRouter = require('./Route/user');
-const groupRouter = require('./Route/group');
-const chatRouter = require('./Route/chat');
-const matchRouter = require('./Route/match');
+const userRouter = require('./user');
+const groupRouter = require('./group');
+const chatRouter = require('./chat');
+const matchRouter = require('./match');
 
 const app = express();
 
