@@ -1,4 +1,4 @@
- {
+{
   "env": {
     "browser": true,
     "es2021": true
@@ -8,10 +8,12 @@
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:@next/next/recommended",
+    "plugin:prettier/recommended",
     "airbnb",
     "next",
     "prettier"
   ],
+  "plugins": ["prettier"],
   "overrides": [
     {
       "env": {

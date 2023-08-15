@@ -3,7 +3,6 @@ import Image from "next/image";
 export default function Group({ path }) {
   return (
     <div className="group mt-8">
-      
       {path === "/profile" ? (
         <div className="px-8 py-4 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none">
           <h3 className="px-8 text-4xl font-bold">Group</h3>

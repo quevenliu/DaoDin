@@ -18,16 +18,17 @@ export default function Home() {
       </Head>
       <Topbar />
       <main className="min-h-screen px-44 pt-8 bg-backgroundColor">
+        <div />
         <div className="mb-8 flex gap-7">
           <button
             type="button"
-            className="w-[9%] px-8 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
+            className="w-32 px-7 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
           >
             Filter
           </button>
           <button
             type="button"
-            className="w-[9%] px-8 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
+            className="w-32 px-7 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
           >
             Sortby
           </button>
