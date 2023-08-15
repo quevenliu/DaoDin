@@ -379,7 +379,8 @@ Response Format
             message: string,
             user_id: int,
             sended_at: string,
-            picture: string
+            picture: string,
+            nickname: string
         }, ...
     ],
     next_cursor: int
@@ -406,17 +407,13 @@ Header
 Response Format
 ```
 {
-    matches: [
+    matched_group_id: int,
+    users: [
         {
-            matched_group_id: int,
-            users: [
-                {
-                    picture: string,
-                    self_intro: string,
-                    match_msg: string,
-                    nickname: string
-                }
-            ]
+            picture: string,
+            self_intro: string,
+            match_msg: string,
+            nickname: string
         }, ...
     ]
 }
