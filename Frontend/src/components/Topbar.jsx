@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import styles from "../styles/font.module.scss";
 
 export default function Topbar() {
