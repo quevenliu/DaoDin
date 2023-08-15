@@ -39,11 +39,11 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} '
           touch ./ssh_key.pem && 
-          echo ${{secrets.SSH_GITHUB_PRIV}} > ./ssh_key.pem &&
+          echo "${{secrets.SSH_GITHUB_PRIV}}" > ./ssh_key.pem &&
           chmod 600 ssh_key.pem && 
           ssh-agent bash && 
           ssh-add ./ssh_key.pem &&
           git clone git@github.com:quevenliu/DaoDin.git &&
-          echo ${{secrets.BACKEND_ENV}} > ./DaoDin/Backend/.env &&
+          echo "${{secrets.BACKEND_ENV}}" > ./DaoDin/Backend/.env &&
           ./CICD/setup_docker.sh
         '
