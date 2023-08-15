@@ -2,9 +2,10 @@ const model = require('../Model/user_model');
 const generateJWT = require('../utils/authorization').generateJWT;
 const hashPassword = require('../utils/authorization').hashPassword;
 
+require('dotenv').config('../.env');
+
 async function signup(req, res) {
 
-    console.log(req.body);
     if (!req.body.email || !req.body.password || !req.body.name) {
         return res.status(400).send('Missing value');
     }
@@ -44,16 +45,11 @@ function signin(req, res) {
             return res.status(400).send('Email does not exist');
         }
 
-        if (hashPassword(user.password) !== req.body.password) {
+        if (user.password !== hashPassword(req.body.password)) {
             return res.status(400).send('Password does not match');
         }
 
-        generateJWT(user.user_id).then((result) => {
-            return res.status(200).send({ token: result });
-        }).catch((err) => {
-            console.log(err);
-            return res.status(500).send('Internal server error');
-        });
+        return res.status(200).json({ token: generateJWT(user.user_id) });
     }).catch((err) => {
         console.log(err);
         return res.status(500).send('Internal server error');

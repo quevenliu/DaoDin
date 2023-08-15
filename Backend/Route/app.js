@@ -4,6 +4,8 @@ const groupRouter = require('./group');
 const chatRouter = require('./chat');
 const matchRouter = require('./match');
 
+require('dotenv').config('../.env');
+
 const app = express();
 
 app.use(express.json());
