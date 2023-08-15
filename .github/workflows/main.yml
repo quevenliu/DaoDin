@@ -14,6 +14,7 @@ jobs:
     - name: Check commit description
       id: check_commit
       run: |
+        git init
         COMMIT_DESC="$(git log -1 --pretty=%B)"
         if [[ "$COMMIT_DESC" == *"--noRebuild"* ]]; then
           echo "Commit description contains --noRebuild"
