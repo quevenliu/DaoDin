@@ -26,7 +26,6 @@ async function authorization(req, res, next) {
     }
   });
 
-
   if (!decodedUser || !decodedUser.id) {
     return res.status(403).json(failedResponse);
   }

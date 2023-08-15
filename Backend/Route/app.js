@@ -14,7 +14,7 @@ app.get('/health', (req, res) => {
     return res.status(200).send('OK');
 });
 
-app.use('/static', express.static(__dirname + process.env.UPLOAD_PATH));
+app.use('/static', express.static(process.env.UPLOAD_PATH));
 
 app.use('/api/user', userRouter);
 /*

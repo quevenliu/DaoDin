@@ -1,0 +1,36 @@
+name: CI/CD Pipeline for DaoDin
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    env:
+        BACKEND_ENV: ${{secrets.BACKEND_ENV}}   
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Check commit description
+      id: check_commit
+      run: |
+        COMMIT_DESC="$(git log -1 --pretty=%B)"
+        if [[ "$COMMIT_DESC" == *"--noRebuild"* ]]; then
+          echo "Commit description contains --noRebuild"
+          echo "skip=1" >> $GITHUB_OUTPUT
+        else
+          echo "Commit description does not contain --noRebuild"
+          echo "skip=0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Connect to EC2 instance using SSH and setup docker
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{secrets.SSH_KEY}} ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < ./CICD/setup_docker.sh
+      

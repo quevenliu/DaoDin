@@ -1,17 +1,13 @@
 services:
   nginx:
     container_name: daodin_nginx
-    image: nginx:mainline-alpine-slim
+    image: jonasal/nginx-certbot:latest
     restart: always
+    environment:
+      - CERTBOT_EMAIL: ${CERTBOT_EMAIL}
     volumes:
-      - ./nginx/fullchain.pem:${FULLCHAIN_PATH}
-      - ./nginx/options-ssl-nginx.conf:${SSL_CONF_PATH}
-      - ./nginx/ssl-dhparams.pem:${DH_PARAMS_PATH}
-      - ./nginx/privkey.pem:${PRIVKEY_PATH}
-      - ./nginx/default.conf:${DEFUALT_CONF_PATH}
-    expose:
-      - "80"
-      - "443"
+      - nginx_secrets: /etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
     ports:
       - "80:80"
       - "443:443"
@@ -26,7 +22,7 @@ services:
     restart: always
     volumes:
       - ./backend:/app/backend
-      - picture_storage:/app/picture_storage
+      - picture_storage:/app/static
       - node_modules:/app/backend/node_modules
     ports:
       - "3000:3000"
@@ -37,21 +33,12 @@ services:
     env_file:
       - ${daodin_ENV_PATH}
     depends_on:
-      - redis
       - nginx
-  redis:
-    container_name: daodin_redis
-    restart: always
-    image: redis:7.0.12-alpine
-    volumes:
-      - redis_data:/data
-    networks:
-      - daodin
 
 volumes:
   node_modules:
-  redis_data:
   picture_storage:
+  nginx_secrets:
 
 
 networks:
