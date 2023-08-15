@@ -1,9 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
+
 import styles from "../../styles/font.module.scss";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
+import myGroupsMockData from "@/data/groupsMockData";
+import profileMockData from "@/data/profileMockData";
 
 export default function Home() {
   const router = useRouter();
@@ -21,33 +25,52 @@ export default function Home() {
       <Topbar />
       <div className="min-h-screen bg-backgroundColor p-14">
         <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-12 rounded-[20px] flex ">
-          <div className="w-36 h-36 bg-primaryColor rounded-full mr-11 shrink-0" />
+          <Image
+            src={`${profileMockData.picture}`}
+            alt="avatar"
+            className="w-36 h-36 rounded-full mr-11 shrink-0"
+            width={200}
+            height={200}
+          />
           <div className="w-full">
             <div className="flex justify-between items-center px-2.5 mb-6">
-              <p className={`${styles.content} text-3xl font-medium`}>Name</p>
-              <div>
-                <button className="mr-5" type="button">
+              <p className={`${styles.content} text-3xl font-medium`}>
+                {profileMockData.name}
+              </p>
+              <div className="flex gap-4">
+                <Link
+                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                  target="_blank"
+                >
                   <Image src="/line.png" alt="Line" width={50} height={50} />
-                </button>
-                <button className="mr-5" type="button">
+                </Link>
+                <Link
+                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                  target="_blank"
+                >
                   <Image
                     src="/facebook.png"
                     alt="Facebook"
                     width={50}
                     height={50}
                   />
-                </button>
-                <button type="button">
+                </Link>
+                <Link
+                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                  target="_blank"
+                >
                   <Image
                     src="/instagram.png"
                     alt="Instagram"
                     width={50}
                     height={50}
                   />
-                </button>
+                </Link>
               </div>
             </div>
-            <article className="w-full min-h-[100px] bg-backgroundColor rounded-[20px]" />
+            <p className="w-full px-5 py-3 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]">
+              {profileMockData.self_intro}
+            </p>
           </div>
         </div>
 
@@ -65,9 +88,17 @@ export default function Home() {
             </div>
           </div>
           <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-16 pt-8 pb-16">
-            <Group path={path} />
-            <Group path={path} />
-            <Group path={path} />
+            {myGroupsMockData.map((myGroup) => (
+              <Group
+                path={path}
+                key={myGroup.id}
+                name={myGroup.name}
+                category={myGroup.category}
+                location={myGroup.location}
+                description={myGroup.description}
+                status={myGroup.status}
+              />
+            ))}
           </div>
         </div>
       </div>
