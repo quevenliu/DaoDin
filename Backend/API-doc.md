@@ -406,17 +406,13 @@ Header
 Response Format
 ```
 {
-    matches: [
+    matched_group_id: int,
+    users: [
         {
-            matched_group_id: int,
-            users: [
-                {
-                    picture: string,
-                    self_intro: string,
-                    match_msg: string,
-                    nickname: string
-                }
-            ]
+            picture: string,
+            self_intro: string,
+            match_msg: string,
+            nickname: string
         }, ...
     ]
 }
