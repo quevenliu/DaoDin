@@ -1,0 +1,46 @@
+services:
+  nginx:
+    container_name: daodin_nginx
+    image: jonasal/nginx-certbot:latest
+    restart: always
+    environment:
+      - CERTBOT_EMAIL: ${CERTBOT_EMAIL}
+    volumes:
+      - nginx_secrets: /etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - daodin
+
+  app:
+    container_name: daodin_node
+    image: node:20-alpine
+    command: sh -c "cd /app/backend && npm install && node index.js"
+    init: true
+    restart: always
+    volumes:
+      - ./backend:/app/backend
+      - picture_storage:/app/static
+      - node_modules:/app/backend/node_modules
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - daodin
+    env_file:
+      - ${daodin_ENV_PATH}
+    depends_on:
+      - nginx
+
+volumes:
+  node_modules:
+  picture_storage:
+  nginx_secrets:
+
+
+networks:
+  daodin:
+    driver: bridge
