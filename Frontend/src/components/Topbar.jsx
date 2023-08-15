@@ -4,7 +4,7 @@ import styles from "../styles/font.module.scss";
 
 export default function Topbar() {
   return (
-    <div className="px-14 h-24 flex justify-between items-center bg-[#F77B54]">
+    <div className="px-14 h-16 flex justify-between items-center bg-primaryColor">
       <h1 className={`${styles.title} text-5xl text-white`}>DaoDin</h1>
       <div className="flex gap-4">
         <button type="button">
