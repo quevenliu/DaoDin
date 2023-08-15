@@ -50,6 +50,7 @@ jobs:
           else
             git clone git@github.com:quevenliu/DaoDin.git
           fi &&
+          touch ./DaoDin/Backend/.env &&
           echo "${{secrets.BACKEND_ENV}}" > ./DaoDin/Backend/.env &&
           ./CICD/setup_docker.sh
         '
