@@ -37,7 +37,7 @@ jobs:
     - name: SSH init on EC2 instance
       if: steps.check_commit.outputs.skip == '0'
       run: |
-        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < echo ${{secrets.SSH_GITHUB_PRIV}} > ./ssh_key.pem && 
+        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < "echo ${{secrets.SSH_GITHUB_PRIV}} > ./ssh_key.pem" && 
         ssh-add ./ssh_key.pem
       
     - name: clone git repo
