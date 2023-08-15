@@ -8,7 +8,7 @@ export default function Group() {
         <Image
           src="/menu.svg"
           alt="menu"
-          className="w-12 h-12"
+          className="w-12 h-12 transition-all duration-500 group-hover:rotate-180"
           width={48}
           height={48}
         />
