@@ -1,7 +1,10 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
+import styles from "../styles/font.module.scss";
+import groupsMockData from "@/data/groupsMockData";
 
 export default function Home() {
   const router = useRouter();
@@ -18,25 +21,32 @@ export default function Home() {
       </Head>
       <Topbar />
       <main className="min-h-screen px-44 pt-8 bg-backgroundColor">
-        <div />
         <div className="mb-8 flex gap-7">
           <button
             type="button"
-            className="w-32 px-7 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
+            className={`${styles.content} w-32 px-7 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]`}
           >
             Filter
           </button>
           <button
             type="button"
-            className="w-32 px-7 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]"
+            className={`${styles.content} w-32 px-7 py-2 bg-primaryColor text-xl font-bold text-white rounded-[50px]`}
           >
             Sortby
           </button>
         </div>
         <div className="min-h-screen px-16 pt-5 bg-white rounded-t-[20px]">
-          <Group path={path} />
-          <Group path={path} />
-          <Group path={path} />
+          {groupsMockData.map((group) => (
+            <Group
+              path={path}
+              key={group.id}
+              name={group.name}
+              category={group.category}
+              location={group.location}
+              description={group.description}
+              status={group.status}
+            />
+          ))}
         </div>
       </main>
     </>
