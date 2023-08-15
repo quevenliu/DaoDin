@@ -33,19 +33,17 @@ jobs:
       run: |
         echo "${{secrets.SSH_KEY}}" > ./CICD/ssh_key.pem
         chmod 600 ./CICD/ssh_key.pem
-      
-    - name: clone git repo
+
+    - name: SSH into EC2 instance, clone git repo, and setup docker
       if: steps.check_commit.outputs.skip == '0'
       run: |
-        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < git clone git@github.com:quevenliu/DaoDin.git
-    
-    - name: write secrets
-      if: steps.check_commit.outputs.skip == '0'
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < echo ${{secrets.BACKEND_ENV}} > ./DaoDin/Backend/.env
-    
-    - name: Connect to EC2 instance using SSH and setup docker
-      if: steps.check_commit.outputs.skip == '0'
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} 'bash -s' < ./CICD/setup_docker.sh
-      
+        ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} '
+          touch ./ssh_key.pem && 
+          echo ${{secrets.SSH_GITHUB_PRIV}} > ./ssh_key.pem &&
+          chmod 600 ssh_key.pem && 
+          ssh-agent bash && 
+          ssh-add ./ssh_key.pem &&
+          git clone git@github.com:quevenliu/DaoDin.git
+          echo ${{secrets.BACKEND_ENV}} > ./DaoDin/Backend/.env
+          ./CICD/setup_docker.sh
+        '
