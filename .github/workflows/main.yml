@@ -52,5 +52,6 @@ jobs:
           fi &&
           touch ./Backend/.env &&
           echo "${{secrets.BACKEND_ENV}}" > ./Backend/.env &&
+          chmod +x ./CICD/setup_docker.sh &&
           ./CICD/setup_docker.sh
         '
