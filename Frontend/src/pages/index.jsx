@@ -1,12 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
-const inter = Inter({ subsets: ["latin"] });
-
+import { useRouter } from "next/router";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 
 export default function Home() {
+  const router = useRouter();
+  const path = router.pathname;
+
   return (
     <>
       <Head>
@@ -33,9 +34,9 @@ export default function Home() {
           </button>
         </div>
         <div className="min-h-screen px-16 pt-5 bg-white rounded-t-[20px]">
-          <Group />
-          <Group />
-          <Group />
+          <Group path={path} />
+          <Group path={path} />
+          <Group path={path} />
         </div>
       </main>
     </>
