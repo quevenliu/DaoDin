@@ -54,7 +54,6 @@ jobs:
           fi &&
           touch ./Backend/.env &&
           echo "${{secrets.BACKEND_ENV}}" > ./Backend/.env &&
-          chmod +x ./CICD/setup_docker.sh &&
           sudo usermod -aG docker $USER &&
           newgrp docker &&
           echo "setup docker working on $PWD" &&
