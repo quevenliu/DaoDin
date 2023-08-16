@@ -21,7 +21,7 @@ services:
     init: true
     restart: always
     volumes:
-      - ./backend:/app/backend
+      - ./Backend:/app/Backend
       - picture_storage:/app/static
       - node_modules:/app/backend/node_modules
     ports:
