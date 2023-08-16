@@ -376,7 +376,7 @@ Response Format
 {
     chats: [
         {
-            id: int
+            chat_id: int
             message: string,
             user_id: int,
             sent_at: string,
