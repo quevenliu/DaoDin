@@ -9,17 +9,25 @@ export default function Group({
   category,
   location,
   description,
-  status
+  status,
 }) {
+  const playHoverSound = () => {
+    const audio = new Audio("/dong.wav");
+    audio.play();
+  };
+
   return (
     <div className={`${styles.content} group mt-8`}>
       {path === "/profile" ? (
-        <div className="px-8 py-4 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none">
+        <div className="px-8 py-4 flex justify-between items-center bg-backgroundColor rounded-[20px]">
           <h3 className="px-8 text-4xl font-bold">{name}</h3>
         </div>
       ) : (
         <>
-          <div className="px-8 py-4 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none">
+          <div
+            className="px-8 py-4 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none"
+            onMouseEnter={playHoverSound}
+          >
             <h3 className="px-8 text-4xl font-bold">{name}</h3>
             <Image
               src="/menu.svg"
@@ -29,7 +37,7 @@ export default function Group({
               height={48}
             />
           </div>
-          <div className=" w-full opacity-0 transform translate-y-[-10px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+          <div className=" w-full opacity-0 transform translate-y-[-10px] transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
             <div className="hidden group-hover:flex px-8 py-6  justify-between gap-8 bg-[#FDE0E0] rounded-b-[20px]">
               <p className="p-3 bg-[#F5B8B8] rounded-[20px]">{description}</p>
               <Link
