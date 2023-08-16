@@ -46,6 +46,7 @@ jobs:
           ssh-add ./ssh_key.pem &&
           if [ -d "./DaoDin" ]; then
             cd DaoDin &&
+            git stash &&
             git pull origin main
           else
             git clone git@github.com:quevenliu/DaoDin.git
