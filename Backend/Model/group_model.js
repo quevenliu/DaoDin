@@ -1,5 +1,3 @@
-const { group } = require('console');
-
 const pool = require('./db').pool;
 
 async function createGroup(myId, name, category, location, description, imageUrl) {

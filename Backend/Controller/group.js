@@ -1,4 +1,3 @@
-const { group } = require('console');
 const model = require('../Model/group_model');
 const createGroup = async(req,res)=>{
 
