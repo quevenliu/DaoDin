@@ -12,6 +12,9 @@ module.exports = {
         backgroundColor: "#F3F3F3",
         secondaryColor: "#FCC3C3",
       },
+      animation: {
+        "spin-slow": "spin 3s linear infinite",
+      },
     },
   },
   plugins: [],

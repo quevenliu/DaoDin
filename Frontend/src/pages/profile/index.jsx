@@ -27,7 +27,7 @@ export default function ProfilePage() {
           <Image
             src={`${profileMockData.picture}`}
             alt="avatar"
-            className="w-36 h-36 rounded-full mr-11 shrink-0"
+            className="w-36 h-36 rounded-full mr-11 object-cover object-center shrink-0"
             width={200}
             height={200}
           />
@@ -67,7 +67,9 @@ export default function ProfilePage() {
                 </Link>
               </div>
             </div>
-            <p className="w-full px-5 py-3 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]">
+            <p
+              className={`${styles?.ontent} w-full px-5 py-3 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
+            >
               {profileMockData.self_intro}
             </p>
           </div>
