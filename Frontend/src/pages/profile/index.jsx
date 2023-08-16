@@ -2,14 +2,13 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import styles from "../../styles/font.module.scss";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 import myGroupsMockData from "@/data/groupsMockData";
 import profileMockData from "@/data/profileMockData";
 
-export default function Home() {
+export default function ProfilePage() {
   const router = useRouter();
   const path = router.pathname;
 
