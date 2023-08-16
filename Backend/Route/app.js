@@ -20,7 +20,8 @@ app.use('/api/user', userRouter);
 app.use('/api/group', groupRouter);
 /*
 app.use('api/chat', chatRouter);
-app.use('api/match', matchRouter);
 */
+app.use('/api/match', matchRouter);
+
 
 module.exports = { app };
