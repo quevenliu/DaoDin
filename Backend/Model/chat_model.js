@@ -3,15 +3,15 @@ const pool = require('./db').pool;
 async function getMatchId(group_id, user_id) {
 
     let query = `
-    WITH USER_TABLE AS (SELECT match_id FROM match_user WHERE user_id = ?),
-    SELECT id AS match_id FROM match WHERE group_id = ? 
-    AND id IN (SELECT match_id FROM USER_TABLE)
+    WITH USER_TABLE AS (SELECT match_id FROM match_user WHERE user_id = ?)
+    SELECT id AS match_id FROM \`match\`
+    WHERE group_id = ? AND id IN (SELECT match_id FROM USER_TABLE)
     `;
 
     let result;
 
     try {
-        [result] = await pool.query(query, [group_id, user_id]);
+        [result] = await pool.query(query, [user_id, group_id]);
     } catch (err) {
         throw err;
     }
@@ -21,19 +21,18 @@ async function getMatchId(group_id, user_id) {
     }
 
     return result[0].match_id;
-
 }
 
 async function createMessage(match_id, message, user_id) {
 
     let query = `
-    INSERT INTO chat (matched_id, user_id, message) VALUES (?, ?, ?)
+    INSERT INTO chat (match_id, message, user_id) VALUES (?, ?, ?)
     `;
 
     let result;
 
     try {
-        [result] = await pool.query(query, [match_id, user_id, message]);
+        [result] = await pool.query(query, [match_id, message, user_id]);
     } catch (err) {
         throw err;
     }
@@ -45,16 +44,18 @@ async function createMessage(match_id, message, user_id) {
 async function getMessages(match_id, cursor) {
 
     let query = `
-        SELECT chat.id AS chat_id, chat.message AS message, chat.user_id AS user_id, chat.created_at AS created_at, user.picture AS picture, user.name AS nickname
-        FROM chat LEFT JOIN user ON chat.user_id = user.id
-        WHERE chat.matched_id = ? AND chat.id < ?
+        SELECT chat.id AS chat_id, chat.message AS message, chat.user_id AS user_id, chat.sent_at AS sent_at, user.picture AS picture, membership.nickname AS nickname
+        FROM chat 
+        LEFT JOIN user ON chat.user_id = user.id
+        LEFT JOIN membership ON chat.user_id = membership.user_id AND membership.group_id = (SELECT \`match\`.group_id FROM \`match\` WHERE \`match\`.id = ?)
+        WHERE chat.match_id = ? AND chat.id < ?
         ORDER BY chat.id DESC LIMIT 25
         `;
 
     let result;
 
     try {
-        [result] = await pool.query(query, [match_id, cursor]);
+        [result] = await pool.query(query, [match_id, match_id, cursor]);
     } catch (err) {
         throw err;
     }
@@ -70,4 +71,10 @@ async function getMessages(match_id, cursor) {
         next_cursor: next_cursor
     };
 
+}
+
+module.exports = {
+    getMatchId,
+    createMessage,
+    getMessages
 }
