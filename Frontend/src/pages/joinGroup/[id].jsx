@@ -1,14 +1,14 @@
 import Head from "next/head";
 
-import styles from "../../styles/font.module.scss";
-
 import Topbar from "@/components/Topbar";
 
-export default function createGroupPage() {
+import styles from "../../styles/font.module.scss";
+
+export default function JoinGroupPage({ groupId }) {
   return (
     <>
       <Head>
-        <title>Create Group Page</title>
+        <title>Join Group {groupId} Page</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
@@ -20,71 +20,56 @@ export default function createGroupPage() {
       >
         <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-10 rounded-[20px] flex ">
           <div className="w-full">
+            <h3 className="mb-10 text-center text-3xl font-bold">Group Name</h3>
             <form className="px-2.5 mb-6 flex flex-col justify-between gap-7">
               <label
-                htmlFor="groupName"
+                htmlFor="nickname"
                 className="text-3xl font-bold flex flex-col"
               >
-                Group Name
+                Nickname
                 <input
                   type="text"
-                  id="groupName"
-                  name="groupName"
+                  id="nickname"
+                  name="nickname"
                   className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
                 />
               </label>
               <label
-                htmlFor="category"
+                htmlFor="intro"
                 className="text-3xl font-bold flex flex-col"
               >
-                Category
-                <input
-                  type="text"
-                  id="category"
-                  name="category"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
-                />
-              </label>
-              <label
-                htmlFor="location"
-                className="text-3xl font-bold flex flex-col"
-              >
-                Location
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
-                />
-              </label>
-              <label
-                htmlFor="groupDescription"
-                className="text-3xl font-bold flex flex-col"
-              >
-                GroupDescription
+                Tell me about yourself
                 <textarea
-                  type="text"
-                  id="groupDescription"
-                  name="groupDescription"
+                  id="intro"
+                  name="intro"
                   rows="6"
                   className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
                 />
               </label>
-              <div className="py-5 h-40 text-center text-3xl font-bold border-2 border-dashed border-primaryColor rounded-[20px]">
-                Drag your picture here
-              </div>
+              <label
+                htmlFor="tendency"
+                className="text-3xl font-bold flex flex-col"
+              >
+                What kind of people would you like to meet
+                <textarea
+                  id="tendency"
+                  name="tendency"
+                  rows="6"
+                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                />
+              </label>
               <div className="self-end flex gap-2">
                 <button
                   type="button"
-                  className="px-6 py-2 text-white bg-[#BFBFBF] rounded-[50px]"
+                  className="w-28 px-6 py-2 text-center text-lg font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 text-white bg-primaryColor rounded-[50px]"
+                  className="w-28 px-6 py-2 text-center text-lg font-semibold text-white bg-primaryColor rounded-[50px]"
                 >
-                  Create
+                  Join
                 </button>
               </div>
             </form>
@@ -93,4 +78,12 @@ export default function createGroupPage() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const groupId = Number(context.params.id);
+
+  return {
+    props: { groupId }
+  };
 }

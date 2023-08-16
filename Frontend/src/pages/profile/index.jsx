@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/font.module.scss";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
-import myGroupsMockData from "@/data/groupsMockData";
+import myGroupsMockData from "@/data/myGroupsMockData";
 import profileMockData from "@/data/profileMockData";
 
 export default function Home() {

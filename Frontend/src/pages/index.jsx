@@ -40,6 +40,7 @@ export default function Home() {
             <Group
               path={path}
               key={group.id}
+              groupId={group.id}
               name={group.name}
               category={group.category}
               location={group.location}
