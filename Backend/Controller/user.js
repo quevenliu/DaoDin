@@ -48,7 +48,6 @@ function signin(req, res) {
         if (user.password !== hashPassword(req.body.password)) {
             return res.status(400).send('Password does not match');
         }
-
         return res.status(200).json({ token: generateJWT(user.id) });
     }).catch((err) => {
         console.log(err);
