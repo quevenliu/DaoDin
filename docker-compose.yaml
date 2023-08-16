@@ -30,8 +30,6 @@ services:
       - "3000"
     networks:
       - daodin
-    env_file:
-      - ${daodin_ENV_PATH}
     depends_on:
       - nginx
 
