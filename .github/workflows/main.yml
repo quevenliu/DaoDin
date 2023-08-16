@@ -31,6 +31,7 @@ jobs:
     - name: SSH init on github action runner
       if: steps.check_commit.outputs.skip == '0'
       run: |
+        mkdir CICD
         echo "${{secrets.SSH_KEY}}" > ./CICD/ssh_key.pem
         chmod 600 ./CICD/ssh_key.pem
 
@@ -41,17 +42,24 @@ jobs:
           touch ./ssh_key.pem && 
           echo "${{secrets.SSH_GITHUB_PRIV}}" > ./ssh_key.pem &&
           chmod 600 ssh_key.pem && 
+          touch ./.env &&
+          echo "${{secrets.DOCKER_ENV}}" > ./.env &&
           ssh-agent bash && 
           eval `ssh-agent -s` &&
           ssh-add ./ssh_key.pem &&
           if [ -d "./DaoDin" ]; then
             cd DaoDin &&
+            git stash &&
             git pull origin main
           else
             git clone git@github.com:quevenliu/DaoDin.git
           fi &&
           touch ./Backend/.env &&
           echo "${{secrets.BACKEND_ENV}}" > ./Backend/.env &&
-          chmod +x ./CICD/setup_docker.sh &&
-          ./CICD/setup_docker.sh
-        '
+          sudo usermod -aG docker $USER &&
+          newgrp docker &&
+          echo "setup docker working on $PWD" &&
+          docker compose down --remove-orphans &&
+          docker-compose -f ./docker-compose.yaml up -d &&
+          docker system prune -af
+          '
