@@ -48,8 +48,7 @@ function signin(req, res) {
         if (user.password !== hashPassword(req.body.password)) {
             return res.status(400).send('Password does not match');
         }
-
-        return res.status(200).json({ token: generateJWT(user.user_id) });
+        return res.status(200).json({ token: generateJWT(user.id) });
     }).catch((err) => {
         console.log(err);
         return res.status(500).send('Internal server error');
@@ -82,7 +81,7 @@ function updateProfilePicture(req, res) {
 
     const imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
 
-    model.updateUserPicture(user_id, imageUrl).then((result) => {
+    model.updateProfilePicture(user_id, imageUrl).then((result) => {
         return res.status(200).send({ imageUrl: imageUrl });
     }
     ).catch((err) => {
@@ -97,7 +96,7 @@ function getProfile(req, res) {
         return res.status(400).send('Missing value');
     }
 
-    model.getUser('user_id', req.query.user_id).then((user) => {
+    model.getUser('id', req.query.user_id).then((user) => {
         if (!user) {
             return res.status(400).send('User does not exist');
         }

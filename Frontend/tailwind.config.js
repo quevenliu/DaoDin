@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         primaryColor: "#F77B54",
         backgroundColor: "#F3F3F3",
+        secondaryColor: "#FCC3C3",
       },
       animation: {
         "spin-slow": "spin 3s linear infinite",
