@@ -3,7 +3,7 @@ from k_means_constrained import KMeansConstrained
 from embedder import get_embedding
 import time
 
-def group(data):
+def group(data, tokenizer, model):
     SIZE_MIN = 4
     SIZE_MAX = 5
     N_CLUSTERS=np.ceil(len(data)/SIZE_MAX).astype(int)
@@ -11,7 +11,7 @@ def group(data):
     embeddings = []
     for user in data:
         user_ids.append(user['user_id'])
-        embeddings.append(get_embedding(user['self_intro'] + '\n' + user['match_msg']))
+        embeddings.append(get_embedding(user['self_intro'] + '\n' + user['match_msg'], tokenizer, model))
     embeddings = np.array(embeddings)
     kmeans = KMeansConstrained(n_clusters=N_CLUSTERS, 
                                size_min=SIZE_MIN,
