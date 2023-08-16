@@ -1,5 +1,9 @@
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
+const axios = require('axios');
+
+const MATCH_THRESHOLD = 13;
+
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
@@ -40,6 +44,20 @@ const joinGroup = async (req, res) => {
     const myId = req.authorization_id;
     const groupId = req.params.group_id;
     const id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
+
+    const group_member_count = await model.getGroupMemberCount(groupId);
+    if (group_member_count > MATCH_THRESHOLD) {
+        const member_data = await model.getAllMembers(groupId);
+        const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
+            data: member_data
+        });
+        const match_data = match_result.data.data;
+        for (let i = 0; i < match_data.length; i++) {
+            const match = match_data[i];
+            await match_model.joinMatch(match);
+        }
+    }
+
     if (id === false) {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
