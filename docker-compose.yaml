@@ -23,7 +23,7 @@ services:
     volumes:
       - ./Backend:/app/Backend
       - picture_storage:/app/static
-      - node_modules:/app/backend/node_modules
+      - node_modules:/app/Backend/node_modules
     ports:
       - "3000:3000"
     expose:
