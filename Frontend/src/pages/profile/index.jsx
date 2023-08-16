@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/font.module.scss";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
-import myGroupsMockData from "@/data/groupsMockData";
+import myGroupsMockData from "@/data/myGroupsMockData";
 import profileMockData from "@/data/profileMockData";
 
 export default function Home() {
@@ -81,11 +81,12 @@ export default function Home() {
             >
               My Groups
             </div>
-            <div
+            <Link
+              href="/createGroup"
               className={`${styles.content} h-14 text-white text-[28px] font-bold bg-primaryColor px-10 rounded-[50px] flex items-center`}
             >
               Create
-            </div>
+            </Link>
           </div>
           <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-16 pt-8 pb-16">
             {myGroupsMockData.map((myGroup) => (
