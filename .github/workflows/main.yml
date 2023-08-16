@@ -42,6 +42,8 @@ jobs:
           touch ./ssh_key.pem && 
           echo "${{secrets.SSH_GITHUB_PRIV}}" > ./ssh_key.pem &&
           chmod 600 ssh_key.pem && 
+          touch ./.env &&
+          echo "${{secrets.DOCKER_ENV}}" > ./.env &&
           ssh-agent bash && 
           eval `ssh-agent -s` &&
           ssh-add ./ssh_key.pem &&
@@ -58,6 +60,6 @@ jobs:
           newgrp docker &&
           echo "setup docker working on $PWD" &&
           docker compose down --remove-orphans &&
-          CERTBOT_EMAIL=${{secrets.EMAIL}} docker-compose -f ./docker-compose.yaml up -d
+          docker-compose -f ./docker-compose.yaml up -d &&
           docker system prune -af
-        '
+          '

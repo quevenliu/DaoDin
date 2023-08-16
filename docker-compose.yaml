@@ -4,7 +4,7 @@ services:
     image: jonasal/nginx-certbot:latest
     restart: always
     environment:
-      - CERTBOT_EMAIL: $CERTBOT_EMAIL
+      CERTBOT_EMAIL: $CERTBOT_EMAIL
     volumes:
       - nginx_secrets:/etc/letsencrypt
       - ./user_conf.d:/etc/nginx/user_conf.d
