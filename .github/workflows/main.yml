@@ -31,6 +31,7 @@ jobs:
     - name: SSH init on github action runner
       if: steps.check_commit.outputs.skip == '0'
       run: |
+        mkdir CICD
         echo "${{secrets.SSH_KEY}}" > ./CICD/ssh_key.pem
         chmod 600 ./CICD/ssh_key.pem
 
@@ -40,7 +41,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i ./CICD/ssh_key.pem ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} '
           touch ./ssh_key.pem && 
           echo "${{secrets.SSH_GITHUB_PRIV}}" > ./ssh_key.pem &&
-          echo "${{secrets.DOCKER_ENV}}" > ./.env &&
           chmod 600 ssh_key.pem && 
           ssh-agent bash && 
           eval `ssh-agent -s` &&
@@ -57,5 +57,8 @@ jobs:
           chmod +x ./CICD/setup_docker.sh &&
           sudo usermod -aG docker $USER &&
           newgrp docker &&
-          ./CICD/setup_docker.sh
+          echo "setup docker working on $PWD" &&
+          docker compose down --remove-orphans &&
+          CERTBOT_EMAIL=${{secrets.EMAIL}} docker-compose -f ./docker-compose.yaml up -d
+          docker system prune -af
         '
