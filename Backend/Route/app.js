@@ -18,9 +18,7 @@ app.use('/static', express.static(process.env.UPLOAD_PATH));
 
 app.use('/api/user', userRouter);
 app.use('/api/group', groupRouter);
-/*
-app.use('api/chat', chatRouter);
-*/
+app.use('/api/chat', chatRouter);
 app.use('/api/match', matchRouter);
 
 
