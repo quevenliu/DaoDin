@@ -40,13 +40,18 @@ const updateGroup = async (req, res) => {
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 
+
 const match = async (groupId) => {
 
     try {
         const member_data = await model.getAllMembers(groupId);
+        /*
         const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
             data: member_data
         });
+        */
+
+        const match_result = match_random(member_data);
         const match_data = match_result.data.data;
 
         for (let i = 0; i < match_data.length; i++) {
@@ -59,9 +64,53 @@ const match = async (groupId) => {
     }
 }
 
+const match_random = (member_data) => {
+
+    const match_data = [];
+    const member_count = member_data.length;
+    const match_count = Math.floor(member_count / MATCH_THRESHOLD);
+    const remain_count = member_count % MATCH_THRESHOLD;
+
+    for (let i = 0; i < match_count; i++) {
+        const match = [];
+        for (let j = 0; j < MATCH_THRESHOLD; j++) {
+            const random_index = Math.floor(Math.random() * member_data.length);
+            match.push(member_data[random_index].user_id);
+            member_data.splice(random_index, 1);
+        }
+        match_data.push(match);
+    }
+
+    if (remain_count > 0) {
+        const match = [];
+        for (let i = 0; i < remain_count; i++) {
+            const random_index = Math.floor(Math.random() * member_data.length);
+            match.push(member_data[random_index].user_id);
+            member_data.splice(random_index, 1);
+        }
+        match_data.push(match);
+    }
+
+    return {
+        data:
+        {
+            data: match_data
+        }
+    };
+
+}
+
 const joinGroup = async (req, res) => {
     const myId = req.authorization_id;
     const groupId = req.params.group_id;
+
+    const group = await model.getGroup(groupId);
+
+    if (group.status == 'complete') {
+        res.status(400).send(JSON.stringify({ "error": "can't join" }));
+        return;
+    }
+
     const id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
 
     const group_member_count = await model.getGroupMemberCount(groupId);
