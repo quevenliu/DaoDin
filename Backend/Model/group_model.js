@@ -72,11 +72,11 @@ async function leaveGroup(myId, groupId) {
 
 async function searchGroup(category, location, sort, joined, cursor, myId) {
     let Query = `
-                    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
-                    FROM \`group\`
-                    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
-                    LEFT JOIN region ON region.city = \`group\`.location
-                    `;
+    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
+    FROM \`group\`
+    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
+    LEFT JOIN region ON region.city = \`group\`.location
+    `;
 
 
     const params = [myId];
@@ -147,9 +147,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
     }
     return groupList;
 
-
-
-
 }
 
 async function getGroupMemberCount(groupId) {
@@ -162,6 +159,10 @@ async function getAllMembers(groupId) {
     return data;
 }
 
+async function switchToComplete(groupId) {
+    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+}
+
 
 module.exports = {
     createGroup,
@@ -171,6 +172,7 @@ module.exports = {
     leaveGroup,
     searchGroup,
     getGroupMemberCount,
-    getAllMembers
+    getAllMembers,
+    switchToComplete
 }
 
