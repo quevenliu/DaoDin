@@ -27,13 +27,14 @@ async function getGroup(groupId) {
         "status": data[0]["status"],
         "creator_id": data[0]["creator_id"],
         "picture": data[0]["picture"]
+
     }
     return returnData;
 }
 
 async function updateGroup(myId, groupId, name, category, location, description, picture) {
 
-    let Query = `SELECT * FROM \`group\` WHERE id =  ? AND creator_id = ? `;
+    let Query = `SELECT * FROM \`group\` WHERE id =  ? AND creator_id = ?  `;
     const [groupExist] = await pool.query(Query, [groupId, myId]);
     if (groupExist.length === 0) { return false; }
 
@@ -161,10 +162,6 @@ async function getAllMembers(groupId) {
     return data;
 }
 
-async function switchToComplete(groupId) {
-    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
-}
-
 
 module.exports = {
     createGroup,
@@ -174,7 +171,6 @@ module.exports = {
     leaveGroup,
     searchGroup,
     getGroupMemberCount,
-    getAllMembers,
-    switchToComplete
+    getAllMembers
 }
 
