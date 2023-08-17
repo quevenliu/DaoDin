@@ -147,9 +147,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
     }
     return groupList;
 
-
-
-
 }
 
 async function getGroupMemberCount(groupId) {
