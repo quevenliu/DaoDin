@@ -1,7 +1,7 @@
 const pool = require('./db').pool;
 
 async function createGroup(myId, name, category, location, description, imageUrl) {
-    let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? AND status = 'pending'`;
+    let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ?`;
     const [groupExist] = await pool.query(Query, [category, location]);
     if (name === undefined || category === undefined || location === undefined || groupExist.length > 0) {
         return false;
@@ -27,6 +27,7 @@ async function getGroup(groupId) {
         "status": data[0]["status"],
         "creator_id": data[0]["creator_id"],
         "picture": data[0]["picture"]
+
     }
     return returnData;
 }
@@ -71,9 +72,10 @@ async function leaveGroup(myId, groupId) {
 
 async function searchGroup(category, location, sort, joined, cursor, myId) {
     let Query = `
-                    SELECT  \`group\`.id, \`group\`.*, membership.user_id
+                    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
                     FROM \`group\`
                     LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
+                    LEFT JOIN region ON region.city = \`group\`.location
                     `;
 
 
@@ -134,7 +136,8 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
                 "description": group["description"],
                 "status": group["status"],
                 "creator_id": group["creator_id"],
-                "picture": group["picture"]
+                "picture": group["picture"],
+                "area": group["area"],
 
 
             }
@@ -159,10 +162,6 @@ async function getAllMembers(groupId) {
     return data;
 }
 
-async function switchToComplete(groupId) {
-    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
-}
-
 
 module.exports = {
     createGroup,
@@ -172,7 +171,6 @@ module.exports = {
     leaveGroup,
     searchGroup,
     getGroupMemberCount,
-    getAllMembers,
-    switchToComplete
+    getAllMembers
 }
 
