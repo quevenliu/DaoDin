@@ -40,6 +40,25 @@ const updateGroup = async (req, res) => {
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 
+const match = async (groupId) => {
+
+    try {
+        const member_data = await model.getAllMembers(groupId);
+        const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
+            data: member_data
+        });
+        const match_data = match_result.data.data;
+
+        for (let i = 0; i < match_data.length; i++) {
+            const matchId = await match_model.createMatch(groupId);
+            const users = match_data[i];
+            await match_model.joinMatch(users, matchId);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const joinGroup = async (req, res) => {
     const myId = req.authorization_id;
     const groupId = req.params.group_id;
@@ -47,15 +66,7 @@ const joinGroup = async (req, res) => {
 
     const group_member_count = await model.getGroupMemberCount(groupId);
     if (group_member_count > MATCH_THRESHOLD) {
-        const member_data = await model.getAllMembers(groupId);
-        const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
-            data: member_data
-        });
-        const match_data = match_result.data.data;
-        for (let i = 0; i < match_data.length; i++) {
-            const match = match_data[i];
-            await match_model.joinMatch(match);
-        }
+        match(groupId);
     }
 
     if (id === false) {

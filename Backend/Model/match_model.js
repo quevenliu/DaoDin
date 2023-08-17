@@ -51,14 +51,13 @@ async function leaveMatch(myId, groupId) {
 
 async function createMatch(groupId) {
     const [result] = await pool.query('INSERT INTO \`match\` (group_id) VALUES (?)', [groupId]);
+    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
     return result.insertId;
 }
 
-async function joinMatch(user_list) {
-    const groupId = user_list[0]["group_id"];
-    const matchId = await createMatch(groupId);
+async function joinMatch(user_list, matchId) {
     for (let i = 0; i < user_list.length; i++) {
-        await pool.query('INSERT INTO match_user (user_id, match_id) VALUES (?, ?)', [user_list[i]["user_id"], matchId]);
+        await pool.query('INSERT INTO match_user (user_id, match_id) VALUES (?, ?)', [user_list[i], matchId]);
     }
     return matchId;
 }
