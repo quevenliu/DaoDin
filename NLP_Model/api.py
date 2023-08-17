@@ -4,6 +4,7 @@ from group import group
 app = Flask(__name__)
 model = "text-embedding-ada-002"
 
+
 @app.route('/', methods=['POST'])
 def api():
     data = request.get_json()
@@ -12,4 +13,4 @@ def api():
 
 
 if __name__ == '__main__':
-    app.run(host='', port=5000)
+    app.run(host='0.0.0.0', port=5000)
