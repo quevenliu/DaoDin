@@ -45,13 +45,12 @@ const match = async (groupId) => {
 
     try {
         const member_data = await model.getAllMembers(groupId);
-        /*
+        
         const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
             data: member_data
         });
-        */
+        
 
-        const match_result = match_random(member_data);
         const match_data = match_result.data.data;
 
         for (let i = 0; i < match_data.length; i++) {
