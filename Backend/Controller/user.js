@@ -48,7 +48,14 @@ function signin(req, res) {
         if (user.password !== hashPassword(req.body.password)) {
             return res.status(400).send('Password does not match');
         }
-        return res.status(200).json({ token: generateJWT(user.id) });
+
+        const result ={
+            user_id: user.id,
+            name: user.name,
+            token:generateJWT(user.id) 
+
+        } 
+        return res.status(200).json(result);
     }).catch((err) => {
         console.log(err);
         return res.status(500).send('Internal server error');
