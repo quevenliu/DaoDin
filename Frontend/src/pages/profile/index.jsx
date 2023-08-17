@@ -1,16 +1,44 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 import styles from "../../styles/font.module.scss";
+import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 import myGroupsMockData from "@/data/myGroupsMockData";
 import profileMockData from "@/data/profileMockData";
 
-export default function ProfilePage() {
+const apiUrl = process.env.API_URL;
+
+export default function ProfilePage({ token, userId, name }) {
+  const [profileData, setProfileData] = useState({});
   const router = useRouter();
   const path = router.pathname;
+
+  const getProfile = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    await axios
+      .get(`${apiUrl}/user/profile?user_id=${userId}`, config)
+      .then((res) => {
+        setProfileData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     <>
@@ -25,7 +53,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-backgroundColor p-14">
         <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-12 rounded-[20px] flex ">
           <Image
-            src={`${profileMockData.picture}`}
+            src={`${profileData.picture || profileMockData.picture}`}
             alt="avatar"
             className="w-36 h-36 rounded-full mr-11 object-cover object-center shrink-0"
             width={200}
@@ -34,7 +62,7 @@ export default function ProfilePage() {
           <div className="w-full">
             <div className="flex justify-between items-center px-2.5 mb-6">
               <p className={`${styles.content} text-3xl font-medium`}>
-                {profileMockData.name}
+                {profileData.name || profileMockData.name}
               </p>
               <div className="flex gap-4">
                 <Link
@@ -68,9 +96,9 @@ export default function ProfilePage() {
               </div>
             </div>
             <p
-              className={`${styles?.ontent} w-full px-5 py-3 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
+              className={`${styles.content} w-full px-5 py-3 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
             >
-              {profileMockData.self_intro}
+              {profileData.self_intro || profileMockData.self_intro}
             </p>
           </div>
         </div>
@@ -106,4 +134,23 @@ export default function ProfilePage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const token = getServerCookie("userInfo", "token", context.req);
+  const userId = getServerCookie("userInfo", "user_id", context.req);
+  const name = getServerCookie("userInfo", "name", context.req);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { token, userId, name },
+  };
 }
