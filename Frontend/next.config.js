@@ -16,6 +16,9 @@ const nextConfig = {
       "cwtob.oss-cn-beijing.aliyuncs.com",
     ],
   },
+  env: {
+    API_URL: "https://canchu.online/api",
+  },
 };
 
 module.exports = nextConfig;
