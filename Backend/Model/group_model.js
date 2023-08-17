@@ -27,7 +27,6 @@ async function getGroup(groupId) {
         "status": data[0]["status"],
         "creator_id": data[0]["creator_id"],
         "picture": data[0]["picture"]
-
     }
     return returnData;
 }
