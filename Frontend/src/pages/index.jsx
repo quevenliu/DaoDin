@@ -11,6 +11,11 @@ export default function Home() {
   const router = useRouter();
   const path = router.pathname;
 
+  const playHoverSound = () => {
+    const audio = new Audio("hedgehogSound.mp3");
+    audio.play();
+  };
+
   return (
     <>
       <Head>
@@ -24,14 +29,70 @@ export default function Home() {
       <main className="min-h-screen pt-8 bg-backgroundColor">
         <div className="w-[90%] max-w-5xl m-auto">
           <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
           </div>
           <div className="mb-6 flex gap-5">
             <button

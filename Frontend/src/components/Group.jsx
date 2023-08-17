@@ -21,7 +21,6 @@ export default function Group({
       {path === "/profile" ? (
         <div className="px-8 py-5 flex justify-between items-center bg-backgroundColor rounded-[20px] relative">
           <h3 className="px-8 text-[26px] font-bold">{name}</h3>
-          
         </div>
       ) : (
         <>

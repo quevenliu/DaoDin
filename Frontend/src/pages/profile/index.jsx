@@ -52,7 +52,7 @@ export default function ProfilePage({ token, userId, name }) {
       <Topbar />
 
       <div className="min-h-screen bg-backgroundColor p-12">
-        <div className="w-[90%] max-w-5xl bg-white m-auto mb-7 px-12 py-8 rounded-[20px] flex ">
+        <div className="w-[90%] max-w-5xl bg-white m-auto mb-7 px-12 py-8 rounded-[20px] flex relative">
           <Image
             src={`${profileData.picture || profileMockData.picture}`}
             alt="avatar"
@@ -102,6 +102,15 @@ export default function ProfilePage({ token, userId, name }) {
               {profileData.self_intro || profileMockData.self_intro}
             </p>
           </div>
+          <button type="button" className="absolute top-4 right-5">
+            <Image
+              src="/edit.png"
+              alt="edit"
+              width={30}
+              height={30}
+              className="w-6 h-6 p-1 bg-primaryColor rounded-[3px]"
+            />
+          </button>
         </div>
 
         <div className="w-[90%] max-w-5xl m-auto">
