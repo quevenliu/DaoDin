@@ -36,7 +36,7 @@ services:
   python:
     container_name: daodin_python
     image: python:3.11-alpine
-    command: sh -c "cd /app/NLP_Model && pip install --upgrade pip && pip install -r requirements.txt && python api.py"
+    command: sh -c "apk update && apk add python3-dev gcc libc-dev && cd /app/NLP_Model && pip install --upgrade pip && pip install -r requirements.txt && python api.py"
     init: true
     restart: always
     volumes:
