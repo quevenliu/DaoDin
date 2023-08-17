@@ -33,6 +33,19 @@ services:
     depends_on:
       - nginx
 
+  python:
+    container_name: daodin_python
+    image: python:3.11-alpine
+    command: sh -c "cd /app/NLP_Model && pip install -r requirements.txt && python api.py"
+    init: true
+    restart: always
+    volumes:
+      - ./NLP_Model:/app/NLP_Model
+    networks:
+      - daodin
+    ports:
+      - "5000:5000"
+
 volumes:
   node_modules:
   picture_storage:

@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const userRouter = require('./user');
 const groupRouter = require('./group');
 const chatRouter = require('./chat');
@@ -7,6 +8,13 @@ const matchRouter = require('./match');
 require('dotenv').config('../.env');
 
 const app = express();
+
+const corsOptions = {
+    origin: 'http://127.0.0.1',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
