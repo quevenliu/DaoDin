@@ -5,6 +5,7 @@ import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
 import groupsMockData from "@/data/groupsMockData";
+import { getServerCookie } from "../utils/cookie";
 
 export default function Home() {
   const router = useRouter();
@@ -52,4 +53,22 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const token = getServerCookie("userInfo", "token", context.req);
+  const userId = getServerCookie("userInfo", "user_id", context.req);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { token, userId },
+  };
 }

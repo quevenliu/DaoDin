@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 
 import styles from "../../styles/font.module.scss";
+import { setCookie, getServerCookie } from "../../utils/cookie";
 
 const apiUrl = process.env.API_URL;
 
@@ -16,7 +17,9 @@ const signIn = (payload) => {
   axios
     .post(`${apiUrl}/user/signin`, payload)
     .then((res) => {
-      console.log(res);
+      console.log(res.data);
+      const { token, user_id, name } = res.data;
+      setCookie("userInfo", { token, user_id, name }, 1800);
     })
     .catch((err) => {
       console.log(err);
@@ -302,4 +305,20 @@ export default function LoginPage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const token = getServerCookie("userInfo", "token", context.req);
+  if (token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
