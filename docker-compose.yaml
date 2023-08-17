@@ -41,7 +41,7 @@ services:
     restart: always
     volumes:
       - ./NLP_Model:/app/NLP_Model
-      - python-packages:/root/.local/lib/python3.11/site-packages
+      - python-packages:/lib/python3.11/site-packages
     networks:
       - daodin
     ports:

@@ -114,9 +114,8 @@ const joinGroup = async (req, res) => {
 
     const group_member_count = await model.getGroupMemberCount(groupId);
 
-    await model.switchToComplete(groupId);
-
     if (group_member_count > MATCH_THRESHOLD) {
+        await model.switchToComplete(groupId);
         match(groupId);
     }
 
