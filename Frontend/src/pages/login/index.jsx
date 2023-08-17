@@ -12,12 +12,10 @@ const apiUrl = process.env.API_URL;
 const emailRule = /^.+@.+$/;
 const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-const signIn = (payload) => {
-  console.log(`${apiUrl}/user/signin`, payload);
-  axios
+const signIn = async (payload) => {
+  await axios
     .post(`${apiUrl}/user/signin`, payload)
     .then((res) => {
-      console.log(res.data);
       const { token, user_id, name } = res.data;
       setCookie("userInfo", { token, user_id, name }, 1800);
     })
@@ -25,8 +23,8 @@ const signIn = (payload) => {
       console.log(err);
     });
 };
-const signUp = (payload) => {
-  axios
+const signUp = async (payload) => {
+  await axios
     .post(`${apiUrl}/user/signup`, payload)
     .then((res) => {
       console.log(res);

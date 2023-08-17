@@ -58,6 +58,7 @@ export default function Home() {
 export async function getServerSideProps(context) {
   const token = getServerCookie("userInfo", "token", context.req);
   const userId = getServerCookie("userInfo", "user_id", context.req);
+  const name = getServerCookie("userInfo", "name", context.req);
 
   if (!token) {
     return {
@@ -69,6 +70,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { token, userId },
+    props: { token, userId, name },
   };
 }

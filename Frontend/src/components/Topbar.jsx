@@ -1,8 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 import styles from "../styles/font.module.scss";
+import { removeCookie } from "../utils/cookie";
 
 export default function Topbar() {
+  const router = useRouter();
+  const handleLogout = () => {
+    removeCookie("userInfo");
+    router.push("/login");
+  };
+
   return (
     <div className="px-14 h-16 flex justify-between items-center bg-primaryColor">
       <Link href="/">
@@ -31,7 +40,11 @@ export default function Topbar() {
             height={40}
           />
         </Link>
-        <button type="button" className="hover:animate-spin-slow">
+        <button
+          type="button"
+          className="hover:animate-spin-slow"
+          onClick={handleLogout}
+        >
           <Image
             src="/setting.svg"
             alt="setting"
