@@ -32,11 +32,11 @@ services:
       - daodin
     depends_on:
       - nginx
-
 volumes:
   node_modules:
   picture_storage:
   nginx_secrets:
+  python-packages:
 
 
 networks:
