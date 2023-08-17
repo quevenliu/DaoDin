@@ -9,7 +9,6 @@ model = "text-embedding-ada-002"
 def api():
     data = request.get_json()
     result = group(data['data'], model)
-    app.logger.warning(result)
     return jsonify({'data': result})
 
 

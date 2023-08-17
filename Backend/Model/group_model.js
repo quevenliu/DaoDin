@@ -159,6 +159,10 @@ async function getAllMembers(groupId) {
     return data;
 }
 
+async function switchToComplete(groupId) {
+    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+}
+
 
 module.exports = {
     createGroup,
@@ -168,6 +172,7 @@ module.exports = {
     leaveGroup,
     searchGroup,
     getGroupMemberCount,
-    getAllMembers
+    getAllMembers,
+    switchToComplete
 }
 
