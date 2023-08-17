@@ -1,7 +1,7 @@
 const pool = require('./db').pool;
 
 async function createGroup(myId, name, category, location, description, imageUrl) {
-    let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? `;
+    let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? AND status = 'pending'`;
     const [groupExist] = await pool.query(Query, [category, location]);
     if (name === undefined || category === undefined || location === undefined || groupExist.length > 0) {
         return false;
@@ -159,6 +159,10 @@ async function getAllMembers(groupId) {
     return data;
 }
 
+async function switchToComplete(groupId) {
+    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+}
+
 
 module.exports = {
     createGroup,
@@ -168,6 +172,7 @@ module.exports = {
     leaveGroup,
     searchGroup,
     getGroupMemberCount,
-    getAllMembers
+    getAllMembers,
+    switchToComplete
 }
 

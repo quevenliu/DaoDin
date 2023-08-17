@@ -51,7 +51,6 @@ async function leaveMatch(myId, groupId) {
 
 async function createMatch(groupId) {
     const [result] = await pool.query('INSERT INTO \`match\` (group_id) VALUES (?)', [groupId]);
-    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
     return result.insertId;
 }
 
