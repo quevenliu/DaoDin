@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 api_key = os.getenv("OPEN_API")
-openai.api_key =api_key
+openai.api_key = api_key
+
 
 def get_embedding(text, model):
     embedding = openai.Embedding.create(
@@ -14,6 +15,7 @@ def get_embedding(text, model):
         input=text,
     )
     return embedding['data'][0]['embedding']
+
 
 def group(data, model):
     SIZE_MIN = 4
@@ -23,9 +25,10 @@ def group(data, model):
     embeddings = []
     for user in data:
         user_ids.append(user['user_id'])
-        embeddings.append(get_embedding(user['self_intro'] + '\n' + user['match_msg'], model))
+        embeddings.append(get_embedding(
+            user['self_intro'] + '\n' + user['match_msg'], model))
     embeddings = np.array(embeddings)
-    kmeans = KMeansConstrained(n_clusters=N_CLUSTERS, 
+    kmeans = KMeansConstrained(n_clusters=N_CLUSTERS,
                                size_min=SIZE_MIN,
                                size_max=SIZE_MAX).fit(embeddings)
     result = [[] for _ in range(N_CLUSTERS)]

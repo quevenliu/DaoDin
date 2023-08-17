@@ -45,11 +45,11 @@ const match = async (groupId) => {
 
     try {
         const member_data = await model.getAllMembers(groupId);
-        
+
         const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
             data: member_data
         });
-        
+
 
         const match_data = match_result.data.data;
 
@@ -113,7 +113,9 @@ const joinGroup = async (req, res) => {
     const id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
 
     const group_member_count = await model.getGroupMemberCount(groupId);
+
     if (group_member_count > MATCH_THRESHOLD) {
+        await model.switchToComplete(groupId);
         match(groupId);
     }
 

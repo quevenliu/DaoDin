@@ -195,7 +195,8 @@ Response Format
     category: string,
     location: string,
     description: string,
-    status: string
+    status: string,
+    picture: URL
 }
 ```
 
@@ -267,7 +268,8 @@ Response Format
             category: string,
             location: string,
             description: string,
-            status: string
+            status: string,
+            picture: URL
         }, ...
     ],
     next_cursor: int
