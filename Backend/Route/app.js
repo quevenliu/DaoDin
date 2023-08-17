@@ -10,7 +10,7 @@ require('dotenv').config('../.env');
 const app = express();
 
 const corsOptions = {
-    origin: 'http://127.0.0.1',
+    origin: 'http://127.0.0.1:3000',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
