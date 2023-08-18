@@ -45,7 +45,12 @@ chatServer.on("connection", (connection, req) => {
 
     const app = chatServer.app;
 
-    connection.group_id = parseInt(req.url.split('?group_id='));
+    connection.group_id = parseInt(req.url.split('?group_id=')[1]);
+
+    if (!connection.group_id) {
+        connection.status(400).json({ error: "No group_id provided" });
+        return;
+    }
 
     connection.on("message", async (body) => {
 
