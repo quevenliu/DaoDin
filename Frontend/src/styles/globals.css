@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.tag {
+  padding: 3px 12px;
+  border: 1px solid #f77b54;
+  border-radius: 50px;
+  margin-left: 10px;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
