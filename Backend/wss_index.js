@@ -59,7 +59,7 @@ chatServer.on("connection", (connection, req) => {
         await app.processChat(connection);
         const clients = chatServer.app.filterClients(chatServer.clients, await app.groupFilterer(connection));
         clients.forEach(client => {
-            client.send(JSON.stringify(parsedMessage));
+            client.send(JSON.stringify(connection.body));
         });
 
     });

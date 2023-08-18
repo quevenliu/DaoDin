@@ -13,12 +13,11 @@ async function processChat(connection) {
 }
 
 function filterClients(clients, user_list) {
-    return clients.filter(client => user_list.includes(client.authorization_id));
+    return [...clients].filter(client => user_list.includes(client.authorization_id));
 }
 
 function groupFilterer(connection) {
-    console.log(connection.match);
-    return connection.match.users.map(user => user.id);
+    return connection.match.users.map(user => user.user_id).filter(user_id => user_id !== connection.authorization_id);
 }
 
 module.exports = {
