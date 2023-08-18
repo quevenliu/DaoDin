@@ -1,31 +1,35 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
+import ProfilePicture from "@/components/ProfilePicture";
 import myGroupsMockData from "@/data/myGroupsMockData";
 import profileMockData from "@/data/profileMockData";
 
 const apiUrl = process.env.API_URL;
 
-export default function ProfilePage({ token, userId, name }) {
+export default function ProfilePage({ token, userId }) {
   const [profileData, setProfileData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const path = router.pathname;
 
-  const getProfile = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
+  const nameRef = useRef(null);
+  const introRef = useRef(null);
 
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const getProfile = async () => {
     await axios
       .get(`${apiUrl}/user/profile?user_id=${userId}`, config)
       .then((res) => {
@@ -35,10 +39,45 @@ export default function ProfilePage({ token, userId, name }) {
         console.log(err);
       });
   };
+  const getMyGroups = async () => {
+  await axios
+    .get(`${apiUrl}/group/search`, config)
+    .then((res) => {
+      console.log(res.data.groups);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
   useEffect(() => {
     getProfile();
+    getMyGroups();
   }, []);
+
+  const putProfile = async (payload) => {
+    await axios
+      .put(`${apiUrl}/user/profile?user_id=${userId}`, payload, config)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleEdit = async () => {
+    if (isEditing) {
+      await putProfile({
+        name: nameRef.current.value,
+        self_intro: introRef.current.value,
+      });
+      await getProfile();
+      setIsEditing(false);
+    } else {
+      setIsEditing(true);
+    }
+  };
 
   return (
     <>
@@ -51,58 +90,121 @@ export default function ProfilePage({ token, userId, name }) {
       </Head>
       <Topbar />
 
-      <div className="min-h-screen bg-backgroundColor p-12">
-        <div className="w-[90%] max-w-5xl bg-white m-auto mb-7 px-12 py-8 rounded-[20px] flex relative">
-          <Image
+      <div className={`${styles.content} min-h-screen bg-backgroundColor p-12`}>
+        <div className="group w-[90%] max-w-5xl flex gap-3 bg-white m-auto mb-7 px-12 py-8 rounded-[20px] flex relative">
+          <ProfilePicture
+            picture={profileData.picture}
+            token={token}
+            getProfile={getProfile}
+          />
+          {/* <Image
             src={`${profileData.picture || profileMockData.picture}`}
             alt="avatar"
-            className="w-32 h-32 rounded-full mr-8 object-cover object-center shrink-0"
-            width={128}
-            height={128}
-          />
-          <div className="w-full">
-            <div className="flex justify-between items-center px-2.5 mb-5">
-              <p className={`${styles.content} text-3xl font-bold`}>
-                {profileData.name || profileMockData.name}
-              </p>
-              <div className="flex gap-3">
-                <Link
-                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                  target="_blank"
-                >
-                  <Image src="/line.png" alt="Line" width={42} height={42} />
-                </Link>
-                <Link
-                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                  target="_blank"
-                >
-                  <Image
-                    src="/facebook.png"
-                    alt="Facebook"
-                    width={42}
-                    height={42}
-                  />
-                </Link>
-                <Link
-                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                  target="_blank"
-                >
-                  <Image
-                    src="/instagram.png"
-                    alt="Instagram"
-                    width={42}
-                    height={42}
-                  />
-                </Link>
+            className="w-32 h-32 rounded-full mr-8 object-cover object-center shrink-0 border border-solid border-orange-300"
+            width={300}
+            height={300}
+          /> */}
+          {isEditing ? (
+            <div className="w-full">
+              <div className="flex justify-between items-center pr-2.5 mb-5">
+                <textarea
+                  name="name"
+                  id="name"
+                  rows="1"
+                  className="px-2 text-3xl font-bold border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                  defaultValue={profileData.name}
+                  ref={nameRef}
+                />
+                <div className="flex gap-3">
+                  <Link
+                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Image src="/line.png" alt="Line" width={42} height={42} />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Image
+                      src="/facebook.png"
+                      alt="Facebook"
+                      width={42}
+                      height={42}
+                    />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Image
+                      src="/instagram.png"
+                      alt="Instagram"
+                      width={42}
+                      height={42}
+                    />
+                  </Link>
+                </div>
               </div>
+              <textarea
+                name="self_intro"
+                id="self_intro"
+                rows="5"
+                className="w-full p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                defaultValue={profileData.self_intro}
+                ref={introRef}
+              />
             </div>
-            <p
-              className={`${styles.content} w-full px-6 py-4 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
-            >
-              {profileData.self_intro || profileMockData.self_intro}
-            </p>
-          </div>
-          <button type="button" className="absolute top-4 right-5">
+          ) : (
+            <div className="w-full">
+              <div className="flex justify-between items-center px-2.5 mb-5">
+                <p className={`${styles.content} text-3xl font-bold`}>
+                  {profileData.name || profileMockData.name}
+                </p>
+                <div className="flex gap-3">
+                  <Link
+                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Image src="/line.png" alt="Line" width={42} height={42} />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Image
+                      src="/facebook.png"
+                      alt="Facebook"
+                      width={42}
+                      height={42}
+                    />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Image
+                      src="/instagram.png"
+                      alt="Instagram"
+                      width={42}
+                      height={42}
+                    />
+                  </Link>
+                </div>
+              </div>
+              <p
+                className={`${styles.content} w-full px-6 py-4 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
+              >
+                {profileData.self_intro || profileMockData.self_intro}
+              </p>
+            </div>
+          )}
+
+          <button
+            type="button"
+            className="hidden group-hover:block absolute top-4 right-5"
+            onClick={handleEdit}
+          >
             <Image
               src="/edit.png"
               alt="edit"

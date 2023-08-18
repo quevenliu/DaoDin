@@ -1,5 +1,7 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 import Image from "next/image";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
@@ -7,7 +9,10 @@ import styles from "../styles/font.module.scss";
 import groupsMockData from "@/data/groupsMockData";
 import { getServerCookie } from "../utils/cookie";
 
-export default function Home() {
+const apiUrl = process.env.API_URL;
+
+export default function Home({ token }) {
+  const [allGroups, setAllGroups] = useState([]);
   const router = useRouter();
   const path = router.pathname;
 
@@ -15,6 +20,29 @@ export default function Home() {
     const audio = new Audio("hedgehogSound.mp3");
     audio.play();
   };
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const getGroups = async () => {
+    await axios
+      .get(`${apiUrl}/group/search`, config)
+      .then((res) => {
+        console.log(res.data.groups);
+        setAllGroups(res.data.groups);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getGroups();
+  }, []);
 
   return (
     <>
@@ -109,11 +137,12 @@ export default function Home() {
             </button>
           </div>
           <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
-            {groupsMockData.map((group) => (
+            {allGroups?.map((group) => (
               <Group
                 path={path}
-                key={group.id}
-                groupId={group.id}
+                key={group.group_id}
+                groupId={group.group_id}
+                creatorId={group.creator_id}
                 name={group.name}
                 category={group.category}
                 location={group.location}

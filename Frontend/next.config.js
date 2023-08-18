@@ -14,6 +14,7 @@ const nextConfig = {
       "encrypted-tbn0.gstatic.com",
       "p5.itc.cn",
       "cwtob.oss-cn-beijing.aliyuncs.com",
+      "canchu.online",
     ],
   },
   env: {

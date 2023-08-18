@@ -226,7 +226,7 @@ export default function LoginPage() {
                       <Field
                         type="text"
                         name="name"
-                        placeholder="例: shirney@appworks.tw"
+                        placeholder="例: Chou Chou"
                         className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
                       />
                     </div>
