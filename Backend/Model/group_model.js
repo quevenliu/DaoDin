@@ -27,13 +27,14 @@ async function getGroup(groupId) {
         "status": data[0]["status"],
         "creator_id": data[0]["creator_id"],
         "picture": data[0]["picture"]
+
     }
     return returnData;
 }
 
 async function updateGroup(myId, groupId, name, category, location, description, picture) {
 
-    let Query = `SELECT * FROM \`group\` WHERE id =  ? AND creator_id = ? `;
+    let Query = `SELECT * FROM \`group\` WHERE id =  ? AND creator_id = ?  `;
     const [groupExist] = await pool.query(Query, [groupId, myId]);
     if (groupExist.length === 0) { return false; }
 
@@ -71,10 +72,11 @@ async function leaveGroup(myId, groupId) {
 
 async function searchGroup(category, location, sort, joined, cursor, myId) {
     let Query = `
-                    SELECT  \`group\`.id, \`group\`.*, membership.user_id
-                    FROM \`group\`
-                    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
-                    `;
+    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
+    FROM \`group\`
+    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
+    LEFT JOIN region ON region.city = \`group\`.location
+    `;
 
 
     const params = [myId];
@@ -134,7 +136,8 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
                 "description": group["description"],
                 "status": group["status"],
                 "creator_id": group["creator_id"],
-                "picture": group["picture"]
+                "picture": group["picture"],
+                "area": group["area"],
 
 
             }
@@ -143,9 +146,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
         "next_cursor": nextCursor
     }
     return groupList;
-
-
-
 
 }
 
