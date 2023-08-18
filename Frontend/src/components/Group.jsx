@@ -19,9 +19,8 @@ export default function Group({
   return (
     <div className={`${styles.content} group mt-6`}>
       {path === "/profile" ? (
-        <div className="px-8 py-5 flex justify-between items-center bg-backgroundColor rounded-[20px] relative">
+        <div className="p-5 flex justify-between items-center bg-backgroundColor rounded-[20px] relative">
           <h3 className="px-8 text-[26px] font-bold">{name}</h3>
-          
         </div>
       ) : (
         <>
@@ -29,7 +28,7 @@ export default function Group({
             className="px-8 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none"
             onMouseEnter={playHoverSound}
           >
-            <h3 className="px-8 py-5 text-[26px] font-bold">{name}</h3>
+            <h3 className="p-5 text-[26px] font-bold">{name}</h3>
             <Image
               src="/menu.svg"
               alt="menu"
