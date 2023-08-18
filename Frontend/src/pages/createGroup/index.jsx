@@ -251,7 +251,7 @@ export default function createGroupPage({token}) {
   const createGroup = (payload) => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -267,13 +267,11 @@ export default function createGroupPage({token}) {
   const handleCreateGroup = () => {
     const formData = new FormData();
     formData.append("picture", file);
-    const payload = {
-      name: groupNameRef.current.value,
-      category: categorySelected.name,
-      location: locationSelected.name,
-      description: groupDescriptionRef.current.value,
-    };
-    createGroup(payload);
+    formData.append("name", groupNameRef.current.value);
+    formData.append("category", categorySelected.name);
+    formData.append("location", locationSelected.name);
+    formData.append("description", groupDescriptionRef.current.value);
+    createGroup(formData);
   };
 
   return (
