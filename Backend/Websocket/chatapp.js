@@ -1,15 +1,22 @@
 const chatModel = require('../Model/chat_model');
 
-function processChat(message, user_id) {
+async function processChat(connection) {
 
+    if (!connection.match) {
+        connection.match = await chatModel.getMatch(connection.group_id, connection.authorization_id);
+    }
+
+    chatModel.createMessage(connection.match.matched_group_id, connection.body.message, connection.authorization_id);
+
+    return;
 }
 
 function filterClients(clients, user_list) {
-    return clients.filter(client => user_list.includes(client.userID));
+    return clients.filter(client => user_list.includes(client.authorization_id));
 }
 
-function groupFilterer(userID) {
-    return client => client.userID !== userID;
+function groupFilterer(connection) {
+    return connection.match.users.map(user => user.id);
 }
 
 module.exports = {
