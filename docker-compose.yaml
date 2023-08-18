@@ -17,7 +17,7 @@ services:
   app:
     container_name: daodin_node
     image: node:20-alpine
-    command: sh -c "cd /app && mkdir static && cd /app/Backend && npm install && node index.js"
+    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install && node index.js"
     init: true
     restart: always
     volumes:
