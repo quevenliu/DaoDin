@@ -7,10 +7,11 @@ const MATCH_THRESHOLD = 13;
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
-    if (!req.file) {
+    if (req.file) {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
+    else { return res.status(400).json({error:"file upload error"});}
     let myId = req.authorization_id;
     const id = await model.createGroup(myId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
     if (id === false) {
