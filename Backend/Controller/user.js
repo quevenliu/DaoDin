@@ -2,8 +2,8 @@ const model = require('../Model/user_model');
 const generateJWT = require('../utils/authorization').generateJWT;
 const hashPassword = require('../utils/authorization').hashPassword;
 
+const RabbitMQ = require('../pubsub');
 require('dotenv').config('../.env');
-
 async function signup(req, res) {
 
     if (!req.body.email || !req.body.password || !req.body.name) {
@@ -27,6 +27,8 @@ async function signup(req, res) {
     }
 
     const result = await generateJWT(user_id);
+    const channel = await RabbitMQ.connect();
+    await createUserQueue(channel, user_id);
 
     return res.status(200).send({ token: result });
 }

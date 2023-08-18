@@ -1,9 +1,8 @@
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
-
+const RabbitMQ = require('../pubsub');
 const MATCH_THRESHOLD = 13;
-
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
@@ -17,6 +16,8 @@ const createGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't create" }));
         return;
     }
+    const channel = await connect();
+    RabbitMQ.createGroupExchange(req.body.name);
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 const getGroup = async (req, res) => {
@@ -58,6 +59,8 @@ const match = async (groupId) => {
             const users = match_data[i];
             await match_model.joinMatch(users, matchId);
         }
+        const channel = await connect();
+        RabbitMQ.sendNotificationToExchange(groupId, "finish");
     } catch (err) {
         console.log(err);
     }
@@ -123,6 +126,10 @@ const joinGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
     }
+    
+    const channel = await connect();
+    await bindUserQueueToExchange(channel, myId, groupId);
+
     res.status(200).send(JSON.stringify({ group_id: id }));
 
 }
