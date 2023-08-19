@@ -28,12 +28,14 @@ export default function Home({ token }) {
     },
   };
 
+  const [cursor, setCursor] = useState("");
   const getGroups = async () => {
     await axios
       .get(`${apiUrl}/group/search`, config)
       .then((res) => {
-        console.log(res.data.groups);
+        console.log(res);
         setAllGroups(res.data.groups);
+        setCursor(res.data.next_cursor);
       })
       .catch((err) => {
         console.log(err);
@@ -43,6 +45,22 @@ export default function Home({ token }) {
   useEffect(() => {
     getGroups();
   }, []);
+
+  const getGroupsByCursor = async () => {
+    await axios
+      .get(`${apiUrl}/group/search?cursor=${cursor}`, config)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    if (cursor) {
+      getGroupsByCursor();
+    }
+  }, [cursor]);
 
   return (
     <>

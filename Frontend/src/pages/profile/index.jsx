@@ -16,6 +16,7 @@ const apiUrl = process.env.API_URL;
 
 export default function ProfilePage({ token, userId }) {
   const [profileData, setProfileData] = useState({});
+  const [myGroups, setMyGroups] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const path = router.pathname;
@@ -41,9 +42,9 @@ export default function ProfilePage({ token, userId }) {
   };
   const getMyGroups = async () => {
   await axios
-    .get(`${apiUrl}/group/search`, config)
+    .get(`${apiUrl}/group/search?isJoined=1`, config)
     .then((res) => {
-      console.log(res.data.groups);
+      setMyGroups(res.data.groups);
     })
     .catch((err) => {
       console.log(err);
@@ -97,13 +98,6 @@ export default function ProfilePage({ token, userId }) {
             token={token}
             getProfile={getProfile}
           />
-          {/* <Image
-            src={`${profileData.picture || profileMockData.picture}`}
-            alt="avatar"
-            className="w-32 h-32 rounded-full mr-8 object-cover object-center shrink-0 border border-solid border-orange-300"
-            width={300}
-            height={300}
-          /> */}
           {isEditing ? (
             <div className="w-full">
               <div className="flex justify-between items-center pr-2.5 mb-5">
@@ -230,10 +224,10 @@ export default function ProfilePage({ token, userId }) {
             </Link>
           </div>
           <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-12 pt-2 pb-8">
-            {myGroupsMockData.map((myGroup) => (
+            {myGroups.map((myGroup) => (
               <Group
                 path={path}
-                key={myGroup.id}
+                key={myGroup.group_id}
                 name={myGroup.name}
                 category={myGroup.category}
                 location={myGroup.location}

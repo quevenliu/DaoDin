@@ -494,7 +494,7 @@ export default function createGroupPage({token}) {
                 />
               </label>
               <div
-                className="p-3 min-h-40 flex justify-center text-center text-2xl font-bold border-2 border-dashed border-primaryColor rounded-[20px]"
+                className="p-3 flex justify-center text-center text-2xl font-bold border-2 border-dashed border-primaryColor rounded-[20px]"
                 onDrop={handleDrop}
                 onDragEnter={(e) => e.preventDefault()}
                 onDragOver={(e) => e.preventDefault()}
@@ -503,12 +503,12 @@ export default function createGroupPage({token}) {
                   <Image
                     src={previewImage}
                     alt="Preview"
-                    className="w-[100%] h-[100%] object-fit object-center"
+                    className="max-h-screen object-fit object-center"
                     width={280}
                     height={280}
                   />
                 ) : (
-                  <div className="flex flex-col items-center cursor-pointer">
+                  <div className="my-10 flex flex-col items-center cursor-pointer">
                     <p className="text-center">
                       拖放圖片到此區域上傳
                       <br />
