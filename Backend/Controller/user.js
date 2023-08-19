@@ -28,8 +28,7 @@ async function signup(req, res) {
 
     const result = await generateJWT(user_id);
     const channel = await RabbitMQ.connect();
-    await createUserQueue(channel, user_id);
-
+    await RabbitMQ.createUserQueue(channel, user_id);
     return res.status(200).send({ token: result });
 }
 

@@ -11,5 +11,5 @@ router.get('/search', groupController.searchGroup);
 router.get('/:group_id', groupController.getGroup);
 router.put('/:group_id', groupController.updateGroup);
 router.post('/:group_id/join', groupController.joinGroup);
-router.post('/:group_id/leave', groupController.leaveGroup);
+router.delete('/:group_id/leave', groupController.leaveGroup);
 module.exports = router;

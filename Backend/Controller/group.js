@@ -17,7 +17,7 @@ const createGroup = async (req, res) => {
         return;
     }
     const channel = await connect();
-    RabbitMQ.createGroupExchange(req.body.name);
+    await createGroupExchange(channel, id);
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 const getGroup = async (req, res) => {
@@ -60,7 +60,7 @@ const match = async (groupId) => {
             await match_model.joinMatch(users, matchId);
         }
         const channel = await connect();
-        RabbitMQ.sendNotificationToExchange(groupId, "finish");
+        await sendNotificationToExchange(channel, `group_${groupId}_exchange`, { type: 'match' });
     } catch (err) {
         console.log(err);
     }
@@ -108,12 +108,18 @@ const joinGroup = async (req, res) => {
 
     const group = await model.getGroup(groupId);
 
-    if (group.status == 'complete') {
+    if (group.status =='complete') {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
     }
 
     const id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
+    if (id === false) {
+        res.status(400).send(JSON.stringify({ "error": "can't join" }));
+        return;
+    }
+    const channel = await connect();
+    await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
 
     const group_member_count = await model.getGroupMemberCount(groupId);
 
@@ -122,15 +128,7 @@ const joinGroup = async (req, res) => {
         match(groupId);
     }
 
-    if (id === false) {
-        res.status(400).send(JSON.stringify({ "error": "can't join" }));
-        return;
-    }
     
-    const channel = await connect();
-    await bindUserQueueToExchange(channel, myId, groupId);
-
-    res.status(200).send(JSON.stringify({ group_id: id }));
 
 }
 const leaveGroup = async (req, res) => {

@@ -50,9 +50,9 @@ async function updateGroup(myId, groupId, name, category, location, description,
 async function joinGroup(myId, groupId, nickname, self_intro, match_msg) {
     if (nickname === null || self_intro === null || match_msg === null) { return false; }
     let Query = `SELECT * FROM \`group\` WHERE id =  ? `;
+    
     const [groupExist] = await pool.query(Query, [groupId]);
-
-    const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id', [myId, groupId]);
+    const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id = ?', [myId, groupId]);
     if (joined.length > 0 || groupExist.length === 0) { return false; }
 
     Query = `INSERT INTO membership (user_id, group_id, nickname, self_intro, match_msg ) VALUES (?, ?, ?, ?, ?)`;
