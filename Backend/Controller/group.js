@@ -1,3 +1,4 @@
+const { Certificate } = require('crypto');
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
@@ -153,17 +154,17 @@ const searchGroup = async (req, res) => {
     const joined = req.query.isJoined;
     const cursor = req.query.cursor;
     const myId = req.authorization_id;
-
+    const creatorId = req.query.creator_id;
     if (cursor !== undefined) {
         const decodedString = Buffer.from(cursor, "base64").toString();
         if (isNaN(parseInt(decodedString))) {
             res.status(400).send(JSON.stringify({ "error": "can't search" }));
             return;
         }
-        groups = await model.searchGroup(catagory, location, sort, joined, parseInt(decodedString), myId);
+        groups = await model.searchGroup(catagory, location, sort, joined, parseInt(decodedString), myId, creatorId);
 
     } else {
-        groups = await model.searchGroup(catagory, location, sort, joined, cursor, myId);
+        groups = await model.searchGroup(catagory, location, sort, joined, cursor, myId, creatorId);
     }
 
 
