@@ -162,6 +162,7 @@ Input Format
     category: string,
     location: string,
     description: string,
+    picture: file
 }
 ```
 
@@ -196,7 +197,8 @@ Response Format
     location: string,
     description: string,
     status: string,
-    picture: URL
+    picture: URL,
+    area: int
 }
 ```
 
@@ -269,7 +271,8 @@ Response Format
             location: string,
             description: string,
             status: string,
-            picture: URL
+            picture: URL,
+            area: int
         }, ...
     ],
     next_cursor: int

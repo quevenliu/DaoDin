@@ -6,10 +6,11 @@ const MATCH_THRESHOLD = 13;
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
-    if (!req.file) {
+    if (req.file) {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
+    else { return res.status(400).json({error:"file upload error"});}
     let myId = req.authorization_id;
     const id = await model.createGroup(myId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
     if (id === false) {
@@ -136,11 +137,11 @@ const leaveGroup = async (req, res) => {
     const groupId = req.params.group_id;
     const id1 = await match_model.leaveMatch(myId, groupId);
     const id2 = await model.leaveGroup(myId, groupId);
-    if ((id1 && id2) === false) {
+    if (id1=== false && id2=== false)  {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
-    res.status(200).send(JSON.stringify({ group_id: id }));
+    res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
 
