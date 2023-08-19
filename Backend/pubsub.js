@@ -68,7 +68,6 @@ async function consumeMessagesFromQueue(channel,queueName) {
       }
     });
    
-    console.log(messageList);
     return messageList;
  
     

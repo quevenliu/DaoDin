@@ -6,6 +6,6 @@ router.use(express.json());
 router.use(authorization);
 
 router.get('/', eventController.getEvent);
-
+router.post('/:event_id/read', eventController.readEvent);
 
 module.exports = router;

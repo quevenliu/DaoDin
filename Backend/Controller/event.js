@@ -1,28 +1,45 @@
-const model = require('../Model/group_model');
+const model = require('../Model/event_model');
 const RabbitMQ = require('../pubsub');
 
 const getEvent = async (req, res) => {   
     const myId = req.authorization_id;
     const channel = await RabbitMQ.connect();
-    const groupIdList = await RabbitMQ.consumeMessagesFromQueue(channel,`user_${myId}_queue`);
-    const data =[]; 
-    for (let i = 0; i < groupIdList.length; i++) {
-        const group = await model.getGroup(groupIdList[i]);
-        const event = {
-            "group_id": group.group_id,
-            "name": group.name,
-            "category": group.category,
-            "location": group.location,
-            "message" : `${group.name} has been approved, you can join now!`,
+    const groupIdList = await RabbitMQ.consumeMessagesFromQueue(channel,`user_${myId}_queue`); 
+    const data = await model.getEvent(myId, groupIdList);
+    const events = data.map((event) => {           
+        return {
+            "event_id": event.id,
+            "group_id": event.group_id,
+            "name": event.name,
+            "category": event.category,
+            "location": event.location,
+            "description": event.description,
+            "creator_id": event.creator_id,
+            "picture": event.picture,
+            "is_read": event.is_read,
+            "message" : `${event.name} has been matched, you can join now!`,
         }
-        data.push(event);
-    }
-    res.status(200).send(JSON.stringify({ "event": data }));
+    });
+        
+
+    res.status(200).send(JSON.stringify({"events": events}));
     
 
 }
-
+const readEvent = async (req, res) => {
+    try{
+        const myId = req.authorization_id;
+        const eventId = req.params.event_id;
+        const id = await model.readEvent(myId, eventId);
+        if(!id) return res.status(400).send(JSON.stringify({"message": "can't read this event"}));
+        res.status(200).send(JSON.stringify({"event_id": id}));
+    }catch(error){  
+        res.status(500).send(JSON.stringify({"message": error.message}));
+        
+    }
+}
 
 module.exports = {
-    getEvent
+    getEvent,   
+    readEvent
 }
