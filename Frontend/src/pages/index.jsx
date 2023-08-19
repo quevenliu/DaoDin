@@ -11,7 +11,7 @@ import { getServerCookie } from "../utils/cookie";
 
 const apiUrl = process.env.API_URL;
 
-export default function Home({ token }) {
+export default function Home({ token, userId }) {
   const [allGroups, setAllGroups] = useState([]);
   const router = useRouter();
   const path = router.pathname;
@@ -161,6 +161,7 @@ export default function Home({ token }) {
                 key={group.group_id}
                 groupId={group.group_id}
                 creatorId={group.creator_id}
+                userId={userId}
                 name={group.name}
                 category={group.category}
                 location={group.location}

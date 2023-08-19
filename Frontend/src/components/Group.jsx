@@ -5,6 +5,8 @@ import styles from "../styles/font.module.scss";
 export default function Group({
   path,
   groupId,
+  creatorId,
+  userId,
   name,
   category,
   location,
@@ -43,10 +45,10 @@ export default function Group({
                 {description}
               </p>
               <Link
-                href={`/joinGroup/${groupId}`}
+                href={creatorId === userId ? `/editGroup/${groupId}` : `/joinGroup/${groupId}`}
                 className="w-[10%] px-6 py-2 self-end bg-primaryColor text-center text-xl font-bold text-white rounded-[50px] shrink-0"
               >
-                Join
+                {creatorId === userId ? "Edit" : "Join"}
               </Link>
             </div>
           </div>

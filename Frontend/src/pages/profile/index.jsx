@@ -17,6 +17,7 @@ const apiUrl = process.env.API_URL;
 export default function ProfilePage({ token, userId }) {
   const [profileData, setProfileData] = useState({});
   const [myGroups, setMyGroups] = useState([]);
+  const [joinedGroups, setJoinedGroups] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const path = router.pathname;
@@ -41,19 +42,30 @@ export default function ProfilePage({ token, userId }) {
       });
   };
   const getMyGroups = async () => {
-  await axios
-    .get(`${apiUrl}/group/search?isJoined=1`, config)
-    .then((res) => {
-      setMyGroups(res.data.groups);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+    await axios
+      .get(`${apiUrl}/group/search?creator_id=1`, config)
+      .then((res) => {
+        setMyGroups(res.data.groups);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getJoinedGroups = async () => {
+    await axios
+      .get(`${apiUrl}/group/search?isJoined=1`, config)
+      .then((res) => {
+        setJoinedGroups(res.data.groups);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getProfile();
     getMyGroups();
+    getJoinedGroups();
   }, []);
 
   const putProfile = async (payload) => {
