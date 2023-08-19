@@ -10,15 +10,15 @@ const createGroup = async (req, res) => {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
-    else { return res.status(400).json({error:"file upload error"});}
+   // else { return res.status(400).json({error:"file upload error"});}
     let myId = req.authorization_id;
     const id = await model.createGroup(myId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
     if (id === false) {
         res.status(400).send(JSON.stringify({ "error": "can't create" }));
         return;
     }
-    const channel = await connect();
-    await createGroupExchange(channel, id);
+    const channel = await RabbitMQ.connect();
+    await RabbitMQ.createGroupExchange(channel, id);
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 const getGroup = async (req, res) => {
@@ -60,8 +60,6 @@ const match = async (groupId) => {
             const users = match_data[i];
             await match_model.joinMatch(users, matchId);
         }
-        const channel = await connect();
-        await sendNotificationToExchange(channel, `group_${groupId}_exchange`, { type: 'match' });
     } catch (err) {
         console.log(err);
     }
@@ -106,7 +104,6 @@ const match_random = (member_data) => {
 const joinGroup = async (req, res) => {
     const myId = req.authorization_id;
     const groupId = req.params.group_id;
-
     const group = await model.getGroup(groupId);
 
     if (group.status =='complete') {
@@ -119,16 +116,18 @@ const joinGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
     }
-    const channel = await connect();
+    const channel = await RabbitMQ.connect();
     await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
-
     const group_member_count = await model.getGroupMemberCount(groupId);
 
     if (group_member_count > MATCH_THRESHOLD) {
         await model.switchToComplete(groupId);
         match(groupId);
+        const channel = await RabbitMQ.connect();
+        await RabbitMQ.sendNotificationToExchange(channel, `group_${groupId}_exchange`, { group_id: groupId });
+     
     }
-
+    res.status(200).send(JSON.stringify({ group_id: id }));
     
 
 }
@@ -141,6 +140,8 @@ const leaveGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
+    const channel = await RabbitMQ.connect();
+    await RabbitMQ.unbindUserQueueFromExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
     res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
