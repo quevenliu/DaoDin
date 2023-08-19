@@ -132,11 +132,11 @@ const leaveGroup = async (req, res) => {
     const groupId = req.params.group_id;
     const id1 = await match_model.leaveMatch(myId, groupId);
     const id2 = await model.leaveGroup(myId, groupId);
-    if ((id1 && id2) === false) {
+    if (id1=== false && id2=== false)  {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
-    res.status(200).send(JSON.stringify({ group_id: id }));
+    res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
 
