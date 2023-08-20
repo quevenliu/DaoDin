@@ -7,11 +7,15 @@ import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
 import groupsMockData from "@/data/groupsMockData";
 import { getServerCookie } from "../utils/cookie";
+import Filter from "@/components/Filter";
 
 export default function Home() {
   const router = useRouter();
   const path = router.pathname;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [activeLocations, setActiveLocations] = useState([]);
+  const [activeCategories, setActiveCategories] = useState([]);
+  // const [activeTags, setActiveTags] = useState([]);
 
   return (
     <>
@@ -53,194 +57,15 @@ export default function Home() {
             </button>
           </div>
           {isFilterOpen && (
-            <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center z-[999]">
-              <div className="w-fit px-12 py-8 m-auto bg-white rounded-[20px] ">
-                <div className="mb-5">
-                  <p className="text-2xl font-bold mb-3">Location</p>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">北部</p>
-                    <button type="button" className="tag">
-                      臺北
-                    </button>
-                    <button type="button" className="tag">
-                      新北
-                    </button>
-                    <button type="button" className="tag">
-                      基隆
-                    </button>
-                    <button type="button" className="tag">
-                      新竹
-                    </button>
-                    <button type="button" className="tag">
-                      桃園
-                    </button>
-                    <button type="button" className="tag">
-                      宜蘭
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">中部</p>
-                    <button type="button" className="tag">
-                      臺中
-                    </button>
-                    <button type="button" className="tag">
-                      苗栗
-                    </button>
-                    <button type="button" className="tag">
-                      彰化
-                    </button>
-                    <button type="button" className="tag">
-                      南投
-                    </button>
-                    <button type="button" className="tag">
-                      雲林
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">南部</p>
-                    <button type="button" className="tag">
-                      高雄
-                    </button>
-                    <button type="button" className="tag">
-                      臺南
-                    </button>
-                    <button type="button" className="tag">
-                      嘉義
-                    </button>
-                    <button type="button" className="tag">
-                      屏東
-                    </button>
-                    <button type="button" className="tag">
-                      澎湖
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">東部</p>
-                    <button type="button" className="tag">
-                      花蓮
-                    </button>
-                    <button type="button" className="tag">
-                      臺東
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">其他</p>
-                    <button type="button" className="tag">
-                      金門
-                    </button>
-                    <button type="button" className="tag">
-                      連江
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold mb-3">Category</p>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">戶外</p>
-                    <button type="button" className="tag">
-                      野餐
-                    </button>
-                    <button type="button" className="tag">
-                      登山
-                    </button>
-                    <button type="button" className="tag">
-                      踏青
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">運動</p>
-                    <button type="button" className="tag">
-                      慢跑
-                    </button>
-                    <button type="button" className="tag">
-                      球類
-                    </button>
-                    <button type="button" className="tag">
-                      健身
-                    </button>
-                    <button type="button" className="tag">
-                      水上
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">藝文</p>
-                    <button type="button" className="tag">
-                      演唱會
-                    </button>
-                    <button type="button" className="tag">
-                      音樂會
-                    </button>
-                    <button type="button" className="tag">
-                      展覽
-                    </button>
-                    <button type="button" className="tag">
-                      電影
-                    </button>
-                    <button type="button" className="tag">
-                      戲劇
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">學習</p>
-                    <button type="button" className="tag">
-                      讀書會
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">遊戲</p>
-                    <button type="button" className="tag">
-                      桌遊
-                    </button>
-                    <button type="button" className="tag">
-                      電玩
-                    </button>
-                    <button type="button" className="tag">
-                      棋藝
-                    </button>
-                    <button type="button" className="tag">
-                      密室逃脫
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">休閒</p>
-                    <button type="button" className="tag">
-                      KTV
-                    </button>
-                    <button type="button" className="tag">
-                      逛街
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">飲食</p>
-                    <button type="button" className="tag">
-                      美食
-                    </button>
-                    <button type="button" className="tag">
-                      酒吧
-                    </button>
-                    <button type="button" className="tag">
-                      咖啡廳
-                    </button>
-                  </div>
-                  <div className="flex mt-4 justify-end">
-                    <button
-                      type="button"
-                      onClick={() => setIsFilterOpen(false)}
-                      className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-[#BFBFBF] rounded-[50px] text-white mr-3"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsFilterOpen(false)}
-                      className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-primaryColor rounded-[50px] text-white"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Filter
+              setIsFilterOpen={setIsFilterOpen}
+              activeLocations={activeLocations}
+              setActiveLocations={setActiveLocations}
+              activeCategories={activeCategories}
+              setActiveCategories={setActiveCategories}
+              // activeTags={activeTags}
+              // setActiveTags={setActiveTags}
+            />
           )}
           <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
             {groupsMockData.map((group) => (
