@@ -99,10 +99,10 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
         Query += ` AND user_id = ? `;
         params.push(myId);
     }
-    if (creatorId ==1) {
+    if (creatorId == 1) {
         Query += ` AND creator_id = ? `;
         params.push(myId);
-    }else if (creatorId == 0) {
+    } else if (creatorId == 0) {
         Query += ` AND creator_id != ? `;
         params.push(myId);
     }
@@ -170,6 +170,11 @@ async function switchToComplete(groupId) {
     await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
 }
 
+async function getMembership(myId, groupId) {
+    const [data] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id = ?', [myId, groupId]);
+    return data[0];
+}
+
 
 module.exports = {
     createGroup,
@@ -180,6 +185,7 @@ module.exports = {
     searchGroup,
     getGroupMemberCount,
     getAllMembers,
-    switchToComplete
+    switchToComplete,
+    getMembership
 }
 

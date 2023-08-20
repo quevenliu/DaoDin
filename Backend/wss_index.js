@@ -18,6 +18,7 @@ class ExpressWebSocketServer extends WebSocketServer {
             };
             ws.json = (data) => {
                 if (ws.httpStatus % 100 !== 2) {
+                    ws.send(JSON.stringify(data));
                     ws.close();
                     return ws;
                 }
@@ -54,13 +55,25 @@ chatServer.on("connection", (connection, req) => {
 
     connection.on("message", async (body) => {
 
-        connection.body = JSON.parse(body);
+        try {
+            connection.body = JSON.parse(body);
 
-        await app.processChat(connection);
-        const clients = chatServer.app.filterClients(chatServer.clients, await app.groupFilterer(connection));
-        clients.forEach(client => {
-            client.send(JSON.stringify(connection.body));
-        });
+            if (!connection.body.message) {
+                connection.status(400).json({ error: "No message provided" });
+                return;
+            }
 
+            await app.processChat(connection);
+            const clients = chatServer.app.filterClients(chatServer.clients, await app.groupFilterer(connection));
+            if (clients) {
+                clients.forEach(client => {
+                    client.send(JSON.stringify(connection.body));
+                });
+            }
+
+        } catch (error) {
+            console.log(error);
+            connection.status(400).json({ error: "Not authorized to send message." });
+        }
     });
 });
