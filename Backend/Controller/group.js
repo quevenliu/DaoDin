@@ -153,8 +153,6 @@ const joinGroup = async (req, res) => {
         return res.status(500).send('Internal server error');
     }
 
-
-
     if (id === false) {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
@@ -183,7 +181,7 @@ const leaveGroup = async (req, res) => {
 
 
 const searchGroup = async (req, res) => {
-    const catagory = req.query.catagory
+    const category = req.query.category
     const location = req.query.location;
     const sort = req.query.sort;
     const joined = req.query.isJoined;
@@ -197,10 +195,10 @@ const searchGroup = async (req, res) => {
                 res.status(400).send(JSON.stringify({ "error": "can't search" }));
                 return;
             }
-            groups = await model.searchGroup(catagory, location, sort, joined, parseInt(decodedString), myId, creatorId);
+            groups = await model.searchGroup(category, location, sort, joined, parseInt(decodedString), myId, creatorId);
 
         } else {
-            groups = await model.searchGroup(catagory, location, sort, joined, cursor, myId, creatorId);
+            groups = await model.searchGroup(category, location, sort, joined, cursor, myId, creatorId);
         }
     } catch (err) {
         console.log(err);
