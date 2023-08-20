@@ -201,7 +201,7 @@ export default function createGroupPage({ token, groupId }) {
   const [locationSelected, setLocationSelected] = useState("");
 
   const [isPictureEditing, setIsPictureEditing] = useState(false);
-  const [previewImage, setPreviewImage] = useState(groupData.picture);
+  const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const resetFile = () => {
@@ -249,32 +249,6 @@ export default function createGroupPage({ token, groupId }) {
     showPreview();
   };
 
-  const createGroup = (payload) => {
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    axios
-      .post(`${apiUrl}/group`, payload, config)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const handleCreateGroup = () => {
-    const formData = new FormData();
-    formData.append("picture", file);
-    formData.append("name", groupNameRef.current.value);
-    formData.append("category", categorySelected.name);
-    formData.append("location", locationSelected.name);
-    formData.append("description", groupDescriptionRef.current.value);
-    createGroup(formData);
-  };
-
   const getGroup = async () => {
     const config = {
       headers: {
@@ -286,12 +260,37 @@ export default function createGroupPage({ token, groupId }) {
       .get(`${apiUrl}/group/${groupId}`, config)
       .then((res) => {
         setGroupData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const updateGroup = async (payload) => {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await axios
+      .put(`${apiUrl}/group/${groupId}`, payload, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleUpdateGroup = () => {
+    const formData = new FormData();
+    formData.append("picture", file);
+    formData.append("name", groupNameRef.current.value);
+    formData.append("category", categorySelected.name);
+    formData.append("location", locationSelected.name);
+    formData.append("description", groupDescriptionRef.current.value);
+    updateGroup(formData);
+  };
+
   useEffect(() => {
     getGroup();
   }, []);
@@ -517,9 +516,6 @@ export default function createGroupPage({ token, groupId }) {
                   defaultValue={groupData.description}
                 />
               </label>
-              {groupData.picture}
-              {`previewImage: ${previewImage}`}
-              <img src={`${groupData.picture}`} alt="" />
               <div
                 className="p-3 flex justify-center text-center text-2xl font-bold border-2 border-dashed border-primaryColor rounded-[20px]"
                 onDrop={handleDrop}
@@ -568,9 +564,9 @@ export default function createGroupPage({ token, groupId }) {
                 <button
                   type="button"
                   className="px-6 py-2 text-white bg-primaryColor rounded-[50px]"
-                  onClick={handleCreateGroup}
+                  onClick={handleUpdateGroup}
                 >
-                  Create
+                  Confirm
                 </button>
               </div>
             </form>
