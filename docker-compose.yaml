@@ -17,7 +17,7 @@ services:
   app:
     container_name: daodin_node
     image: node:20-alpine
-    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install && node index.js"
+    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs"
     init: true
     restart: always
     volumes:
@@ -26,8 +26,10 @@ services:
       - node_modules:/app/Backend/node_modules
     ports:
       - "3000:3000"
+      - "3001:3001"
     expose:
       - "3000"
+      - "3001"
     networks:
       - daodin
     depends_on:
