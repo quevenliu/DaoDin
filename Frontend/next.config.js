@@ -15,6 +15,7 @@ const nextConfig = {
       "p5.itc.cn",
       "cwtob.oss-cn-beijing.aliyuncs.com",
       "canchu.online",
+      "hips.hearstapps.com",
     ],
   },
   env: {
