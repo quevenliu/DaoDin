@@ -1,3 +1,4 @@
+const { Certificate } = require('crypto');
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
@@ -7,10 +8,11 @@ const MATCH_THRESHOLD = 13;
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
-    if (!req.file) {
+    if (req.file) {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
+    else { return res.status(400).json({error:"file upload error"});}
     let myId = req.authorization_id;
     const id = await model.createGroup(myId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
     if (id === false) {
@@ -131,11 +133,11 @@ const leaveGroup = async (req, res) => {
     const groupId = req.params.group_id;
     const id1 = await match_model.leaveMatch(myId, groupId);
     const id2 = await model.leaveGroup(myId, groupId);
-    if ((id1 && id2) === false) {
+    if (id1=== false && id2=== false)  {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
-    res.status(200).send(JSON.stringify({ group_id: id }));
+    res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
 
@@ -146,17 +148,17 @@ const searchGroup = async (req, res) => {
     const joined = req.query.isJoined;
     const cursor = req.query.cursor;
     const myId = req.authorization_id;
-
+    const creatorId = req.query.creator_id;
     if (cursor !== undefined) {
         const decodedString = Buffer.from(cursor, "base64").toString();
         if (isNaN(parseInt(decodedString))) {
             res.status(400).send(JSON.stringify({ "error": "can't search" }));
             return;
         }
-        groups = await model.searchGroup(catagory, location, sort, joined, parseInt(decodedString), myId);
+        groups = await model.searchGroup(catagory, location, sort, joined, parseInt(decodedString), myId, creatorId);
 
     } else {
-        groups = await model.searchGroup(catagory, location, sort, joined, cursor, myId);
+        groups = await model.searchGroup(catagory, location, sort, joined, cursor, myId, creatorId);
     }
 
 

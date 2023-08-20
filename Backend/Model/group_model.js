@@ -52,7 +52,7 @@ async function joinGroup(myId, groupId, nickname, self_intro, match_msg) {
     let Query = `SELECT * FROM \`group\` WHERE id =  ? `;
     const [groupExist] = await pool.query(Query, [groupId]);
 
-    const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id', [myId, groupId]);
+    const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id =?', [myId, groupId]);
     if (joined.length > 0 || groupExist.length === 0) { return false; }
 
     Query = `INSERT INTO membership (user_id, group_id, nickname, self_intro, match_msg ) VALUES (?, ?, ?, ?, ?)`;
@@ -70,7 +70,7 @@ async function leaveGroup(myId, groupId) {
 }
 
 
-async function searchGroup(category, location, sort, joined, cursor, myId) {
+async function searchGroup(category, location, sort, joined, cursor, myId, creatorId) {
     let Query = `
     SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
     FROM \`group\`
@@ -97,6 +97,13 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
         Query += ` AND user_id IS NULL `;
     } else if (joined == 1) {
         Query += ` AND user_id = ? `;
+        params.push(myId);
+    }
+    if (creatorId ==1) {
+        Query += ` AND creator_id = ? `;
+        params.push(myId);
+    }else if (creatorId == 0) {
+        Query += ` AND creator_id != ? `;
         params.push(myId);
     }
     if (cursor !== undefined) {
