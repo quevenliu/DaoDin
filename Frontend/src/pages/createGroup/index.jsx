@@ -287,12 +287,15 @@ export default function createGroupPage({token}) {
       <main
         className={`${styles.content} min-h-screen bg-backgroundColor p-14`}
       >
-        <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-10 rounded-[20px] flex ">
+        <div className="w-[90%] max-w-5xl bg-secondaryColor m-auto rounded-t-[20px] text-center py-3 text-[26px] font-bold">
+          Create Group
+        </div>
+        <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-b-[20px] flex">
           <div className="w-full">
             <form className="px-2.5 mb-6 flex flex-col justify-between gap-7">
               <label
                 htmlFor="groupName"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 Group Name
                 <input
@@ -481,9 +484,9 @@ export default function createGroupPage({token}) {
               </div>
               <label
                 htmlFor="groupDescription"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
-                GroupDescription
+                Group Description
                 <textarea
                   type="text"
                   id="groupDescription"
@@ -531,10 +534,10 @@ export default function createGroupPage({token}) {
                   </div>
                 )}
               </div>
-              <div className="self-end flex gap-2">
+              <div className="self-end flex gap-3">
                 <button
                   type="button"
-                  className="px-6 py-2 text-white bg-[#BFBFBF] rounded-[50px]"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
                 >
                   Cancel
                 </button>

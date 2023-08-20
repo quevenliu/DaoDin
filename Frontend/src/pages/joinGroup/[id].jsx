@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 import Topbar from "@/components/Topbar";
-
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 
@@ -66,15 +65,19 @@ export default function JoinGroupPage({ token, groupId }) {
       <main
         className={`${styles.content} min-h-screen bg-backgroundColor p-14`}
       >
-        <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-10 rounded-[20px] flex ">
+        <div className="w-[90%] max-w-5xl bg-secondaryColor m-auto rounded-t-[20px] text-center py-3 text-[26px] font-bold">
+          Group Name
+        </div>
+        <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-[20px] flex">
           <div className="w-full">
             <h3 className="mb-10 text-center text-3xl font-bold">
               {group.name || "Mystery Group"}
             </h3>
+            
             <form className="px-2.5 mb-6 flex flex-col justify-between gap-7">
               <label
                 htmlFor="nickname"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 Nickname
                 <input
@@ -87,7 +90,7 @@ export default function JoinGroupPage({ token, groupId }) {
               </label>
               <label
                 htmlFor="intro"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 Tell me about yourself
                 <textarea
@@ -100,7 +103,7 @@ export default function JoinGroupPage({ token, groupId }) {
               </label>
               <label
                 htmlFor="tendency"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 What kind of people would you like to meet
                 <textarea
@@ -111,10 +114,10 @@ export default function JoinGroupPage({ token, groupId }) {
                   ref={msgRef}
                 />
               </label>
-              <div className="self-end flex gap-2">
+              <div className="self-end flex gap-3">
                 <button
                   type="button"
-                  className="w-28 px-6 py-2 text-center text-lg font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
                 >
                   Cancel
                 </button>

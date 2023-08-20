@@ -1,7 +1,7 @@
 const pool = require('./db').pool;
 
 async function createGroup(myId, name, category, location, description, imageUrl) {
-    let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? `;
+    let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? AND status = 'pending'`;
     const [groupExist] = await pool.query(Query, [category, location]);
     if (name === undefined || category === undefined || location === undefined || groupExist.length > 0) {
         return false;
@@ -15,7 +15,7 @@ async function createGroup(myId, name, category, location, description, imageUrl
 }
 
 async function getGroup(groupId) {
-    const [data] = await pool.query('SELECT * FROM \`group\` WHERE id = ?', [groupId]);
+    const [data] = await pool.query('SELECT g.*, r.area FROM \`group\` AS g LEFT JOIN region AS r ON r.city = g.location WHERE id = ?', [groupId]);
     if (data.length === 0) { return false; }
 
     returnData = {
@@ -26,15 +26,15 @@ async function getGroup(groupId) {
         "description": data[0]["description"],
         "status": data[0]["status"],
         "creator_id": data[0]["creator_id"],
-        "picture": data[0]["picture"]
-
+        "picture": data[0]["picture"],
+        "area": data[0]["area"]
     }
     return returnData;
 }
 
 async function updateGroup(myId, groupId, name, category, location, description, picture) {
 
-    let Query = `SELECT * FROM \`group\` WHERE id =  ? AND creator_id = ? `;
+    let Query = `SELECT * FROM \`group\` WHERE id =  ? AND creator_id = ?  `;
     const [groupExist] = await pool.query(Query, [groupId, myId]);
     if (groupExist.length === 0) { return false; }
 
@@ -52,7 +52,7 @@ async function joinGroup(myId, groupId, nickname, self_intro, match_msg) {
     let Query = `SELECT * FROM \`group\` WHERE id =  ? `;
     const [groupExist] = await pool.query(Query, [groupId]);
 
-    const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id', [myId, groupId]);
+    const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id =?', [myId, groupId]);
     if (joined.length > 0 || groupExist.length === 0) { return false; }
 
     Query = `INSERT INTO membership (user_id, group_id, nickname, self_intro, match_msg ) VALUES (?, ?, ?, ?, ?)`;
@@ -70,12 +70,13 @@ async function leaveGroup(myId, groupId) {
 }
 
 
-async function searchGroup(category, location, sort, joined, cursor, myId) {
+async function searchGroup(category, location, sort, joined, cursor, myId, creatorId) {
     let Query = `
-                    SELECT  \`group\`.id, \`group\`.*, membership.user_id
-                    FROM \`group\`
-                    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
-                    `;
+    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
+    FROM \`group\`
+    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
+    LEFT JOIN region ON region.city = \`group\`.location
+    `;
 
 
     const params = [myId];
@@ -96,6 +97,13 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
         Query += ` AND user_id IS NULL `;
     } else if (joined == 1) {
         Query += ` AND user_id = ? `;
+        params.push(myId);
+    }
+    if (creatorId == 1) {
+        Query += ` AND creator_id = ? `;
+        params.push(myId);
+    } else if (creatorId == 0) {
+        Query += ` AND creator_id != ? `;
         params.push(myId);
     }
     if (cursor !== undefined) {
@@ -135,7 +143,8 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
                 "description": group["description"],
                 "status": group["status"],
                 "creator_id": group["creator_id"],
-                "picture": group["picture"]
+                "picture": group["picture"],
+                "area": group["area"],
 
 
             }
@@ -144,9 +153,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId) {
         "next_cursor": nextCursor
     }
     return groupList;
-
-
-
 
 }
 
@@ -160,6 +166,15 @@ async function getAllMembers(groupId) {
     return data;
 }
 
+async function switchToComplete(groupId) {
+    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+}
+
+async function getMembership(myId, groupId) {
+    const [data] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id = ?', [myId, groupId]);
+    return data[0];
+}
+
 
 module.exports = {
     createGroup,
@@ -169,6 +184,8 @@ module.exports = {
     leaveGroup,
     searchGroup,
     getGroupMemberCount,
-    getAllMembers
+    getAllMembers,
+    switchToComplete,
+    getMembership
 }
 

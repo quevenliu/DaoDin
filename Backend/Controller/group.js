@@ -1,3 +1,4 @@
+const { Certificate } = require('crypto');
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
@@ -7,12 +8,19 @@ const MATCH_THRESHOLD = 13;
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
-    if (!req.file) {
+    if (req.file) {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
+    else { return res.status(400).json({ error: "file upload error" }); }
     let myId = req.authorization_id;
-    const id = await model.createGroup(myId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
+    let id;
+    try {
+        id = await model.createGroup(myId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal server error');
+    }
     if (id === false) {
         res.status(400).send(JSON.stringify({ "error": "can't create" }));
         return;
@@ -21,7 +29,17 @@ const createGroup = async (req, res) => {
 }
 const getGroup = async (req, res) => {
     const groupId = req.params.group_id;
-    const data = await model.getGroup(groupId);
+    if (!groupId) {
+        res.status(400).send(JSON.stringify({ "error": "No group ID" }));
+        return;
+    }
+    let data;
+    try {
+        data = await model.getGroup(groupId);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal server error');
+    }
     if (data === false) {
         res.status(400).send(JSON.stringify({ "error": "can't get" }));
         return;
@@ -30,9 +48,20 @@ const getGroup = async (req, res) => {
 }
 
 const updateGroup = async (req, res) => {
-    const groupId = req.params.group_id;
+    let imageUrl = null;
+    if (req.file) {
 
-    const id = await model.updateGroup(req.authorization_id, groupId, req.body.name, req.body.category, req.body.location, req.body.description, req.body.picture);
+        imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
+    }
+    else { return res.status(400).json({ error: "file upload error" }); }
+    const groupId = req.params.group_id;
+    let id;
+    try {
+        id = await model.updateGroup(req.authorization_id, groupId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal server error');
+    }
     if (id === false) {
         res.status(400).send(JSON.stringify({ "error": "can't update" }));
         return;
@@ -45,13 +74,12 @@ const match = async (groupId) => {
 
     try {
         const member_data = await model.getAllMembers(groupId);
-        /*
+
         const match_result = await axios.post(`http://${process.env.MATCH_IP}:${process.env.MATCH_PORT}/`, {
             data: member_data
         });
-        */
 
-        const match_result = match_random(member_data);
+
         const match_data = match_result.data.data;
 
         for (let i = 0; i < match_data.length; i++) {
@@ -110,12 +138,19 @@ const joinGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
     }
+    let id, group_member_count;
+    try {
+        id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
 
-    const id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
+        group_member_count = await model.getGroupMemberCount(groupId);
 
-    const group_member_count = await model.getGroupMemberCount(groupId);
-    if (group_member_count > MATCH_THRESHOLD) {
-        match(groupId);
+        if (group_member_count > MATCH_THRESHOLD) {
+            await model.switchToComplete(groupId);
+            match(groupId);
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal server error');
     }
 
     if (id === false) {
@@ -128,48 +163,49 @@ const joinGroup = async (req, res) => {
 const leaveGroup = async (req, res) => {
     const myId = req.authorization_id;
     const groupId = req.params.group_id;
-    const id1 = await match_model.leaveMatch(myId, groupId);
-    const id2 = await model.leaveGroup(myId, groupId);
-    if ((id1 && id2) === false) {
+    let id1, id2;
+    try {
+        id1 = await match_model.leaveMatch(myId, groupId);
+        id2 = await model.leaveGroup(myId, groupId);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal server error');
+    }
+
+    if (id1 === false && id2 === false) {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
-    res.status(200).send(JSON.stringify({ group_id: id }));
+    res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
 
 const searchGroup = async (req, res) => {
-    const catagory = req.query.catagory
+    const category = req.query.category
     const location = req.query.location;
     const sort = req.query.sort;
     const joined = req.query.isJoined;
     const cursor = req.query.cursor;
     const myId = req.authorization_id;
+    const creatorId = req.query.creator_id;
+    try {
+        if (cursor !== undefined) {
+            const decodedString = Buffer.from(cursor, "base64").toString();
+            if (isNaN(parseInt(decodedString))) {
+                res.status(400).send(JSON.stringify({ "error": "can't search" }));
+                return;
+            }
+            groups = await model.searchGroup(category, location, sort, joined, parseInt(decodedString), myId, creatorId);
 
-    if (cursor !== undefined) {
-        const decodedString = Buffer.from(cursor, "base64").toString();
-        if (isNaN(parseInt(decodedString))) {
-            res.status(400).send(JSON.stringify({ "error": "can't search" }));
-            return;
+        } else {
+            groups = await model.searchGroup(category, location, sort, joined, cursor, myId, creatorId);
         }
-        groups = await model.searchGroup(catagory, location, sort, joined, parseInt(decodedString), myId);
-
-    } else {
-        groups = await model.searchGroup(catagory, location, sort, joined, cursor, myId);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal server error');
     }
 
-
-
     res.status(200).send(JSON.stringify(groups));
-
-
-
-
-
-
-
-
-
 }
 
 

@@ -162,6 +162,7 @@ Input Format
     category: string,
     location: string,
     description: string,
+    picture: file
 }
 ```
 
@@ -195,7 +196,9 @@ Response Format
     category: string,
     location: string,
     description: string,
-    status: string
+    status: string,
+    picture: URL,
+    area: int
 }
 ```
 
@@ -267,7 +270,9 @@ Response Format
             category: string,
             location: string,
             description: string,
-            status: string
+            status: string,
+            picture: URL,
+            area: int
         }, ...
     ],
     next_cursor: int
@@ -327,9 +332,9 @@ Response Format
 
 ### Send Message
 
-API URL: /api/chat/:group_id
+API URL: /api/chat/socket?group_id=${group_id}
 
-Method: POST
+Method: WebSocket
 
 response type: application/json
 
@@ -347,10 +352,24 @@ Input Format
 }
 ```
 
-Response Format
+Message receive format
 ```
 {
-    chat_id: int
+    message: string,
+    user_id: int,
+    sent_at: string,
+    picture: string,
+    nickname: string
+}
+```
+
+This API is used for sending message to the group chat.
+Once the websocket is connected, the client should send the message in the format above, and the client will receive the message in the format above.
+
+If there are any errors, the client will receive the error message in the format below.
+```
+{
+    error: string
 }
 ```
 
