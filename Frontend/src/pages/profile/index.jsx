@@ -128,6 +128,7 @@ export default function ProfilePage({ token, userId, name }) {
                 location={myGroup.location}
                 description={myGroup.description}
                 status={myGroup.status}
+                area={myGroup.area}
               />
             ))}
           </div>

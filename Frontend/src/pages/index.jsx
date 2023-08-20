@@ -253,6 +253,7 @@ export default function Home() {
                 location={group.location}
                 description={group.description}
                 status={group.status}
+                area={group.area}
               />
             ))}
           </div>

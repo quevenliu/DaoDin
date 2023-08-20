@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/font.module.scss";
+import Tag from "./Tag";
 
 export default function Group({
   path,
@@ -10,6 +10,7 @@ export default function Group({
   location,
   description,
   status,
+  area,
 }) {
   const playHoverSound = () => {
     const audio = new Audio("/dong.wav");
@@ -21,21 +22,16 @@ export default function Group({
       {path === "/profile" ? (
         <div className="p-5 flex justify-between items-center bg-backgroundColor rounded-[20px] relative">
           <h3 className="px-8 text-[26px] font-bold">{name}</h3>
+          <Tag category={category} location={location} area={area} />
         </div>
       ) : (
         <>
           <div
-            className="px-8 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none"
+            className="px-8 flex justify-between items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none relative"
             onMouseEnter={playHoverSound}
           >
             <h3 className="p-5 text-[26px] font-bold">{name}</h3>
-            <Image
-              src="/menu.svg"
-              alt="menu"
-              className="w-12 h-12 transition-all duration-500 group-hover:rotate-180"
-              width={48}
-              height={48}
-            />
+            <Tag category={category} location={location} area={area} />
           </div>
           <div className="w-full opacity-0 transform translate-y-[-10px] transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
             <div className="hidden group-hover:flex px-6 py-5 justify-between gap-5 bg-[#BFBFBF] rounded-b-[20px]">
