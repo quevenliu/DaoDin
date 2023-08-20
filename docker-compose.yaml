@@ -16,7 +16,7 @@ services:
 
   app:
     container_name: daodin_node
-    image: node:20-latest
+    image: node:latest
     command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs"
     init: true
     restart: always
