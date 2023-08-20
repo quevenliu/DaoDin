@@ -1,6 +1,7 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
@@ -8,10 +9,59 @@ import styles from "../styles/font.module.scss";
 import groupsMockData from "@/data/groupsMockData";
 import { getServerCookie } from "../utils/cookie";
 
-export default function Home() {
+const apiUrl = process.env.API_URL;
+
+export default function Home({ token, userId }) {
+  const [allGroups, setAllGroups] = useState([]);
   const router = useRouter();
   const path = router.pathname;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const playHoverSound = () => {
+    const audio = new Audio("hedgehogSound.mp3");
+    audio.play();
+  };
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const [cursor, setCursor] = useState("");
+  const getGroups = async () => {
+    await axios
+      .get(`${apiUrl}/group/search`, config)
+      .then((res) => {
+        console.log(res);
+        setAllGroups(res.data.groups);
+        setCursor(res.data.next_cursor);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getGroups();
+  }, []);
+
+  const getGroupsByCursor = async () => {
+    await axios
+      .get(`${apiUrl}/group/search?cursor=${cursor}`, config)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    if (cursor) {
+      getGroupsByCursor();
+    }
+  }, [cursor]);
 
   return (
     <>
@@ -28,14 +78,70 @@ export default function Home() {
       >
         <div className="w-[90%] max-w-5xl m-auto">
           <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
           </div>
           <div className="mb-6 flex gap-5">
             <button
@@ -243,11 +349,13 @@ export default function Home() {
             </div>
           )}
           <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
-            {groupsMockData.map((group) => (
+            {allGroups?.map((group) => (
               <Group
                 path={path}
                 key={group.group_id}
                 groupId={group.group_id}
+                creatorId={group.creator_id}
+                userId={userId}
                 name={group.name}
                 category={group.category}
                 location={group.location}
