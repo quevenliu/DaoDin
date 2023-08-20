@@ -246,13 +246,14 @@ export default function Home() {
             {groupsMockData.map((group) => (
               <Group
                 path={path}
-                key={group.id}
-                groupId={group.id}
+                key={group.group_id}
+                groupId={group.group_id}
                 name={group.name}
                 category={group.category}
                 location={group.location}
                 description={group.description}
                 status={group.status}
+                picture={group.picture}
                 area={group.area}
               />
             ))}

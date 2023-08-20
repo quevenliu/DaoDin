@@ -122,12 +122,13 @@ export default function ProfilePage({ token, userId, name }) {
             {myGroupsMockData.map((myGroup) => (
               <Group
                 path={path}
-                key={myGroup.id}
+                key={myGroup.group_id}
                 name={myGroup.name}
                 category={myGroup.category}
                 location={myGroup.location}
                 description={myGroup.description}
                 status={myGroup.status}
+                picture={myGroup.picture}
                 area={myGroup.area}
               />
             ))}
