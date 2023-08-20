@@ -15,7 +15,7 @@ async function createGroup(myId, name, category, location, description, imageUrl
 }
 
 async function getGroup(groupId) {
-    const [data] = await pool.query('SELECT * FROM \`group\` WHERE id = ?', [groupId]);
+    const [data] = await pool.query('SELECT g.*, r.area FROM \`group\` AS g LEFT JOIN region AS r ON r.city = g.location WHERE id = ?', [groupId]);
     if (data.length === 0) { return false; }
 
     returnData = {

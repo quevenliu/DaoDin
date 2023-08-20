@@ -48,10 +48,16 @@ const getGroup = async (req, res) => {
 }
 
 const updateGroup = async (req, res) => {
+    let imageUrl = null;
+    if (req.file) {
+
+        imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
+    }
+    else { return res.status(400).json({ error: "file upload error" }); }
     const groupId = req.params.group_id;
     let id;
     try {
-        id = await model.updateGroup(req.authorization_id, groupId, req.body.name, req.body.category, req.body.location, req.body.description, req.body.picture);
+        id = await model.updateGroup(req.authorization_id, groupId, req.body.name, req.body.category, req.body.location, req.body.description, imageUrl);
     } catch (err) {
         console.log(err);
         return res.status(500).send('Internal server error');
