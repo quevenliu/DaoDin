@@ -47,6 +47,7 @@ export default function ProfilePage({ token, userId }) {
       .get(`${apiUrl}/group/search?creator_id=1`, config)
       .then((res) => {
         setMyGroups(res.data.groups);
+        console.log(res.data.groups);
       })
       .catch((err) => {
         console.log(err);
@@ -270,6 +271,8 @@ export default function ProfilePage({ token, userId }) {
                     location={myGroup.location}
                     description={myGroup.description}
                     status={myGroup.status}
+                    picture={myGroup.picture}
+                    area={myGroup.area}
                   />
                 ))
               : joinedGroups.map((joinedGroup) => (
@@ -281,6 +284,8 @@ export default function ProfilePage({ token, userId }) {
                     location={joinedGroup.location}
                     description={joinedGroup.description}
                     status={joinedGroup.status}
+                    picture={joinedGroup.picture}
+                    area={joinedGroup.area}
                   />
                 ))}
           </div>

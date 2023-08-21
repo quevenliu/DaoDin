@@ -24,13 +24,13 @@ export default function Group({
   return (
     <div className={`${styles.content} group mt-6`}>
       {path === "/profile" ? (
-        <div className="h-20 p-5 flex justify-between items-center bg-backgroundColor rounded-[20px] relative">
+        <div className="h-20 p-5 flex justify-between items-center bg-backgroundColor rounded-[16px] relative">
           <Image
             src={picture}
             alt="Group picture"
             width={160}
             height={80}
-            className="w-40 h-20 absolute left-0 rounded-l-[20px] object-cover"
+            className="w-40 h-20 absolute left-0 rounded-l-[16px] object-cover"
           />
           <h3 className="px-8 ml-36 text-[26px] font-bold">{name}</h3>
           <Tag category={category} location={location} area={area} />
@@ -38,7 +38,7 @@ export default function Group({
       ) : (
         <>
           <div
-            className="h-20 px-8 flex items-center bg-backgroundColor rounded-[20px] group-hover:rounded-b-none relative"
+            className="h-20 px-8 flex items-center bg-backgroundColor rounded-[16px] group-hover:rounded-b-none relative"
             onMouseEnter={playHoverSound}
           >
             <Image
@@ -46,7 +46,7 @@ export default function Group({
               alt="Group picture"
               width={160}
               height={80}
-              className="w-40 h-20 absolute left-0 rounded-l-[20px] object-cover group-hover:rounded-b-none"
+              className="w-40 h-20 absolute left-0 rounded-l-[16px] object-cover group-hover:rounded-b-none"
             />
             <h3 className="p-5 ml-36 text-[26px] font-bold">{name}</h3>
             <Tag category={category} location={location} area={area} />

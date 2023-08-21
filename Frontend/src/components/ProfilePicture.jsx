@@ -132,10 +132,10 @@ export default function ProfilePicture({ picture, token, getProfile }) {
             width={180}
             height={180}
           />
-          <div className="w-full h-full absolute top-0 left-0 border-2 border-solid border-primaryColor rounded-full opacity-0 hover:opacity-100 transition-opacity">
+          <div className="w-full h-full absolute top-0 left-0 bg-black border-2 border-solid border-primaryColor rounded-full opacity-0 hover:opacity-100 transition-opacity">
             <button
               type="button"
-              className="absolute top-1/2 left-1/2 text-base text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
+              className="w-full h-full absolute top-1/2 left-1/2 text-base text-white underline transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
               onClick={() => {
                 toggleEditingAvatar();
               }}
