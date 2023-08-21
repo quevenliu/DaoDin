@@ -260,6 +260,24 @@ Example:
 
 /api/group/search?category=movie&location=seoul&sort=recent&isJoined=0
 
+The above example will search for groups that are in seoul **AND** is not joined by the user.
+
+If you want to search multiple keywords in a field, you can separate it by comma as below:
+
+/api/group/search?category=movie&location=seoul,tokyo&sort=recent&isJoined=1
+
+The above example will search for groups that are in seoul **OR** tokyo.
+
+You cannot type a blank string in the query as below:
+
+/api/group/search?category=movie&location=&sort=recent&isJoined=1
+
+This will search for groups whose location is "". You should directly omit the location field if you want to search for groups whose location is not specified.
+
+For isJoined field, if you choose 1, you could see groups of any status. If you choose 0, you could only see groups whose status is "pending".
+
+For now, only sort by recent is supported.
+
 Response Format
 ```
 {
@@ -338,17 +356,11 @@ Method: WebSocket
 
 response type: application/json
 
-Header
-```
-{
-    Authorization: "Bearer ${JWT}"
-}
-```
-
 Input Format
 ```
 {
     message: string
+    Authorizatoin: "Bearer ${JWT}"
 }
 ```
 
