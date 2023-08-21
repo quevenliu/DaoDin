@@ -50,12 +50,12 @@ function signin(req, res) {
             return res.status(400).send('Password does not match');
         }
 
-        const result ={
+        const result = {
             user_id: user.id,
             name: user.name,
-            token:generateJWT(user.id) 
+            token: generateJWT(user.id)
 
-        } 
+        }
         return res.status(200).json(result);
     }).catch((err) => {
         console.log(err);

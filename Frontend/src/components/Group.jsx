@@ -6,6 +6,8 @@ import Tag from "./Tag";
 export default function Group({
   path,
   groupId,
+  creatorId,
+  userId,
   name,
   category,
   location,
@@ -30,7 +32,9 @@ export default function Group({
             height={80}
             className="w-40 h-20 absolute left-0 rounded-l-[20px] object-cover"
           />
-          <h3 className="px-8 ml-36 text-[26px] font-bold">{name}</h3>
+          <h3 className="px-8 ml-36 text-2xl font-normal tracking-wide">
+            {name}
+          </h3>
           <Tag category={category} location={location} area={area} />
         </div>
       ) : (
@@ -46,7 +50,9 @@ export default function Group({
               height={80}
               className="w-40 h-20 absolute left-0 rounded-l-[20px] object-cover group-hover:rounded-b-none"
             />
-            <h3 className="p-5 ml-36 text-[26px] font-bold">{name}</h3>
+            <h3 className="p-5 ml-36 text-2xl font-normal tracking-wide">
+              {name}
+            </h3>
             <Tag category={category} location={location} area={area} />
           </div>
           <div className="w-full opacity-0 transform translate-y-[-10px] transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
@@ -55,10 +61,14 @@ export default function Group({
                 {description}
               </p>
               <Link
-                href={`/joinGroup/${groupId}`}
+                href={
+                  creatorId === userId
+                    ? `/editGroup/${groupId}`
+                    : `/joinGroup/${groupId}`
+                }
                 className="w-full py-1.5 self-end bg-primaryColor text-center text-xl font-bold text-white rounded-b-[20px] shrink-0"
               >
-                Join
+                {creatorId === userId ? "Edit" : "Join"}
               </Link>
             </div>
           </div>

@@ -1,17 +1,70 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
-import groupsMockData from "@/data/groupsMockData";
 import { getServerCookie } from "../utils/cookie";
+import MultiFilter from "@/components/MultiFilter";
 
-export default function Home() {
+const apiUrl = process.env.API_URL;
+
+export default function Home({ token, userId }) {
+  const [allGroups, setAllGroups] = useState([]);
+  const [filterGroups, setFilterGroups] = useState([]);
   const router = useRouter();
   const path = router.pathname;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [activeLocations, setActiveLocations] = useState([]);
+  const [activeCategories, setActiveCategories] = useState([]);
+
+  const playHoverSound = () => {
+    const audio = new Audio("hedgehogSound.mp3");
+    audio.play();
+  };
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const [cursor, setCursor] = useState("");
+  const getGroups = async () => {
+    await axios
+      .get(`${apiUrl}/group/search`, config)
+      .then((res) => {
+        console.log(res);
+        setAllGroups(res.data.groups);
+        setCursor(res.data.next_cursor);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getGroups();
+  }, []);
+
+  const getGroupsByCursor = async () => {
+    await axios
+      .get(`${apiUrl}/group/search?cursor=${cursor}`, config)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    if (cursor) {
+      getGroupsByCursor();
+    }
+  }, [cursor]);
 
   return (
     <>
@@ -28,14 +81,70 @@ export default function Home() {
       >
         <div className="w-[90%] max-w-5xl m-auto">
           <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
-            <Image src="/pal-1.png" alt="pal" width={120} height={120} />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
+            <Image
+              src="/pal-1.png"
+              alt="pal"
+              width={120}
+              height={120}
+              onMouseEnter={playHoverSound}
+              className="hover:animate-ping"
+            />
           </div>
           <div className="mb-6 flex gap-5">
             <button
@@ -53,211 +162,56 @@ export default function Home() {
             </button>
           </div>
           {isFilterOpen && (
-            <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center z-[999]">
-              <div className="w-fit px-12 py-8 m-auto bg-white rounded-[20px] ">
-                <div className="mb-5">
-                  <p className="text-2xl font-bold mb-3">Location</p>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">北部</p>
-                    <button type="button" className="tag">
-                      臺北
-                    </button>
-                    <button type="button" className="tag">
-                      新北
-                    </button>
-                    <button type="button" className="tag">
-                      基隆
-                    </button>
-                    <button type="button" className="tag">
-                      新竹
-                    </button>
-                    <button type="button" className="tag">
-                      桃園
-                    </button>
-                    <button type="button" className="tag">
-                      宜蘭
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">中部</p>
-                    <button type="button" className="tag">
-                      臺中
-                    </button>
-                    <button type="button" className="tag">
-                      苗栗
-                    </button>
-                    <button type="button" className="tag">
-                      彰化
-                    </button>
-                    <button type="button" className="tag">
-                      南投
-                    </button>
-                    <button type="button" className="tag">
-                      雲林
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">南部</p>
-                    <button type="button" className="tag">
-                      高雄
-                    </button>
-                    <button type="button" className="tag">
-                      臺南
-                    </button>
-                    <button type="button" className="tag">
-                      嘉義
-                    </button>
-                    <button type="button" className="tag">
-                      屏東
-                    </button>
-                    <button type="button" className="tag">
-                      澎湖
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">東部</p>
-                    <button type="button" className="tag">
-                      花蓮
-                    </button>
-                    <button type="button" className="tag">
-                      臺東
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">其他</p>
-                    <button type="button" className="tag">
-                      金門
-                    </button>
-                    <button type="button" className="tag">
-                      連江
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold mb-3">Category</p>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">戶外</p>
-                    <button type="button" className="tag">
-                      野餐
-                    </button>
-                    <button type="button" className="tag">
-                      登山
-                    </button>
-                    <button type="button" className="tag">
-                      踏青
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">運動</p>
-                    <button type="button" className="tag">
-                      慢跑
-                    </button>
-                    <button type="button" className="tag">
-                      球類
-                    </button>
-                    <button type="button" className="tag">
-                      健身
-                    </button>
-                    <button type="button" className="tag">
-                      水上
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">藝文</p>
-                    <button type="button" className="tag">
-                      演唱會
-                    </button>
-                    <button type="button" className="tag">
-                      音樂會
-                    </button>
-                    <button type="button" className="tag">
-                      展覽
-                    </button>
-                    <button type="button" className="tag">
-                      電影
-                    </button>
-                    <button type="button" className="tag">
-                      戲劇
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">學習</p>
-                    <button type="button" className="tag">
-                      讀書會
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">遊戲</p>
-                    <button type="button" className="tag">
-                      桌遊
-                    </button>
-                    <button type="button" className="tag">
-                      電玩
-                    </button>
-                    <button type="button" className="tag">
-                      棋藝
-                    </button>
-                    <button type="button" className="tag">
-                      密室逃脫
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">休閒</p>
-                    <button type="button" className="tag">
-                      KTV
-                    </button>
-                    <button type="button" className="tag">
-                      逛街
-                    </button>
-                  </div>
-                  <div className="flex text-xl items-center mb-2">
-                    <p className="mr-3">飲食</p>
-                    <button type="button" className="tag">
-                      美食
-                    </button>
-                    <button type="button" className="tag">
-                      酒吧
-                    </button>
-                    <button type="button" className="tag">
-                      咖啡廳
-                    </button>
-                  </div>
-                  <div className="flex mt-4 justify-end">
-                    <button
-                      type="button"
-                      onClick={() => setIsFilterOpen(false)}
-                      className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-[#BFBFBF] rounded-[50px] text-white mr-3"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsFilterOpen(false)}
-                      className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-primaryColor rounded-[50px] text-white"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <MultiFilter
+              token={token}
+              setIsFilterOpen={setIsFilterOpen}
+              setFilterGroups={setFilterGroups}
+              activeLocations={activeLocations}
+              setActiveLocations={setActiveLocations}
+              activeCategories={activeCategories}
+              setActiveCategories={setActiveCategories}
+            />
+          )}
+
+          {filterGroups.length === 0 ? (
+            <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
+              {allGroups?.map((group) => (
+                <Group
+                  path={path}
+                  key={group.group_id}
+                  groupId={group.group_id}
+                  creatorId={group.creator_id}
+                  userId={userId}
+                  name={group.name}
+                  category={group.category}
+                  location={group.location}
+                  description={group.description}
+                  status={group.status}
+                  picture={group.picture}
+                  area={group.area}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
+              {filterGroups.map((group) => (
+                <Group
+                  path={path}
+                  key={group.group_id}
+                  groupId={group.group_id}
+                  creatorId={group.creator_id}
+                  userId={userId}
+                  name={group.name}
+                  category={group.category}
+                  location={group.location}
+                  description={group.description}
+                  status={group.status}
+                  picture={group.picture}
+                  area={group.area}
+                />
+              ))}
             </div>
           )}
-          <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
-            {groupsMockData.map((group) => (
-              <Group
-                path={path}
-                key={group.group_id}
-                groupId={group.group_id}
-                name={group.name}
-                category={group.category}
-                location={group.location}
-                description={group.description}
-                status={group.status}
-                picture={group.picture}
-                area={group.area}
-              />
-            ))}
-          </div>
         </div>
       </main>
     </>

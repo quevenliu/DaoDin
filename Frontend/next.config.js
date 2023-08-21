@@ -16,6 +16,7 @@ const nextConfig = {
       "cwtob.oss-cn-beijing.aliyuncs.com",
       "canchu.online",
       "hips.hearstapps.com",
+      "localhost",
     ],
   },
   env: {

@@ -1,8 +1,57 @@
 import Head from "next/head";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+
 import Topbar from "@/components/Topbar";
 import styles from "../../styles/font.module.scss";
+import { getServerCookie } from "../../utils/cookie";
 
-export default function JoinGroupPage({ groupId }) {
+const apiUrl = process.env.API_URL;
+
+export default function JoinGroupPage({ token, groupId }) {
+  const [group, setGroup] = useState({});
+  const nicknameRef = useRef("");
+  const introRef = useRef("");
+  const msgRef = useRef("");
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const getGroup = async () => {
+    await axios
+      .get(`${apiUrl}/group/${groupId}`, config)
+      .then((res) => {
+        setGroup(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const joinGroup = async () => {
+    const payload = {
+      self_intro: introRef.current.value,
+      match_msg: msgRef.current.value,
+      nickname: nicknameRef.current.value,
+    };
+    console.log(payload);
+    await axios
+      .post(`${apiUrl}/group/${groupId}/join`, payload, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getGroup();
+  });
+
   return (
     <>
       <Head>
@@ -21,6 +70,10 @@ export default function JoinGroupPage({ groupId }) {
         </div>
         <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-[20px] flex">
           <div className="w-full">
+            <h3 className="mb-10 text-center text-3xl font-bold">
+              {group.name || "Mystery Group"}
+            </h3>
+            
             <form className="px-2.5 mb-6 flex flex-col justify-between gap-7">
               <label
                 htmlFor="nickname"
@@ -31,7 +84,8 @@ export default function JoinGroupPage({ groupId }) {
                   type="text"
                   id="nickname"
                   name="nickname"
-                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  ref={nicknameRef}
                 />
               </label>
               <label
@@ -43,7 +97,8 @@ export default function JoinGroupPage({ groupId }) {
                   id="intro"
                   name="intro"
                   rows="6"
-                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  ref={introRef}
                 />
               </label>
               <label
@@ -55,7 +110,8 @@ export default function JoinGroupPage({ groupId }) {
                   id="tendency"
                   name="tendency"
                   rows="6"
-                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  ref={msgRef}
                 />
               </label>
               <div className="self-end flex gap-3">
@@ -66,8 +122,9 @@ export default function JoinGroupPage({ groupId }) {
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-primaryColor rounded-[50px]"
+                  type="button"
+                  className="w-28 px-6 py-2 text-center text-lg font-semibold text-white bg-primaryColor rounded-[50px]"
+                  onClick={joinGroup}
                 >
                   Join
                 </button>
@@ -81,9 +138,19 @@ export default function JoinGroupPage({ groupId }) {
 }
 
 export async function getServerSideProps(context) {
+  const token = getServerCookie("userInfo", "token", context.req);
   const groupId = Number(context.params.id);
 
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
   return {
-    props: { groupId },
+    props: { token, groupId },
   };
 }
