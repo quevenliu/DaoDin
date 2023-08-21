@@ -2,7 +2,7 @@ const model = require('../Model/user_model');
 const generateJWT = require('../utils/authorization').generateJWT;
 const hashPassword = require('../utils/authorization').hashPassword;
 
-const RabbitMQ = require('../pubsub');
+//const RabbitMQ = require('../pubsub');
 require('dotenv').config('../.env');
 async function signup(req, res) {
 
@@ -27,8 +27,8 @@ async function signup(req, res) {
     }
 
     const result = await generateJWT(user_id);
-    const channel = await RabbitMQ.connect();
-    await RabbitMQ.createUserQueue(channel, user_id);
+    //const channel = await RabbitMQ.connect();
+    //await RabbitMQ.createUserQueue(channel, user_id);
     return res.status(200).send({ token: result });
 }
 
@@ -50,12 +50,12 @@ function signin(req, res) {
             return res.status(400).send('Password does not match');
         }
 
-        const result ={
+        const result = {
             user_id: user.id,
             name: user.name,
-            token:generateJWT(user.id) 
+            token: generateJWT(user.id)
 
-        } 
+        }
         return res.status(200).json(result);
     }).catch((err) => {
         console.log(err);
