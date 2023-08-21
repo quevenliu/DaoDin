@@ -4,9 +4,26 @@
 
 .tag {
   padding: 3px 12px;
+  border: 1px solid #bfbfbf;
+  border-radius: 50px;
+  margin-left: 10px;
+}
+
+.tag:hover {
+  border: 1px solid #f77b54;
+}
+
+.active-tag {
+  padding: 3px 12px;
   border: 1px solid #f77b54;
   border-radius: 50px;
   margin-left: 10px;
+  color: white;
+  background-color: #f77b54;
+}
+
+.active-tag:hover {
+  border: 1px solid #bfbfbf;
 }
 
 /* :root {
