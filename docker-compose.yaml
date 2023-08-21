@@ -17,7 +17,7 @@ services:
   app:
     container_name: daodin_node
     image: node:latest
-    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && npm install amqplib && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs "
+    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs "
     init: true
     restart: always
     volumes:
@@ -53,8 +53,9 @@ services:
       - "5000"
   rabbitmq:
     container_name: rabbitmq
-    image: "rabbitmq:management"
+    image: rabbitmq:management
     init: true
+    restart: always
     ports:
       - "5672:5672"  
       - "15672:15672"  
@@ -65,6 +66,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - daodin
+    
 volumes:
   rabbitmq_data:
   node_modules:
