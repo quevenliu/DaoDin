@@ -4,7 +4,7 @@ const userRouter = require('./user');
 const groupRouter = require('./group');
 const chatRouter = require('./chat');
 const matchRouter = require('./match');
-
+const eventRouter = require('./event');
 require('dotenv').config('../.env');
 
 const app = express();
@@ -29,6 +29,7 @@ app.use('/api/user', userRouter);
 app.use('/api/group', groupRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/match', matchRouter);
+app.use('/api/event', eventRouter);
 
 
 module.exports = { app };
