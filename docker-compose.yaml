@@ -17,12 +17,11 @@ services:
   app:
     container_name: daodin_node
     image: node:latest
-    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs"
+    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs "
     init: true
     restart: always
     volumes:
       - ./Backend:/app/Backend
-      - ./default_images:/app/default_images
       - picture_storage:/app/static
       - node_modules:/app/Backend/node_modules
     ports:
@@ -35,6 +34,7 @@ services:
       - daodin
     depends_on:
       - nginx
+      - rabbitmq
 
   python:
     container_name: daodin_python
@@ -51,8 +51,24 @@ services:
       - "5000:5000"
     expose:
       - "5000"
-
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    init: true
+    restart: always
+    ports:
+      - "5672:5672"  
+      - "15672:15672"  
+    expose:
+      - "5672"
+      - "15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - daodin
+    
 volumes:
+  rabbitmq_data:
   node_modules:
   picture_storage:
   nginx_secrets:
