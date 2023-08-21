@@ -24,6 +24,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/static', express.static(process.env.UPLOAD_PATH));
+app.use('/default_images', express.static("../../default_images"));
 
 app.use('/api/user', userRouter);
 app.use('/api/group', groupRouter);
