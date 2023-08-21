@@ -9,7 +9,6 @@ import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 import ProfilePicture from "@/components/ProfilePicture";
-import myGroupsMockData from "@/data/myGroupsMockData";
 import profileMockData from "@/data/profileMockData";
 
 const apiUrl = process.env.API_URL;
@@ -263,30 +262,38 @@ export default function ProfilePage({ token, userId }) {
           <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-12 pt-2 pb-8">
             {isShowMyGroups
               ? myGroups.map((myGroup) => (
-                  <Group
-                    path={path}
+                  <Link
+                    href={`/editGroup/${myGroup.group_id}`}
                     key={myGroup.group_id}
-                    name={myGroup.name}
-                    category={myGroup.category}
-                    location={myGroup.location}
-                    description={myGroup.description}
-                    status={myGroup.status}
-                    picture={myGroup.picture}
-                    area={myGroup.area}
-                  />
+                  >
+                    <Group
+                      path={path}
+                      name={myGroup.name}
+                      category={myGroup.category}
+                      location={myGroup.location}
+                      description={myGroup.description}
+                      status={myGroup.status}
+                      picture={myGroup.picture}
+                      area={myGroup.area}
+                    />
+                  </Link>
                 ))
               : joinedGroups.map((joinedGroup) => (
-                  <Group
-                    path={path}
+                  <Link
+                    href={`/subgroup/${joinedGroup.group_id}`}
                     key={joinedGroup.group_id}
-                    name={joinedGroup.name}
-                    category={joinedGroup.category}
-                    location={joinedGroup.location}
-                    description={joinedGroup.description}
-                    status={joinedGroup.status}
-                    picture={joinedGroup.picture}
-                    area={joinedGroup.area}
-                  />
+                  >
+                    <Group
+                      path={path}
+                      name={joinedGroup.name}
+                      category={joinedGroup.category}
+                      location={joinedGroup.location}
+                      description={joinedGroup.description}
+                      status={joinedGroup.status}
+                      picture={joinedGroup.picture}
+                      area={joinedGroup.area}
+                    />
+                  </Link>
                 ))}
           </div>
         </div>

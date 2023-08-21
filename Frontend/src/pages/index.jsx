@@ -35,7 +35,7 @@ export default function Home({ token, userId }) {
   const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const getGroups = async () => {
     await axios
-      .get(`${apiUrl}/group/search`, config)
+      .get(`${apiUrl}/group/search?isJoined=0`, config)
       .then((res) => {
         console.log(res.data.groups);
         setAllGroups(res.data.groups);
@@ -45,10 +45,10 @@ export default function Home({ token, userId }) {
         console.log(err);
       });
   };
-  // scroll
+
   const getGroupsByCursor = async () => {
     await axios
-      .get(`${apiUrl}/group/search?cursor=${cursor}`, config)
+      .get(`${apiUrl}/group/search?cursor=${cursor}&isJoined=0`, config)
       .then((res) => {
         setAllGroups([...allGroups, ...res.data.groups]);
         setCursor(res.data.next_cursor);
@@ -58,7 +58,6 @@ export default function Home({ token, userId }) {
       });
     setIsGettingGroupsByCursor(false);
   };
-
   const isScrolling = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
