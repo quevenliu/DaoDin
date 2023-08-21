@@ -6,7 +6,6 @@ import Image from "next/image";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
-import groupsMockData from "@/data/groupsMockData";
 import { getServerCookie } from "../utils/cookie";
 import Filter from "@/components/Filter";
 
@@ -19,7 +18,6 @@ export default function Home({ token, userId }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeLocations, setActiveLocations] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
-  // const [activeTags, setActiveTags] = useState([]);
 
   const playHoverSound = () => {
     const audio = new Audio("hedgehogSound.mp3");
@@ -34,11 +32,12 @@ export default function Home({ token, userId }) {
   };
 
   const [cursor, setCursor] = useState("");
+  const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const getGroups = async () => {
     await axios
       .get(`${apiUrl}/group/search`, config)
       .then((res) => {
-        console.log(res);
+        console.log(res.data.groups);
         setAllGroups(res.data.groups);
         setCursor(res.data.next_cursor);
       })
@@ -46,26 +45,39 @@ export default function Home({ token, userId }) {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    getGroups();
-  }, []);
-
+  // scroll
   const getGroupsByCursor = async () => {
     await axios
       .get(`${apiUrl}/group/search?cursor=${cursor}`, config)
       .then((res) => {
-        console.log(res.data);
+        setAllGroups([...allGroups, ...res.data.groups]);
+        setCursor(res.data.next_cursor);
       })
       .catch((err) => {
         console.log(err);
       });
+    setIsGettingGroupsByCursor(false);
+  };
+
+  const isScrolling = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    ) {
+      return;
+    }
+    setIsGettingGroupsByCursor(true);
   };
   useEffect(() => {
-    if (cursor) {
+    getGroups();
+    window.addEventListener("scroll", isScrolling);
+    return () => window.removeEventListener("scroll", isScrolling);
+  }, []);
+  useEffect(() => {
+    if (isGettingGroupsByCursor && cursor !== null) {
       getGroupsByCursor();
     }
-  }, [cursor]);
+  }, [isGettingGroupsByCursor]);
 
   return (
     <>
