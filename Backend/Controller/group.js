@@ -11,11 +11,7 @@ const createGroup = async (req, res) => {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
-<<<<<<< HEAD
-    else { return res.status(400).json({ error: "file upload error" }); }
-=======
    // else { return res.status(400).json({error:"file upload error"});}
->>>>>>> pubsub
     let myId = req.authorization_id;
     let id;
     try {
