@@ -406,6 +406,64 @@ Response Format
     next_cursor: int
 }
 ```
+## Event API
+
+### Get event
+API URL: /api/event/
+
+Method: GET
+
+response type: application/json
+
+Header
+```
+{
+    Authorization: "Bearer ${JWT}"
+}
+```
+
+Response Format
+```
+{
+   
+    event: [
+        {
+            "event_id": event.id,
+            "group_id": event.group_id,
+            "name": event.name,
+            "category": event.category,
+            "location": event.location,
+            "description": event.description,
+            "creator_id": event.creator_id,
+            "picture": event.picture,
+            "is_read": event.is_read,
+            "message" : `${event.name} has been matched, you can join now!`
+        }, ...
+    ]
+}
+```
+
+### Read event
+API URL: /api/event/:event_id/read
+
+Method: POST
+
+response type: application/json
+
+Header
+```
+{
+    Authorization: "Bearer ${JWT}"
+}
+```
+
+Response Format
+```
+{
+    "event_id": id
+}
+```
+
 
 ## Match Related API
 
