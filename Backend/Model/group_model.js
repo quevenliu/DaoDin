@@ -82,31 +82,30 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     const params = [myId];
     params.push()
 
-    if (Array.isArray(category) || Array.isArray(location)) {
-        if (Array.isArray(category)) {
-            for (let i = 0; i < category.length; i++) {
-                if (i === 0) {
-                    Query += ` AND (category = ? `;
-                } else {
-                    Query += ` OR category = ? `;
-                }
-                params.push(category[i]);
+    if (Array.isArray(category)) {
+        for (let i = 0; i < category.length; i++) {
+            if (i === 0) {
+                Query += ` AND (category = ? `;
+            } else {
+                Query += ` OR category = ? `;
             }
-            Query += `) `;
+            params.push(category[i]);
         }
-
-        if (Array.isArray(location)) {
-            for (let i = 0; i < location.length; i++) {
-                if (i === 0) {
-                    Query += ` AND (location = ? `;
-                } else {
-                    Query += ` OR location = ? `;
-                }
-                params.push(location[i]);
-            }
-            Query += `) `;
-        }
+        Query += `) `;
     }
+
+    if (Array.isArray(location)) {
+        for (let i = 0; i < location.length; i++) {
+            if (i === 0) {
+                Query += ` AND (location = ? `;
+            } else {
+                Query += ` OR location = ? `;
+            }
+            params.push(location[i]);
+        }
+        Query += `) `;
+    }
+
 
     if (joined == 0) {
         Query += ` AND user_id IS NULL `;
@@ -136,7 +135,7 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     }
 
     Query += ' LIMIT 11'
-    console.log(Query);
+    console.log(Query, params);
     let nextCursor = null;
     const [groups] = await pool.query(Query, params);
     // 判斷是否有下一頁

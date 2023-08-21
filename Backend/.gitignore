@@ -2,3 +2,4 @@
 package-lock.json
 test.confidential
 *.confidential
+/static
