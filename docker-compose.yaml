@@ -4,7 +4,7 @@ services:
     image: jonasal/nginx-certbot:latest
     restart: always
     environment:
-      CERTBOT_EMAIL: $CERTBOT_EMAIL
+      CERTBOT_EMAIL: gino79445@gmail.com
     volumes:
       - nginx_secrets:/etc/letsencrypt
       - ./user_conf.d:/etc/nginx/user_conf.d
@@ -17,7 +17,7 @@ services:
   app:
     container_name: daodin_node
     image: node:latest
-    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs"
+    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && npm install amqplib && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs "
     init: true
     restart: always
     volumes:
@@ -34,6 +34,7 @@ services:
       - daodin
     depends_on:
       - nginx
+      - rabbitmq
 
   python:
     container_name: daodin_python
@@ -47,11 +48,25 @@ services:
     networks:
       - daodin
     ports:
-      - "5000:5000"
+      - "5001:5001"
     expose:
-      - "5000"
-
+      - "5001"
+  rabbitmq:
+    container_name: rabbitmq
+    image: "rabbitmq:management"
+    init: true
+    ports:
+      - "5672:5672"  
+      - "15672:15672"  
+    expose:
+      - "5672"
+      - "15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - daodin
 volumes:
+  rabbitmq_data:
   node_modules:
   picture_storage:
   nginx_secrets:
