@@ -19,7 +19,7 @@ export default function ProfilePage({ token, userId }) {
   const [myGroups, setMyGroups] = useState([]);
   const [joinedGroups, setJoinedGroups] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isShowMyGroups, setIsShowMyGroups] = useState(false);
+  const [isShowMyGroups, setIsShowMyGroups] = useState(true);
   const router = useRouter();
   const path = router.pathname;
 
