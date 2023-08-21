@@ -428,16 +428,16 @@ Response Format
    
     event: [
         {
-            "event_id": event.id,
-            "group_id": event.group_id,
-            "name": event.name,
-            "category": event.category,
-            "location": event.location,
-            "description": event.description,
-            "creator_id": event.creator_id,
-            "picture": event.picture,
-            "is_read": event.is_read,
-            "message" : `${event.name} has been matched, you can join now!`
+            event_id: int,
+            group_id: int,
+            name: string,
+            category: string,
+            location: string,
+            description": string,
+            creator_id: int,
+            picture: string,
+            is_read: int,
+            message : string
         }, ...
     ]
 }
@@ -460,7 +460,7 @@ Header
 Response Format
 ```
 {
-    "event_id": id
+    event_id: int
 }
 ```
 
