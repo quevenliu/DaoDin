@@ -9,7 +9,6 @@ import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 import ProfilePicture from "@/components/ProfilePicture";
-import myGroupsMockData from "@/data/myGroupsMockData";
 import profileMockData from "@/data/profileMockData";
 
 const apiUrl = process.env.API_URL;
