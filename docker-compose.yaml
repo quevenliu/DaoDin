@@ -22,6 +22,7 @@ services:
     restart: always
     volumes:
       - ./Backend:/app/Backend
+      - ./default_images:/app/default_images
       - picture_storage:/app/static
       - node_modules:/app/Backend/node_modules
     ports:
