@@ -35,7 +35,7 @@ export default function Home({ token, userId }) {
   const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const getGroups = async () => {
     await axios
-      .get(`${apiUrl}/group/search?isJoined=0`, config)
+      .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
       .then((res) => {
         console.log(res.data.groups);
         setAllGroups(res.data.groups);
