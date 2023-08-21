@@ -2,9 +2,8 @@ const { Certificate } = require('crypto');
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
-
+const RabbitMQ = require('../pubsub');
 const MATCH_THRESHOLD = 13;
-
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
@@ -12,7 +11,7 @@ const createGroup = async (req, res) => {
 
         imageUrl = `https://${process.env.PUBLIC_IP}/static/` + req.fileName;
     }
-    else { return res.status(400).json({ error: "file upload error" }); }
+   // else { return res.status(400).json({error:"file upload error"});}
     let myId = req.authorization_id;
     let id;
     try {
@@ -25,6 +24,8 @@ const createGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't create" }));
         return;
     }
+    const channel = await RabbitMQ.connect();
+    await RabbitMQ.createGroupExchange(channel, id);
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 const getGroup = async (req, res) => {
@@ -131,10 +132,9 @@ const match_random = (member_data) => {
 const joinGroup = async (req, res) => {
     const myId = req.authorization_id;
     const groupId = req.params.group_id;
-
     const group = await model.getGroup(groupId);
 
-    if (group.status == 'complete') {
+    if (group.status =='complete') {
         res.status(400).send(JSON.stringify({ "error": "can't join" }));
         return;
     }
@@ -142,22 +142,28 @@ const joinGroup = async (req, res) => {
     try {
         id = await model.joinGroup(myId, groupId, req.body.nickname, req.body.self_intro, req.body.match_msg);
 
+        if (id === false) {
+            res.status(400).send(JSON.stringify({ "error": "can't join" }));
+            return;
+        }
+        const channel = await RabbitMQ.connect();
+        await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
         group_member_count = await model.getGroupMemberCount(groupId);
 
         if (group_member_count > MATCH_THRESHOLD) {
             await model.switchToComplete(groupId);
             match(groupId);
+            const channel = await RabbitMQ.connect();
+            await RabbitMQ.sendNotificationToExchange(channel, `group_${groupId}_exchange`, { group_id: groupId });
+        
         }
-    } catch (err) {
+    }catch (err){
         console.log(err);
         return res.status(500).send('Internal server error');
     }
-
-    if (id === false) {
-        res.status(400).send(JSON.stringify({ "error": "can't join" }));
-        return;
-    }
     res.status(200).send(JSON.stringify({ group_id: id }));
+    
+    
 
 }
 const leaveGroup = async (req, res) => {
@@ -176,6 +182,8 @@ const leaveGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
+    const channel = await RabbitMQ.connect();
+    await RabbitMQ.unbindUserQueueFromExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
     res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
