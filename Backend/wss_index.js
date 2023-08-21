@@ -39,11 +39,6 @@ const chatServer = new ExpressWebSocketServer(chatapp, { port: 3001 });
 
 chatServer.on("connection", (connection, req) => {
 
-    if (!connection.authorization_id) {
-        authorization(req, connection, () => { });
-        connection.authorization_id = req.authorization_id;
-    }
-
     const app = chatServer.app;
 
     connection.group_id = parseInt(req.url.split('?group_id=')[1]);
@@ -57,6 +52,14 @@ chatServer.on("connection", (connection, req) => {
 
         try {
             connection.body = JSON.parse(body);
+
+            if (!connection.authorization_id) {
+                connection.headers = {
+                    Authorization: connection.body.Authorization
+                };
+                await authorization(req, connection, () => { });
+                connection.authorization_id = req.authorization_id;
+            }
 
             if (!connection.body.message) {
                 connection.status(400).json({ error: "No message provided" });

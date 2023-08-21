@@ -356,17 +356,11 @@ Method: WebSocket
 
 response type: application/json
 
-Header
-```
-{
-    Authorization: "Bearer ${JWT}"
-}
-```
-
 Input Format
 ```
 {
     message: string
+    Authorizatoin: "Bearer ${JWT}"
 }
 ```
 
