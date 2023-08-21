@@ -54,7 +54,7 @@ chatServer.on("connection", (connection, req) => {
             connection.body = JSON.parse(body);
 
             if (!connection.authorization_id) {
-                connection.headers = {
+                req.headers = {
                     Authorization: connection.body.Authorization
                 };
                 await authorization(req, connection, () => { });
