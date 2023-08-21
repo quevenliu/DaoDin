@@ -153,7 +153,7 @@ export default function LoginPage() {
                       <Field
                         type="password"
                         name="password"
-                        placeholder="大小寫英文及數字且8碼以上"
+                        placeholder="大小寫英文及數字且 8 碼以上"
                         className="w-full mt-2.5 px-3 py-1 border border-solid border-primaryColor rounded-[20px]"
                       />
                     </div>
@@ -261,7 +261,7 @@ export default function LoginPage() {
                       <Field
                         type="password"
                         name="firstPassword"
-                        placeholder="大小寫英文及數字且8碼以上"
+                        placeholder="大小寫英文及數字且 8 碼以上"
                         className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
                       />
                     </div>
@@ -280,7 +280,7 @@ export default function LoginPage() {
                       <Field
                         type="password"
                         name="secondPassword"
-                        placeholder="大小寫英文及數字且8碼以上"
+                        placeholder="大小寫英文及數字且 8 碼以上"
                         className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
                       />
                     </div>

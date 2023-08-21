@@ -18,71 +18,74 @@ export default function createGroupPage() {
       <main
         className={`${styles.content} min-h-screen bg-backgroundColor p-14`}
       >
-        <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-10 rounded-[20px] flex ">
+        <div className="w-[90%] max-w-5xl bg-secondaryColor m-auto rounded-t-[20px] text-center py-3 text-[26px] font-bold">
+          Create Group
+        </div>
+        <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-b-[20px] flex">
           <div className="w-full">
             <form className="px-2.5 mb-6 flex flex-col justify-between gap-7">
               <label
                 htmlFor="groupName"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 Group Name
                 <input
                   type="text"
                   id="groupName"
                   name="groupName"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
                 />
               </label>
               <label
                 htmlFor="category"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 Category
                 <input
                   type="text"
                   id="category"
                   name="category"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
                 />
               </label>
               <label
                 htmlFor="location"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
                 Location
                 <input
                   type="text"
                   id="location"
                   name="location"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
                 />
               </label>
               <label
                 htmlFor="groupDescription"
-                className="text-3xl font-bold flex flex-col"
+                className="text-[28px] font-semibold flex flex-col"
               >
-                GroupDescription
+                Group Description
                 <textarea
                   type="text"
                   id="groupDescription"
                   name="groupDescription"
                   rows="6"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-2.5 px-4 py-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
                 />
               </label>
-              <div className="py-5 h-40 text-center text-3xl font-bold border-2 border-dashed border-primaryColor rounded-[20px]">
+              <div className="mt-2.5 py-5 h-40 text-center text-[28px] font-semibold border-2 border-dashed border-primaryColor rounded-[20px]">
                 Drag your picture here
               </div>
-              <div className="self-end flex gap-2">
+              <div className="self-end flex gap-3">
                 <button
                   type="button"
-                  className="px-6 py-2 text-white bg-[#BFBFBF] rounded-[50px]"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 text-white bg-primaryColor rounded-[50px]"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-primaryColor rounded-[50px]"
                 >
                   Create
                 </button>

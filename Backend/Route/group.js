@@ -6,10 +6,10 @@ const { upload } = require('../utils/multer');
 
 router.use(express.json());
 router.use(authorization);
-router.post('/',upload.single('picture'), groupController.createGroup);
+router.post('/', upload.single('picture'), groupController.createGroup);
 router.get('/search', groupController.searchGroup);
 router.get('/:group_id', groupController.getGroup);
-router.put('/:group_id', groupController.updateGroup);
+router.put('/:group_id', upload.single('picture'), groupController.updateGroup);
 router.post('/:group_id/join', groupController.joinGroup);
 router.delete('/:group_id/leave', groupController.leaveGroup);
 module.exports = router;

@@ -83,36 +83,7 @@ async function unbindUserQueueFromExchange(channel, queueName, exchangeName) {
     console.error('Error:', error);
   }
 }
-/*
-async function main() {
-  const channel = await connect();
 
-  const group1Exchange = await createGroupExchange(channel, 1);
-  const group2Exchange = await createGroupExchange(channel,2);
-
-  const user1Queue = await createUserQueue(channel,1);
-  const user2Queue = await createUserQueue(channel,2);
-  
-  await bindUserQueueToExchange(channel,"user_1_queue", "group_1_exchange");
-  await bindUserQueueToExchange(channel,"user_2_queue", "group_1_exchange");
-  await bindUserQueueToExchange(channel,"user_2_queue", "group_2_exchange");
-
-  const notification1 = {
-    message: 'New task available for group1!',
-  };
-  await sendNotificationToExchange(channel,"group_1_exchange",  { group_id: 4 });
-
-  await unbindUserQueueFromExchange(channel,"user_2_queue", "group_2_exchange");
-  const notification2 = {
-    message: 'New task available for group2!',
-  };
-  await sendNotificationToExchange(channel,"group_2_exchange", { group_id: 4 });
-  await consumeMessagesFromQueue(channel,"user_1_queue");
-  await consumeMessagesFromQueue(channel,"user_2_queue");
-}
-
-main();
-*/
 module.exports = {
   connect,
   createGroupExchange,

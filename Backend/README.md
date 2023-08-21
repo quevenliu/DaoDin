@@ -332,9 +332,9 @@ Response Format
 
 ### Send Message
 
-API URL: /api/chat/:group_id
+API URL: /api/chat/socket?group_id=${group_id}
 
-Method: POST
+Method: WebSocket
 
 response type: application/json
 
@@ -352,10 +352,24 @@ Input Format
 }
 ```
 
-Response Format
+Message receive format
 ```
 {
-    chat_id: int
+    message: string,
+    user_id: int,
+    sent_at: string,
+    picture: string,
+    nickname: string
+}
+```
+
+This API is used for sending message to the group chat.
+Once the websocket is connected, the client should send the message in the format above, and the client will receive the message in the format above.
+
+If there are any errors, the client will receive the error message in the format below.
+```
+{
+    error: string
 }
 ```
 
@@ -392,6 +406,64 @@ Response Format
     next_cursor: int
 }
 ```
+## Event API
+
+### Get event
+API URL: /api/event/
+
+Method: GET
+
+response type: application/json
+
+Header
+```
+{
+    Authorization: "Bearer ${JWT}"
+}
+```
+
+Response Format
+```
+{
+   
+    event: [
+        {
+            event_id: int,
+            group_id: int,
+            name: string,
+            category: string,
+            location: string,
+            description": string,
+            creator_id: int,
+            picture: string,
+            is_read: int,
+            message : string
+        }, ...
+    ]
+}
+```
+
+### Read event
+API URL: /api/event/:event_id/read
+
+Method: POST
+
+response type: application/json
+
+Header
+```
+{
+    Authorization: "Bearer ${JWT}"
+}
+```
+
+Response Format
+```
+{
+    event_id: int
+}
+```
+
 
 ## Match Related API
 
