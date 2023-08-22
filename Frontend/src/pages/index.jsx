@@ -11,7 +11,7 @@ import MultiFilter from "@/components/MultiFilter";
 
 const apiUrl = process.env.API_URL;
 
-export default function Home({ token, userId }) {
+export default function Home({ token }) {
   const [allGroups, setAllGroups] = useState([]);
   const [filterGroups, setFilterGroups] = useState([]);
   const router = useRouter();
