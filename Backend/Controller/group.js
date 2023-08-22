@@ -1,7 +1,7 @@
 const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
-//const RabbitMQ = require('../pubsub');
+const RabbitMQ = require('../pubsub');
 const MATCH_THRESHOLD = 13;
 const createGroup = async (req, res) => {
 
@@ -27,8 +27,8 @@ const createGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't create" }));
         return;
     }
-    //const channel = await RabbitMQ.connect();
-    //await RabbitMQ.createGroupExchange(channel, id);
+    const channel = await RabbitMQ.connect();
+    await RabbitMQ.createGroupExchange(channel, id);
     res.status(200).send(JSON.stringify({ group_id: id }));
 }
 
@@ -173,15 +173,15 @@ const joinGroup = async (req, res) => {
             res.status(400).send(JSON.stringify({ "error": "can't join" }));
             return;
         }
-        //const channel = await RabbitMQ.connect();
-        //await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
+        const channel = await RabbitMQ.connect();
+        await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
         group_member_count = await model.getGroupMemberCount(groupId);
 
         if (group_member_count > MATCH_THRESHOLD) {
             await model.switchToComplete(groupId);
             match(groupId);
-            //const channel = await RabbitMQ.connect();
-            //await RabbitMQ.sendNotificationToExchange(channel, `group_${groupId}_exchange`, { group_id: groupId });
+            const channel = await RabbitMQ.connect();
+            await RabbitMQ.sendNotificationToExchange(channel, `group_${groupId}_exchange`, { group_id: groupId });
 
         }
     } catch (err) {
@@ -209,8 +209,8 @@ const leaveGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "can't leave" }));
         return;
     }
-    //const channel = await RabbitMQ.connect();
-    //await RabbitMQ.unbindUserQueueFromExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
+    const channel = await RabbitMQ.connect();
+    await RabbitMQ.unbindUserQueueFromExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
     res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
 
