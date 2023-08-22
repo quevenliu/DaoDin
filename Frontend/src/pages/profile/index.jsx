@@ -46,6 +46,7 @@ export default function ProfilePage({ token, userId }) {
       .get(`${apiUrl}/group/search?creator_id=1`, config)
       .then((res) => {
         setMyGroups(res.data.groups);
+        console.log(res.data.groups);
       })
       .catch((err) => {
         console.log(err);
@@ -62,8 +63,11 @@ export default function ProfilePage({ token, userId }) {
         console.log(err);
       });
   };
-  const toggleIsShowMyGroups = () => {
-    setIsShowMyGroups(!isShowMyGroups);
+  const toggleToMyGroups = () => {
+    setIsShowMyGroups(true);
+  };
+  const toggleToJoinedGroups = () => {
+    setIsShowMyGroups(false);
   };
 
   useEffect(() => {
@@ -94,6 +98,23 @@ export default function ProfilePage({ token, userId }) {
     } else {
       setIsEditing(true);
     }
+  };
+
+  const leaveJoinedGroup = async (groupId) => {
+    await axios
+      .delete(`${apiUrl}/group/${groupId}/leave`, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleLeaveJoinedGroup = async (e, groupId) => {
+    e.preventDefault();
+    await leaveJoinedGroup(groupId);
+    await getJoinedGroups();
   };
 
   return (
@@ -231,22 +252,22 @@ export default function ProfilePage({ token, userId }) {
                 type="button"
                 className={`${styles.content} h-16 ${
                   isShowMyGroups
-                    ? "text-white bg-primaryColor"
-                    : "text-primaryColor bg-white"
+                    ? "text-primaryColor bg-white"
+                    : "text-white bg-primaryColor"
                 }
                   text-[26px] font-bold px-6 rounded-t-[20px] flex items-center`}
-                onClick={toggleIsShowMyGroups}
+                onClick={toggleToMyGroups}
               >
-                My Groups {isShowMyGroups}
+                My Groups
               </button>
               <button
                 type="button"
                 className={`${styles.content} h-16 ${
                   isShowMyGroups
-                    ? "text-primaryColor bg-white"
-                    : "text-white bg-primaryColor"
+                    ? "text-white bg-primaryColor"
+                    : "text-primaryColor bg-white"
                 } text-[26px] font-bold px-6 rounded-t-[20px] flex items-center`}
-                onClick={toggleIsShowMyGroups}
+                onClick={toggleToJoinedGroups}
               >
                 Joined Groups
               </button>
@@ -261,26 +282,52 @@ export default function ProfilePage({ token, userId }) {
           <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-12 pt-2 pb-8">
             {isShowMyGroups
               ? myGroups.map((myGroup) => (
-                  <Group
-                    path={path}
+                  <Link
+                    href={`/editGroup/${myGroup.group_id}`}
                     key={myGroup.group_id}
-                    name={myGroup.name}
-                    category={myGroup.category}
-                    location={myGroup.location}
-                    description={myGroup.description}
-                    status={myGroup.status}
-                  />
+                    className="group relative"
+                  >
+                    <Group
+                      path={path}
+                      name={myGroup.name}
+                      category={myGroup.category}
+                      location={myGroup.location}
+                      description={myGroup.description}
+                      status={myGroup.status}
+                      picture={myGroup.picture}
+                      area={myGroup.area}
+                    />
+                    <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor rounded-l-[16px]">
+                      Edit
+                    </div>
+                  </Link>
                 ))
               : joinedGroups.map((joinedGroup) => (
-                  <Group
-                    path={path}
+                  <Link
+                    href={`/subgroup/${joinedGroup.group_id}`}
                     key={joinedGroup.group_id}
-                    name={joinedGroup.name}
-                    category={joinedGroup.category}
-                    location={joinedGroup.location}
-                    description={joinedGroup.description}
-                    status={joinedGroup.status}
-                  />
+                    className="group relative"
+                  >
+                    <Group
+                      path={path}
+                      name={joinedGroup.name}
+                      category={joinedGroup.category}
+                      location={joinedGroup.location}
+                      description={joinedGroup.description}
+                      status={joinedGroup.status}
+                      picture={joinedGroup.picture}
+                      area={joinedGroup.area}
+                    />
+                    <button
+                      type="button"
+                      className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
+                      onClick={(e) => {
+                        handleLeaveJoinedGroup(e, joinedGroup.group_id);
+                      }}
+                    >
+                      X
+                    </button>
+                  </Link>
                 ))}
           </div>
         </div>

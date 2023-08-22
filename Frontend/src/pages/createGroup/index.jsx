@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Fragment, useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
@@ -193,26 +194,15 @@ const show = (option) => {
 
 let file;
 
-export default function createGroupPage({token}) {
+export default function CreateGroupPage({ token }) {
+  const router = useRouter();
   const groupNameRef = useRef(null);
   const groupDescriptionRef = useRef(null);
   const [categorySelected, setCategorySelected] = useState("");
   const [locationSelected, setLocationSelected] = useState("");
-
-  const [isPictureEditing, setIsPictureEditing] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
-  const resetFile = () => {
-    setPreviewImage(null);
-    fileInputRef.current = null;
-  };
-  const toggleEditingAvatar = () => {
-    setIsPictureEditing(!isPictureEditing);
-    if (isPictureEditing) {
-      resetFile();
-    }
-  };
   // 圖片預覽
   const showPreview = () => {
     const reader = new FileReader();
@@ -229,33 +219,28 @@ export default function createGroupPage({token}) {
       showPreview(selectedFile);
     }
   };
-  const handleUpdatePicture = async () => {
-    const formData = new FormData();
-    formData.append("picture", file);
-    await axios
-      .put(`${apiUrl}/user/profile/picture`, formData, config)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    toggleEditingAvatar();
-  };
   const handleDrop = (e) => {
     e.preventDefault();
     [file] = e.dataTransfer.files;
     showPreview();
   };
 
-  const createGroup = (payload) => {
+  const resetForm = () => {
+    groupNameRef.current.value = "";
+    groupDescriptionRef.current.value = "";
+    setCategorySelected("");
+    setLocationSelected("");
+    setPreviewImage(null);
+    fileInputRef.current = null;
+  };
+  const createGroup = async (payload) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     };
-    axios
+    await axios
       .post(`${apiUrl}/group`, payload, config)
       .then((res) => {
         console.log(res);
@@ -264,14 +249,16 @@ export default function createGroupPage({token}) {
         console.log(err);
       });
   };
-  const handleCreateGroup = () => {
+  const handleCreateGroup = async () => {
     const formData = new FormData();
     formData.append("picture", file);
     formData.append("name", groupNameRef.current.value);
     formData.append("category", categorySelected.name);
     formData.append("location", locationSelected.name);
     formData.append("description", groupDescriptionRef.current.value);
-    createGroup(formData);
+    await createGroup(formData);
+    resetForm();
+    router.push("/");
   };
 
   return (
@@ -366,7 +353,6 @@ export default function createGroupPage({token}) {
                                         {activity.name}
                                       </span>
                                     </div>
-
                                     {selected ? (
                                       <span
                                         className={classNames(
@@ -538,12 +524,13 @@ export default function createGroupPage({token}) {
                 <button
                   type="button"
                   className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
+                  onClick={resetForm}
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="px-6 py-2 text-white bg-primaryColor rounded-[50px]"
+                  className="w-32 py-2 text-2xl font-semibold text-white bg-primaryColor rounded-[50px]"
                   onClick={handleCreateGroup}
                 >
                   Create
@@ -575,4 +562,3 @@ export async function getServerSideProps(context) {
     props: { token, userId, name },
   };
 }
-
