@@ -4,7 +4,7 @@ const getEvent = async (myId, groupIdList) => {
     
     for(let i=0;i<groupIdList.length;i++){
         groupIdList[i] = parseInt(groupIdList[i]);
-        let Query = ` INSERT INTO event (group_id, user_id)  VALUES (${groupIdList[i]}, ${myId})`;
+        let Query = ` INSERT INTO event (group_id, user_id, created_at )  VALUES (${groupIdList[i]}, ${myId}, NOW())`;
         await pool.query(Query);
 
     }
