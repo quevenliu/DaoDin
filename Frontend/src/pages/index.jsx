@@ -19,6 +19,7 @@ export default function Home({ token }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeLocations, setActiveLocations] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
+  const [isDefault, setIsDefault] = useState(true);
 
   const playHoverSound = () => {
     const audio = new Audio("hedgehogSound.mp3");
@@ -35,33 +36,60 @@ export default function Home({ token }) {
   const [cursor, setCursor] = useState("");
   const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const getGroups = async () => {
-    await axios
-      .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
-      .then((res) => {
-        console.log(res.data.groups);
-        setAllGroups(res.data.groups);
-        setCursor(res.data.next_cursor);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isDefault) {
+      await axios
+        .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
+        .then((res) => {
+          setAllGroups(res.data.groups);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      await axios
+        .get(`${apiUrl}/group/search?isJoined=0&sort=popular`, config)
+        .then((res) => {
+          setAllGroups(res.data.groups);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const getGroupsByCursor = async () => {
-    await axios
-      .get(
-        `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
-        config
-      )
-      .then((res) => {
-        setAllGroups([...allGroups, ...res.data.groups]);
-        setCursor(res.data.next_cursor);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isDefault) {
+      await axios
+        .get(
+          `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
+          config
+        )
+        .then((res) => {
+          setAllGroups([...allGroups, ...res.data.groups]);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      await axios
+        .get(
+          `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=popular`,
+          config
+        )
+        .then((res) => {
+          setAllGroups([...allGroups, ...res.data.groups]);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     setIsGettingGroupsByCursor(false);
   };
+
   const isScrolling = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
@@ -71,16 +99,18 @@ export default function Home({ token }) {
     }
     setIsGettingGroupsByCursor(true);
   };
+
   useEffect(() => {
     getGroups();
     window.addEventListener("scroll", isScrolling);
     return () => window.removeEventListener("scroll", isScrolling);
-  }, []);
+  }, [isDefault]);
+
   useEffect(() => {
     if (isGettingGroupsByCursor && cursor !== null) {
       getGroupsByCursor();
     }
-  }, [isGettingGroupsByCursor]);
+  }, [isGettingGroupsByCursor, isDefault]);
 
   return (
     <>
@@ -162,20 +192,38 @@ export default function Home({ token }) {
               className="hover:animate-ping"
             />
           </div>
-          <div className="mb-6 flex gap-5">
+          <div className="mb-6 flex justify-between items-center">
             <button
               type="button"
-              onClick={() => setIsFilterOpen(true)}
-              className="w-32 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
+              onClick={() => {
+                setIsFilterOpen(true);
+              }}
+              className="w-32 px-6 py-1 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
             >
               Filter
             </button>
-            <button
-              type="button"
-              className="w-32 px-6 py-1 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
-            >
-              Sortby
-            </button>
+            <div className="text-xl font-medium flex">
+              <button
+                type="button"
+                onClick={() => setIsDefault(true)}
+                className={`${
+                  isDefault ? "text-primaryColor" : "text-slate-600"
+                } mr-2 underline`}
+              >
+                Recent
+              </button>
+              <p>|</p>
+              <button
+                type="button"
+                onClick={() => setIsDefault(false)}
+                className={`${
+                  isDefault ? "text-slate-600" : "text-primaryColor"
+                } 
+                ml-2 underline`}
+              >
+                Popular
+              </button>
+            </div>
           </div>
           {isFilterOpen && (
             <MultiFilter
