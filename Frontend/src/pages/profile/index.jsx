@@ -319,7 +319,7 @@ export default function ProfilePage({ token, userId }) {
                         handleLeaveJoinedGroup(e, joinedGroup.group_id);
                       }}
                     >
-                      X
+                      Leave
                     </button>
                   </Link>
                 ))}

@@ -196,8 +196,6 @@ export default function Home({ token }) {
                   path={path}
                   key={group.group_id}
                   groupId={group.group_id}
-                  creatorId={group.creator_id}
-                  userId={userId}
                   name={group.name}
                   category={group.category}
                   location={group.location}
@@ -215,8 +213,6 @@ export default function Home({ token }) {
                   path={path}
                   key={group.group_id}
                   groupId={group.group_id}
-                  creatorId={group.creator_id}
-                  userId={userId}
                   name={group.name}
                   category={group.category}
                   location={group.location}
