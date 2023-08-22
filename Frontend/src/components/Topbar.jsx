@@ -77,36 +77,42 @@ export default function Topbar({ token }) {
               <div className="bg-primaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
                 Notification
               </div>
-              <div className="rounded-b-[20px] overflow-auto">
-                {events.map((event) => (
-                  <button
-                    type="button"
-                    key={event.event_id}
-                    onClick={() => readEvent(event.event_id, event.is_read)}
-                    className="w-full"
-                  >
-                    <div
-                      className={`${
-                        event.is_read ? "bg-white" : "bg-backgroundColor"
-                      } p-4 flex`}
+              {events.length === 0 ? (
+                <div className="rounded-b-[20px] overflow-auto">
+                  <p className="bg-white p-4">You have no notifications.</p>
+                </div>
+              ) : (
+                <div className="rounded-b-[20px] overflow-auto">
+                  {events.map((event) => (
+                    <button
+                      type="button"
+                      key={event.event_id}
+                      onClick={() => readEvent(event.event_id, event.is_read)}
+                      className="w-full"
                     >
-                      <Image
-                        src={event.picture}
-                        alt="Group picture"
-                        width={48}
-                        height={48}
-                        className="rounded-full mr-4 shrink-0 w-12 h-12 object-cover"
-                      />
-                      <div className="flex flex-col items-start">
-                        <p className="text-base text-left mb-1">
-                          {event.message}
-                        </p>
-                        <p className="text-sm">caosijco</p>
+                      <div
+                        className={`${
+                          event.is_read ? "bg-white" : "bg-backgroundColor"
+                        } p-4 flex`}
+                      >
+                        <Image
+                          src={event.picture}
+                          alt="Group picture"
+                          width={48}
+                          height={48}
+                          className="rounded-full mr-4 shrink-0 w-12 h-12 object-cover"
+                        />
+                        <div className="flex flex-col items-start">
+                          <p className="text-base text-left mb-1">
+                            {event.message}
+                          </p>
+                          <p className="text-sm">caosijco</p>
+                        </div>
                       </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ) : null}
         </button>
