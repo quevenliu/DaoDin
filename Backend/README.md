@@ -252,7 +252,7 @@ Header
 Query: 
 - category: string
 - location: string
-- sort: string
+- sort: string ("recent" or "popular")
 - isJoined: boolean (send 0 or 1)
 - cursor: int
 
@@ -290,7 +290,8 @@ Response Format
             description: string,
             status: string,
             picture: URL,
-            area: int
+            area: int,
+            count: int
         }, ...
     ],
     next_cursor: int

@@ -2,7 +2,7 @@ const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
 const RabbitMQ = require('../pubsub');
-const MATCH_THRESHOLD = 13;
+const MATCH_THRESHOLD = 9;
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
@@ -224,6 +224,11 @@ const searchGroup = async (req, res) => {
     const myId = req.authorization_id;
     const creatorId = req.query.creator_id;
 
+    if (sort && sort !== 'recent' && sort !== 'popular') {
+        res.status(400).send(JSON.stringify({ "error": "only recent and popular is allowed" }));
+    }
+
+
     try {
 
         if (category !== undefined) {
@@ -234,12 +239,23 @@ const searchGroup = async (req, res) => {
         }
 
         if (cursor !== undefined) {
-            const decodedString = Buffer.from(cursor, "base64").toString();
-            if (isNaN(parseInt(decodedString))) {
-                res.status(400).send(JSON.stringify({ "error": "can't search" }));
-                return;
+            var decodedString = Buffer.from(cursor, "base64").toString();
+            if (sort === 'recent') {
+                if (isNaN(parseInt(decodedString))) {
+                    res.status(400).send(JSON.stringify({ "error": "can't search" }));
+                    return;
+                }
+                decodedString = parseInt(decodedString);
             }
-            groups = await model.searchGroup(category, location, sort, joined, parseInt(decodedString), myId, creatorId);
+            else if (sort === 'popular') {
+                decodedString = JSON.parse(decodedString);
+                console.log(decodedString);
+                if (decodedString.id === undefined || decodedString.count === undefined) {
+                    res.status(400).send(JSON.stringify({ "error": "can't search" }));
+                    return;
+                }
+            }
+            groups = await model.searchGroup(category, location, sort, joined, decodedString, myId, creatorId);
 
         } else {
             groups = await model.searchGroup(category, location, sort, joined, cursor, myId, creatorId);

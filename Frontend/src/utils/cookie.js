@@ -22,7 +22,7 @@ export function getServerCookie(prefix, key, req) {
         const [name, value] = cookie.trim().split("=");
         return {
           ...cookieObj,
-          [name]: decodeURIComponent(value)
+          [name]: decodeURIComponent(value),
         };
       }, {});
     const cookieValue = cookies[prefix];

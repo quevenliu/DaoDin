@@ -86,15 +86,19 @@ async function leaveGroup(myId, groupId) {
 
 
 async function searchGroup(category, location, sort, joined, cursor, myId, creatorId) {
+
+    sort = sort || "recent";
+    joined = joined || 0;
+
     let Query = `
-    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
+    SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (
+    SELECT  \`group\`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count
     FROM \`group\`
-    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
+    LEFT JOIN membership ON membership.group_id = \`group\`.id
     LEFT JOIN region ON region.city = \`group\`.location WHERE 1=1 
     `;
 
-    const params = [myId];
-    params.push()
+    const params = [];
 
     if (Array.isArray(category)) {
         for (let i = 0; i < category.length; i++) {
@@ -121,13 +125,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     }
 
 
-    if (joined == 0) {
-        Query += ` AND user_id IS NULL `;
-        Query += ` AND status = 'pending' `;
-    } else if (joined == 1) {
-        Query += ` AND user_id = ? `;
-        params.push(myId);
-    }
     if (creatorId == 1) {
         Query += ` AND creator_id = ? `;
         params.push(myId);
@@ -138,27 +135,57 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     if (cursor !== undefined) {
         if (sort === "recent") {
             Query += ` AND  id <= ? `;
+            params.push(cursor);
         } else {
-            Query += ` AND  id >= ? `;
+            Query += ` AND  id <= ? `;
+            params.push(cursor.id);
         }
-        params.push(cursor);
+    }
+
+    Query += ` GROUP BY membership.group_id ) AS g`;
+
+    Query += ` LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = ? `;
+    params.push(myId);
+
+    if (joined == 0) {
+        Query += ` WHERE membership.user_id IS NULL `;
+        Query += ` AND status = 'pending' `;
+    } else if (joined == 1) {
+        Query += ` WHERE membership.user_id = ? `;
+        params.push(myId);
+    }
+
+    if (sort === "popular" && cursor !== undefined) {
+        Query += ` AND count <= ? `;
+        params.push(cursor.count);
     }
 
     if (sort === "recent") {
         Query += " ORDER BY id DESC ";
     }
+    else if (sort === "popular") {
+        Query += " ORDER BY count DESC, id DESC ";
+    }
 
     Query += ' LIMIT 11'
-    console.log(Query, params);
     let nextCursor = null;
     const [groups] = await pool.query(Query, params);
-    // 判斷是否有下一頁
+
     if (groups.length === 11) {
 
-        nextCursor = groups[10].id.toString();
-        nextCursor = Buffer.from(nextCursor).toString("base64");
-        groups.splice(10, 1);
-
+        if (sort === "recent") {
+            nextCursor = groups[10].id.toString();
+            nextCursor = Buffer.from(nextCursor).toString("base64");
+            groups.splice(10, 1);
+        }
+        else if (sort === "popular") {
+            nextCursor = {
+                id: groups[10].id.toString(),
+                count: groups[10].count.toString()
+            }
+            nextCursor = Buffer.from(JSON.stringify(nextCursor)).toString("base64");
+            groups.splice(10, 1);
+        }
     }
 
 
@@ -175,6 +202,7 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
                 "creator_id": group["creator_id"],
                 "picture": group["picture"],
                 "area": group["area"],
+                "count": group["count"]
             }
         }),
 
@@ -220,3 +248,23 @@ module.exports = {
     getMembership
 }
 
+/*
+
+Remove uncessary text and just keep the SQL code
+
+SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (\n' +
+2023-08-22 17:37:21 0|index  |     '    SELECT  `group`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count\n' +
+2023-08-22 17:37:21 0|index  |     '    FROM `group`\n' +
+2023-08-22 17:37:21 0|index  |     '    LEFT JOIN membership ON membership.group_id = `group`.id\n' +
+2023-08-22 17:37:21 0|index  |     '    LEFT JOIN region ON region.city = `group`.location WHERE 1=1 \n' +
+2023-08-22 17:37:21 0|index  |     "     AND  id <= NULL and count <= NULL  GROUP BY membership.group_id ) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE membership.user_id IS NULL  AND status = 'pending'  ORDER BY count DESC, id DESC  LIMIT 11",
+
+Type here: 
+SELECT DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (
+    SELECT `group`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count
+    FROM `group`
+    LEFT JOIN membership ON membership.group_id = `group`.id
+    LEFT JOIN region ON region.city = `group`.location WHERE 1=1
+    AND  id <= 100  GROUP BY membership.group_id ) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE membership.user_id IS NULL  AND status = 'pending'  AND count <= 100 ORDER BY count DESC, id DESC  LIMIT 11
+
+*/

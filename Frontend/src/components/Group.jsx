@@ -6,8 +6,6 @@ import Tag from "./Tag";
 export default function Group({
   path,
   groupId,
-  creatorId,
-  userId,
   name,
   category,
   location,
