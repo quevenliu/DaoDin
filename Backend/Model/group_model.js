@@ -197,7 +197,7 @@ async function getAllMembers(groupId) {
 }
 
 async function switchToComplete(groupId) {
-    await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+    await pool.query(`UPDATE \`group\` SET status = 'complete' , created_at = NOW() WHERE id = ?`, [groupId]);
     Cache.deleteCache(`group_${groupId}`);
 }
 
