@@ -97,6 +97,23 @@ export default function ProfilePage({ token, userId }) {
     }
   };
 
+  const leaveJoinedGroup = async (groupId) => {
+    await axios
+      .delete(`${apiUrl}/group/${groupId}/leave`, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleLeaveJoinedGroup = async (e, groupId) => {
+    e.preventDefault();
+    await leaveJoinedGroup(groupId);
+    await getJoinedGroups();
+  };
+
   return (
     <>
       <Head>
@@ -282,6 +299,7 @@ export default function ProfilePage({ token, userId }) {
                   <Link
                     href={`/subgroup/${joinedGroup.group_id}`}
                     key={joinedGroup.group_id}
+                    className="group relative"
                   >
                     <Group
                       path={path}
@@ -293,6 +311,15 @@ export default function ProfilePage({ token, userId }) {
                       picture={joinedGroup.picture}
                       area={joinedGroup.area}
                     />
+                    <button
+                      type="button"
+                      className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
+                      onClick={(e) => {
+                        handleLeaveJoinedGroup(e, joinedGroup.group_id);
+                      }}
+                    >
+                      X
+                    </button>
                   </Link>
                 ))}
           </div>

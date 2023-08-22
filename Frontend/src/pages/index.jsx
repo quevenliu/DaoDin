@@ -48,7 +48,10 @@ export default function Home({ token, userId }) {
 
   const getGroupsByCursor = async () => {
     await axios
-      .get(`${apiUrl}/group/search?cursor=${cursor}&isJoined=0`, config)
+      .get(
+        `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
+        config
+      )
       .then((res) => {
         setAllGroups([...allGroups, ...res.data.groups]);
         setCursor(res.data.next_cursor);
@@ -91,7 +94,7 @@ export default function Home({ token, userId }) {
       <main
         className={`${styles.content} min-h-screen pt-8 bg-backgroundColor`}
       >
-        <div className="w-[90%] max-w-5xl m-auto">
+        <div className="w-[90%] pb-5 max-w-5xl m-auto">
           <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
             <Image
               src="/pal-1.png"
