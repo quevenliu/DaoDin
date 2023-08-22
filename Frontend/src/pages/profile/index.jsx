@@ -107,107 +107,101 @@ export default function ProfilePage({ token, userId }) {
       </Head>
       <Topbar />
       <div className={`${styles.content} min-h-screen bg-backgroundColor p-12`}>
-        <div className="group w-[90%] max-w-5xl flex gap-3 bg-white m-auto mb-7 px-12 py-8 rounded-[20px] flex relative">
+        <div className="group w-[90%] max-w-5xl flex gap-7 bg-white m-auto mb-7 px-12 py-8 rounded-[20px] flex relative">
           <ProfilePicture
             picture={profileData.picture}
             token={token}
             getProfile={getProfile}
           />
-          {isEditing ? (
-            <div className="w-full">
-              <div className="flex justify-between items-center pr-2.5 mb-5">
-                <textarea
-                  name="name"
-                  id="name"
-                  rows="1"
-                  className="px-2 text-3xl font-bold border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
-                  defaultValue={profileData.name}
-                  ref={nameRef}
-                />
-                <div className="flex gap-3">
-                  <Link
-                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                    target="_blank"
-                  >
-                    <Image src="/line.png" alt="Line" width={42} height={42} />
-                  </Link>
-                  <Link
-                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                    target="_blank"
-                  >
-                    <Image
-                      src="/facebook.png"
-                      alt="Facebook"
-                      width={42}
-                      height={42}
-                    />
-                  </Link>
-                  <Link
-                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                    target="_blank"
-                  >
-                    <Image
-                      src="/instagram.png"
-                      alt="Instagram"
-                      width={42}
-                      height={42}
-                    />
-                  </Link>
-                </div>
-              </div>
-              <textarea
-                name="self_intro"
-                id="self_intro"
-                rows="5"
-                className="w-full p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
-                defaultValue={profileData.self_intro}
-                ref={introRef}
-              />
-            </div>
-          ) : (
-            <div className="w-full">
-              <div className="flex justify-between items-center px-2.5 mb-5">
-                <p className={`${styles.content} text-3xl font-bold`}>
-                  {profileData.name || profileMockData.name}
-                </p>
-                <div className="flex gap-3">
-                  <Link
-                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                    target="_blank"
-                  >
-                    <Image src="/line.png" alt="Line" width={42} height={42} />
-                  </Link>
-                  <Link
-                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                    target="_blank"
-                  >
-                    <Image
-                      src="/facebook.png"
-                      alt="Facebook"
-                      width={42}
-                      height={42}
-                    />
-                  </Link>
-                  <Link
-                    href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
-                    target="_blank"
-                  >
-                    <Image
-                      src="/instagram.png"
-                      alt="Instagram"
-                      width={42}
-                      height={42}
-                    />
-                  </Link>
-                </div>
-              </div>
-              <p
-                className={`${styles.content} w-full px-6 py-4 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
-              >
-                {profileData.self_intro || profileMockData.self_intro}
+          <div className="w-full">
+            <div className="flex justify-between items-center px-2.5 mb-5">
+              <p className={`${styles.content} text-3xl font-bold`}>
+                {profileData.name || profileMockData.name}
               </p>
+              <div className="flex gap-3">
+                <Link
+                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                  target="_blank"
+                >
+                  <Image src="/line.png" alt="Line" width={42} height={42} />
+                </Link>
+                <Link
+                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                  target="_blank"
+                >
+                  <Image
+                    src="/facebook.png"
+                    alt="Facebook"
+                    width={42}
+                    height={42}
+                  />
+                </Link>
+                <Link
+                  href="https://www.facebook.com/chouchouler?mibextid=LQQJ4d"
+                  target="_blank"
+                >
+                  <Image
+                    src="/instagram.png"
+                    alt="Instagram"
+                    width={42}
+                    height={42}
+                  />
+                </Link>
+              </div>
             </div>
-          )}
+            <p
+              className={`${styles.content} w-full px-6 py-4 min-h-[100px] text-xl bg-backgroundColor rounded-[20px]`}
+            >
+              {profileData.self_intro || profileMockData.self_intro}
+            </p>
+            {isEditing ? (
+              <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center z-[999]">
+                <div className="w-[520px] m-auto bg-white rounded-[20px] relative">
+                  <p className="text-2xl bg-primaryColor w-full p-2 rounded-t-[20px] text-white text-center">
+                    Edit Profile
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="absolute top-2.5 right-5 w-6 h-6 text-center bg-white text-primaryColor text-base rounded-full"
+                  >
+                    X
+                  </button>
+                  <div className="p-5">
+                    <div className="flex items-center pr-2.5 mb-5">
+                      <p className="w-28 text-xl mr-3 shrink-0">User Name</p>
+                      <textarea
+                        name="name"
+                        id="name"
+                        rows="1"
+                        className="w-full px-2 text-xl border border-solid border-primaryColor rounded-[12px] resize-none overflow-hidden"
+                        defaultValue={profileData.name}
+                        ref={nameRef}
+                      />
+                    </div>
+                    <div className="flex pr-2.5">
+                      <p className="w-28 text-xl mr-3 shrink-0">Bio</p>
+                      <textarea
+                        name="self_intro"
+                        id="self_intro"
+                        rows="5"
+                        className="mb-5 w-full p-2 text-xl font-normal border border-solid border-primaryColor rounded-[12px] resize-none overflow-hidden"
+                        defaultValue={profileData.self_intro}
+                        ref={introRef}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="flex justify-center m-auto text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </div>
 
           <button
             type="button"
