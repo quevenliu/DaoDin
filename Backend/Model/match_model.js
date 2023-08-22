@@ -3,13 +3,7 @@ const Cache = require('../utils/cache');
 
 async function getMatch(myId, groupId) {
 
-    const cacheGroupIDKey = `match_${myId}_${groupId}`;
-    var matchId = await Cache.getCache(cacheGroupIDKey);
-
-    if (!matchId) {
-        matchId = await getMatchIdByUserIdAndGroupId(myId, groupId);
-        Cache.addCache(cacheGroupIDKey, matchId, { expire: 60 * 60 * 24, resetExpire: true });
-    }
+    matchId = await getMatchIdByUserIdAndGroupId(myId, groupId);
 
     var cacheKey = `match_${matchId}`;
     const cacheData = await Cache.getCache(cacheKey);
@@ -57,8 +51,8 @@ async function leaveMatch(myId, groupId) {
 
     const matchId = await getMatchIdByUserIdAndGroupId(myId, groupId);
     if (!matchId) { return false; }
-    await pool.query('DELETE FROM match_user where user_id = ? AND match_id = ?', matchId);
-    Cache.deleteCache(`match_${joined[0]["match_id"]}`);
+    await pool.query('DELETE FROM match_user where user_id = ? AND match_id = ?', [myId, matchId]);
+    Cache.deleteCache(`match_${matchId}`);
     Cache.deleteCache(`match_${myId}_${groupId}`);
     return parseInt(matchId);
 }
@@ -72,10 +66,19 @@ async function joinMatch(user_list, matchId) {
     for (let i = 0; i < user_list.length; i++) {
         await pool.query('INSERT INTO match_user (user_id, match_id) VALUES (?, ?)', [user_list[i], matchId]);
     }
+    Cache.deleteCache(`match_${matchId}`);
     return matchId;
 }
 
 async function getMatchIdByUserIdAndGroupId(userId, groupId) {
+
+    const cacheGroupIDKey = `match_${userId}_${groupId}`;
+    var matchId = await Cache.getCache(cacheGroupIDKey);
+
+    if (matchId) {
+        return matchId;
+    }
+
     let Query = `
                     SELECT  *
                     FROM match_user AS MU
@@ -84,6 +87,9 @@ async function getMatchIdByUserIdAndGroupId(userId, groupId) {
                 `
     const [joined] = await pool.query(Query, [groupId, userId]);
     if (joined.length === 0) { return false; }
+
+    Cache.addCache(cacheGroupIDKey, joined[0]["match_id"], { expire: 60 * 60 * 24, resetExpire: true });
+
     return parseInt(joined[0]["match_id"]);
 }
 
