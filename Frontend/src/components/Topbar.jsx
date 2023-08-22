@@ -105,7 +105,7 @@ export default function Topbar({ token }) {
                           <p className="text-base text-left mb-1">
                             {event.message}
                           </p>
-                          <p className="text-sm">caosijco</p>
+                          <p className="text-sm">{event.created_at}</p>
                         </div>
                       </div>
                     </button>
