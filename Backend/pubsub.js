@@ -75,6 +75,32 @@ async function consumeMessagesFromQueue(channel,queueName) {
     console.error('Error:', error);
   }
 }
+async function consumeAllMessagesFromQueue(channel, queueName) {
+  try {
+    await channel.assertQueue(queueName, { durable: true });
+
+    console.log(`Reading all messages from queue ${queueName}`);
+
+    const messages = [];
+
+    while (true) {
+      const message = await channel.get(queueName);
+      if (!message) {
+        break; // No more messages in the queue
+      }
+
+      const parsedMessage = JSON.parse(message.content.toString());
+      console.log(`Received message from queue ${queueName}:`, parsedMessage);
+      messages.push(parsedMessage["group_id"]);
+      channel.ack(message);
+    }
+
+    console.log(`Read ${messages.length} messages from queue ${queueName}`);
+    return messages;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
 async function unbindUserQueueFromExchange(channel, queueName, exchangeName) {
   try {
     await channel.unbindQueue(queueName, exchangeName, '');
@@ -92,4 +118,5 @@ module.exports = {
   sendNotificationToExchange,
   consumeMessagesFromQueue,
   unbindUserQueueFromExchange,
+  consumeAllMessagesFromQueue
 };

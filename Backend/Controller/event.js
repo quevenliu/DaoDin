@@ -5,7 +5,7 @@ moment.tz.setDefault("Asia/Taipei");
 const getEvent = async (req, res) => {   
     const myId = req.authorization_id;
     const channel = await RabbitMQ.connect();
-    const groupIdList = await RabbitMQ.consumeMessagesFromQueue(channel,`user_${myId}_queue`); 
+    const groupIdList = await RabbitMQ.consumeAllMessagesFromQueue(channel,`user_${myId}_queue`); 
     const data = await model.getEvent(myId, groupIdList);
     const events = data.map((event) => {          
         const taipeiDateTime = moment.utc(event["created_at"]).tz('Asia/Taipei');
