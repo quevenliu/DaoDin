@@ -1,4 +1,5 @@
 const pool = require('./db').pool;
+const Cache = require('../utils/cache');
 
 async function createGroup(myId, name, category, location, description, imageUrl) {
     let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? AND status = 'pending'`;
@@ -15,6 +16,14 @@ async function createGroup(myId, name, category, location, description, imageUrl
 }
 
 async function getGroup(groupId) {
+
+    const cacheKey = `group_${groupId}`;
+    const cacheData = await Cache.getCache(cacheKey);
+
+    if (cacheData) {
+        return cacheData;
+    }
+
     const [data] = await pool.query('SELECT g.*, r.area FROM \`group\` AS g LEFT JOIN region AS r ON r.city = g.location WHERE id = ?', [groupId]);
     if (data.length === 0) { return false; }
 
@@ -29,6 +38,9 @@ async function getGroup(groupId) {
         "picture": data[0]["picture"],
         "area": data[0]["area"]
     }
+
+    Cache.addCache(cacheKey, returnData, { expire: 60 * 60 * 24, resetExpire: true });
+
     return returnData;
 }
 
@@ -43,13 +55,16 @@ async function updateGroup(myId, groupId, name, category, location, description,
                 WHERE id = ?
             `;
     const [result] = await pool.query(Query, [name, category, location, description, picture, groupId]);
-    return parseInt(groupId);
 
+    Cache.deleteCache(`group_${groupId}`);
+
+    return parseInt(groupId);
 }
 
 async function joinGroup(myId, groupId, nickname, self_intro, match_msg) {
     if (nickname === null || self_intro === null || match_msg === null) { return false; }
     let Query = `SELECT * FROM \`group\` WHERE id =  ? `;
+
     const [groupExist] = await pool.query(Query, [groupId]);
 
     const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id =?', [myId, groupId]);
@@ -75,26 +90,40 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
     FROM \`group\`
     LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
-    LEFT JOIN region ON region.city = \`group\`.location
+    LEFT JOIN region ON region.city = \`group\`.location WHERE 1=1 
     `;
-
 
     const params = [myId];
     params.push()
-    if (category !== undefined && location !== undefined) {
-        Query += ` WHERE category = ? AND location = ?`;
-        params.push(category, location);
-    } else if (category !== undefined) {
-        Query += ` WHERE category = ?`;
-        params.push(category);
-    } else if (location !== undefined) {
-        Query += ` WHERE location = ?`;
-        params.push(location);
-    } else {
-        Query += ` WHERE 1=1`;
+
+    if (Array.isArray(category)) {
+        for (let i = 0; i < category.length; i++) {
+            if (i === 0) {
+                Query += ` AND (category = ? `;
+            } else {
+                Query += ` OR category = ? `;
+            }
+            params.push(category[i]);
+        }
+        Query += `) `;
     }
+
+    if (Array.isArray(location)) {
+        for (let i = 0; i < location.length; i++) {
+            if (i === 0) {
+                Query += ` AND (location = ? `;
+            } else {
+                Query += ` OR location = ? `;
+            }
+            params.push(location[i]);
+        }
+        Query += `) `;
+    }
+
+
     if (joined == 0) {
         Query += ` AND user_id IS NULL `;
+        Query += ` AND status = 'pending' `;
     } else if (joined == 1) {
         Query += ` AND user_id = ? `;
         params.push(myId);
@@ -117,9 +146,10 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
 
     if (sort === "recent") {
         Query += " ORDER BY id DESC ";
-
     }
+
     Query += ' LIMIT 11'
+    console.log(Query, params);
     let nextCursor = null;
     const [groups] = await pool.query(Query, params);
     // 判斷是否有下一頁
@@ -145,8 +175,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
                 "creator_id": group["creator_id"],
                 "picture": group["picture"],
                 "area": group["area"],
-
-
             }
         }),
 
@@ -157,7 +185,9 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
 }
 
 async function getGroupMemberCount(groupId) {
+
     const [data] = await pool.query('SELECT COUNT(*) as count FROM membership WHERE group_id = ?', [groupId]);
+
     return data[0]["count"];
 }
 
@@ -168,6 +198,7 @@ async function getAllMembers(groupId) {
 
 async function switchToComplete(groupId) {
     await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+    Cache.deleteCache(`group_${groupId}`);
 }
 
 async function getMembership(myId, groupId) {
