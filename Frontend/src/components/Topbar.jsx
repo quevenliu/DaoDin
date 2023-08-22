@@ -28,7 +28,6 @@ export default function Topbar({ token }) {
     await axios
       .get(`${apiUrl}/event/`, config)
       .then((res) => {
-        console.log(res.data.events);
         setEvents(res.data.events);
       })
       .catch((err) => {
