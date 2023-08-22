@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Topbar from "@/components/Topbar";
 import styles from "../../styles/font.module.scss";
@@ -9,6 +10,7 @@ const apiUrl = process.env.API_URL;
 
 export default function JoinGroupPage({ token, groupId }) {
   const [group, setGroup] = useState({});
+  const router = useRouter();
   const nicknameRef = useRef("");
   const introRef = useRef("");
   const msgRef = useRef("");
@@ -20,6 +22,11 @@ export default function JoinGroupPage({ token, groupId }) {
     },
   };
 
+  const resetForm = () => {
+    nicknameRef.current.value = "";
+    introRef.current.value = "";
+    introRef.current.value = "";
+  };
   const getGroup = async () => {
     await axios
       .get(`${apiUrl}/group/${groupId}`, config)
@@ -36,7 +43,6 @@ export default function JoinGroupPage({ token, groupId }) {
       match_msg: msgRef.current.value,
       nickname: nicknameRef.current.value,
     };
-    console.log(payload);
     await axios
       .post(`${apiUrl}/group/${groupId}/join`, payload, config)
       .then((res) => {
@@ -45,6 +51,11 @@ export default function JoinGroupPage({ token, groupId }) {
       .catch((err) => {
         console.log(err);
       });
+  };
+  const handleJoinGroup = async () => {
+    await joinGroup();
+    resetForm();
+    router.push("/");
   };
 
   useEffect(() => {
@@ -65,71 +76,65 @@ export default function JoinGroupPage({ token, groupId }) {
         className={`${styles.content} min-h-screen bg-backgroundColor p-14`}
       >
         <div className="w-[90%] max-w-5xl bg-secondaryColor m-auto rounded-t-[20px] text-center py-3 text-[26px] font-bold">
-          Group Name
+          {group.name || "Mystery Group"}
         </div>
         <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-[20px] flex">
-          <div className="w-full">
-            <h3 className="mb-10 text-center text-3xl font-bold">
-              {group.name || "Mystery Group"}
-            </h3>
-
-            <form className="px-2.5 mb-6 flex flex-col justify-between gap-7">
-              <label
-                htmlFor="nickname"
-                className="text-[28px] font-semibold flex flex-col"
+          <form className="w-full px-2.5 mb-6 flex flex-col justify-between gap-7">
+            <label
+              htmlFor="nickname"
+              className="text-[28px] font-semibold flex flex-col"
+            >
+              Nickname
+              <input
+                type="text"
+                id="nickname"
+                name="nickname"
+                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                ref={nicknameRef}
+              />
+            </label>
+            <label
+              htmlFor="intro"
+              className="text-[28px] font-semibold flex flex-col"
+            >
+              Tell me about yourself
+              <textarea
+                id="intro"
+                name="intro"
+                rows="6"
+                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                ref={introRef}
+              />
+            </label>
+            <label
+              htmlFor="tendency"
+              className="text-[28px] font-semibold flex flex-col"
+            >
+              What kind of people would you like to meet
+              <textarea
+                id="tendency"
+                name="tendency"
+                rows="6"
+                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                ref={msgRef}
+              />
+            </label>
+            <div className="self-end flex gap-3">
+              <button
+                type="button"
+                className="w-32 py-2 text-center text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
               >
-                Nickname
-                <input
-                  type="text"
-                  id="nickname"
-                  name="nickname"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
-                  ref={nicknameRef}
-                />
-              </label>
-              <label
-                htmlFor="intro"
-                className="text-[28px] font-semibold flex flex-col"
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="w-32 py-2 text-center text-2xl font-semibold text-white bg-primaryColor rounded-[50px]"
+                onClick={handleJoinGroup}
               >
-                Tell me about yourself
-                <textarea
-                  id="intro"
-                  name="intro"
-                  rows="6"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
-                  ref={introRef}
-                />
-              </label>
-              <label
-                htmlFor="tendency"
-                className="text-[28px] font-semibold flex flex-col"
-              >
-                What kind of people would you like to meet
-                <textarea
-                  id="tendency"
-                  name="tendency"
-                  rows="6"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
-                  ref={msgRef}
-                />
-              </label>
-              <div className="self-end flex gap-3">
-                <button
-                  type="button"
-                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="w-28 px-6 py-2 text-center text-lg font-semibold text-white bg-primaryColor rounded-[50px]"
-                  onClick={joinGroup}
-                >
-                  Join
-                </button>
-              </div>
-            </form>
-          </div>
+                Join
+              </button>
+            </div>
+          </form>
         </div>
       </main>
     </>

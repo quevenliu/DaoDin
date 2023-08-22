@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Fragment, useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
@@ -192,25 +193,15 @@ const show = (option) => {
 let file;
 
 export default function EditGroupPage({ token, groupId }) {
+  const router = useRouter();
   const [groupData, setGroupData] = useState({});
   const groupNameRef = useRef(groupData.name);
   const groupDescriptionRef = useRef(null);
   const [categorySelected, setCategorySelected] = useState("");
   const [locationSelected, setLocationSelected] = useState("");
-  const [isPictureEditing, setIsPictureEditing] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
-  const resetFile = () => {
-    setPreviewImage(null);
-    fileInputRef.current = null;
-  };
-  const toggleEditingAvatar = () => {
-    setIsPictureEditing(!isPictureEditing);
-    if (isPictureEditing) {
-      resetFile();
-    }
-  };
   // 圖片預覽
   const showPreview = () => {
     const reader = new FileReader();
@@ -226,6 +217,19 @@ export default function EditGroupPage({ token, groupId }) {
       [file] = e.target.files;
       showPreview(selectedFile);
     }
+  };
+  const handleDrop = (e) => {
+    e.preventDefault();
+    [file] = e.dataTransfer.files;
+    showPreview();
+  };
+  const resetForm = () => {
+    groupNameRef.current.value = "";
+    groupDescriptionRef.current.value = "";
+    setCategorySelected("");
+    setLocationSelected("");
+    setPreviewImage(null);
+    fileInputRef.current = null;
   };
 
   const getGroup = async () => {
@@ -260,14 +264,16 @@ export default function EditGroupPage({ token, groupId }) {
         console.log(err);
       });
   };
-  const handleUpdateGroup = () => {
+  const handleUpdateGroup = async () => {
     const formData = new FormData();
     formData.append("picture", file);
     formData.append("name", groupNameRef.current.value);
     formData.append("category", categorySelected.name);
     formData.append("location", locationSelected.name);
     formData.append("description", groupDescriptionRef.current.value);
-    updateGroup(formData);
+    await updateGroup(formData);
+    resetForm();
+    router.push("/");
   };
 
   useEffect(() => {

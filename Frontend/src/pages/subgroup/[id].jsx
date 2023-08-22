@@ -1,17 +1,66 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect } from "react";
+import axios from "axios";
 import styles from "../../styles/font.module.scss";
+import { getServerCookie } from "../../utils/cookie";
 import Topbar from "@/components/Topbar";
 import Member from "@/components/Member";
 import Message from "@/components/Message";
 import groupMockdata from "@/data/groupMockdata";
 import chatMockdata from "@/data/chatMockdata";
-import { getServerCookie } from "@/utils/cookie";
 
-export default function Subgroup({ token }) {
+const apiUrl = process.env.API_URL;
+
+export default function Subgroup({ token, groupId }) {
   const sortedChat = chatMockdata.chats
     .slice()
     .sort((a, b) => a.chat_id - b.chat_id);
+
+  const socket = new WebSocket(
+    `wss://canchu.online/api/chat/socket?group_id=${groupId}`
+  );
+  socket.onopen = (event) => {
+    console.log("WebSocket connection opened.", event);
+    socket.send(
+      JSON.stringify({
+        Authorization: `Bearer ${token}`,
+        message: "Fuck",
+      })
+    );
+  };
+
+  socket.onmessage = (event) => {
+    console.log("Received message from WebSocket:", event.data);
+  };
+
+  socket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+  socket.onclose = (event) => {
+    console.log("WebSocket connection closed.", event);
+  };
+
+  const getChatList = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await axios
+      .get(`${apiUrl}/chat/${groupId}`, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getChatList();
+  }, []);
 
   return (
     <>
@@ -69,7 +118,7 @@ export default function Subgroup({ token }) {
                 ))}
               </div>
               <textarea
-                className="w-[90%] h-12 rounded-[20px] bg-backgroundColor pl-6 pr-16 py-2 text-xl absolute bottom-8"
+                className="w-[90%] h-12 rounded-[20px] bg-backgroundColor pl-6 pr-16 py-2 text-xl absolute bottom-8 resize-none overflow-hidden"
                 placeholder="Leave a message"
               />
               <button type="button">
@@ -93,6 +142,7 @@ export async function getServerSideProps(context) {
   const token = getServerCookie("userInfo", "token", context.req);
   const userId = getServerCookie("userInfo", "user_id", context.req);
   const name = getServerCookie("userInfo", "name", context.req);
+  const groupId = Number(context.params.id);
 
   if (!token) {
     return {
@@ -104,6 +154,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { token, userId, name },
+    props: { token, userId, name, groupId },
   };
 }

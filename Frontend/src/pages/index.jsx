@@ -33,11 +33,12 @@ export default function Home({ token, userId }) {
   };
 
   const [cursor, setCursor] = useState("");
+  const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const getGroups = async () => {
     await axios
-      .get(`${apiUrl}/group/search`, config)
+      .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
       .then((res) => {
-        console.log(res);
+        console.log(res.data.groups);
         setAllGroups(res.data.groups);
         setCursor(res.data.next_cursor);
       })
@@ -46,25 +47,40 @@ export default function Home({ token, userId }) {
       });
   };
 
-  useEffect(() => {
-    getGroups();
-  }, []);
-
   const getGroupsByCursor = async () => {
     await axios
-      .get(`${apiUrl}/group/search?cursor=${cursor}`, config)
+      .get(
+        `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
+        config
+      )
       .then((res) => {
-        console.log(res.data);
+        setAllGroups([...allGroups, ...res.data.groups]);
+        setCursor(res.data.next_cursor);
       })
       .catch((err) => {
         console.log(err);
       });
+    setIsGettingGroupsByCursor(false);
+  };
+  const isScrolling = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    ) {
+      return;
+    }
+    setIsGettingGroupsByCursor(true);
   };
   useEffect(() => {
-    if (cursor) {
+    getGroups();
+    window.addEventListener("scroll", isScrolling);
+    return () => window.removeEventListener("scroll", isScrolling);
+  }, []);
+  useEffect(() => {
+    if (isGettingGroupsByCursor && cursor !== null) {
       getGroupsByCursor();
     }
-  }, [cursor]);
+  }, [isGettingGroupsByCursor]);
 
   return (
     <>
@@ -79,7 +95,7 @@ export default function Home({ token, userId }) {
       <main
         className={`${styles.content} min-h-screen pt-8 bg-backgroundColor`}
       >
-        <div className="w-[90%] max-w-5xl m-auto">
+        <div className="w-[90%] pb-5 max-w-5xl m-auto">
           <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
             <Image
               src="/pal-1.png"

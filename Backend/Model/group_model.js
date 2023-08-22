@@ -50,6 +50,7 @@ async function updateGroup(myId, groupId, name, category, location, description,
 async function joinGroup(myId, groupId, nickname, self_intro, match_msg) {
     if (nickname === null || self_intro === null || match_msg === null) { return false; }
     let Query = `SELECT * FROM \`group\` WHERE id =  ? `;
+
     const [groupExist] = await pool.query(Query, [groupId]);
 
     const [joined] = await pool.query('SELECT * FROM membership WHERE user_id = ? AND group_id =?', [myId, groupId]);
@@ -75,26 +76,40 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
     FROM \`group\`
     LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
-    LEFT JOIN region ON region.city = \`group\`.location
+    LEFT JOIN region ON region.city = \`group\`.location WHERE 1=1 
     `;
-
 
     const params = [myId];
     params.push()
-    if (category !== undefined && location !== undefined) {
-        Query += ` WHERE category = ? AND location = ?`;
-        params.push(category, location);
-    } else if (category !== undefined) {
-        Query += ` WHERE category = ?`;
-        params.push(category);
-    } else if (location !== undefined) {
-        Query += ` WHERE location = ?`;
-        params.push(location);
-    } else {
-        Query += ` WHERE 1=1`;
+
+    if (Array.isArray(category)) {
+        for (let i = 0; i < category.length; i++) {
+            if (i === 0) {
+                Query += ` AND (category = ? `;
+            } else {
+                Query += ` OR category = ? `;
+            }
+            params.push(category[i]);
+        }
+        Query += `) `;
     }
+
+    if (Array.isArray(location)) {
+        for (let i = 0; i < location.length; i++) {
+            if (i === 0) {
+                Query += ` AND (location = ? `;
+            } else {
+                Query += ` OR location = ? `;
+            }
+            params.push(location[i]);
+        }
+        Query += `) `;
+    }
+
+
     if (joined == 0) {
         Query += ` AND user_id IS NULL `;
+        Query += ` AND status = 'pending' `;
     } else if (joined == 1) {
         Query += ` AND user_id = ? `;
         params.push(myId);
@@ -117,9 +132,10 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
 
     if (sort === "recent") {
         Query += " ORDER BY id DESC ";
-
     }
+
     Query += ' LIMIT 11'
+    console.log(Query, params);
     let nextCursor = null;
     const [groups] = await pool.query(Query, params);
     // 判斷是否有下一頁
@@ -145,8 +161,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
                 "creator_id": group["creator_id"],
                 "picture": group["picture"],
                 "area": group["area"],
-
-
             }
         }),
 
