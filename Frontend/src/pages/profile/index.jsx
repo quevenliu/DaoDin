@@ -63,8 +63,11 @@ export default function ProfilePage({ token, userId }) {
         console.log(err);
       });
   };
-  const toggleIsShowMyGroups = () => {
-    setIsShowMyGroups(!isShowMyGroups);
+  const toggleToMyGroups = () => {
+    setIsShowMyGroups(true);
+  };
+  const toggleToJoinedGroups = () => {
+    setIsShowMyGroups(false);
   };
 
   useEffect(() => {
@@ -249,22 +252,22 @@ export default function ProfilePage({ token, userId }) {
                 type="button"
                 className={`${styles.content} h-16 ${
                   isShowMyGroups
-                    ? "text-white bg-primaryColor"
-                    : "text-primaryColor bg-white"
+                    ? "text-primaryColor bg-white"
+                    : "text-white bg-primaryColor"
                 }
                   text-[26px] font-bold px-6 rounded-t-[20px] flex items-center`}
-                onClick={toggleIsShowMyGroups}
+                onClick={toggleToMyGroups}
               >
-                My Groups {isShowMyGroups}
+                My Groups
               </button>
               <button
                 type="button"
                 className={`${styles.content} h-16 ${
                   isShowMyGroups
-                    ? "text-primaryColor bg-white"
-                    : "text-white bg-primaryColor"
+                    ? "text-white bg-primaryColor"
+                    : "text-primaryColor bg-white"
                 } text-[26px] font-bold px-6 rounded-t-[20px] flex items-center`}
-                onClick={toggleIsShowMyGroups}
+                onClick={toggleToJoinedGroups}
               >
                 Joined Groups
               </button>
@@ -282,6 +285,7 @@ export default function ProfilePage({ token, userId }) {
                   <Link
                     href={`/editGroup/${myGroup.group_id}`}
                     key={myGroup.group_id}
+                    className="group relative"
                   >
                     <Group
                       path={path}
@@ -293,6 +297,9 @@ export default function ProfilePage({ token, userId }) {
                       picture={myGroup.picture}
                       area={myGroup.area}
                     />
+                    <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor rounded-l-[16px]">
+                      Edit
+                    </div>
                   </Link>
                 ))
               : joinedGroups.map((joinedGroup) => (

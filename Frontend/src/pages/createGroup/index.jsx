@@ -194,27 +194,15 @@ const show = (option) => {
 
 let file;
 
-export default function createGroupPage({ token }) {
+export default function CreateGroupPage({ token }) {
   const router = useRouter();
   const groupNameRef = useRef(null);
   const groupDescriptionRef = useRef(null);
   const [categorySelected, setCategorySelected] = useState("");
   const [locationSelected, setLocationSelected] = useState("");
-
-  const [isPictureEditing, setIsPictureEditing] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
-  const resetFile = () => {
-    setPreviewImage(null);
-    fileInputRef.current = null;
-  };
-  const toggleEditingAvatar = () => {
-    setIsPictureEditing(!isPictureEditing);
-    if (isPictureEditing) {
-      resetFile();
-    }
-  };
   // 圖片預覽
   const showPreview = () => {
     const reader = new FileReader();
@@ -230,19 +218,6 @@ export default function createGroupPage({ token }) {
       [file] = e.target.files;
       showPreview(selectedFile);
     }
-  };
-  const handleUpdatePicture = async () => {
-    const formData = new FormData();
-    formData.append("picture", file);
-    await axios
-      .put(`${apiUrl}/user/profile/picture`, formData, config)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    toggleEditingAvatar();
   };
   const handleDrop = (e) => {
     e.preventDefault();

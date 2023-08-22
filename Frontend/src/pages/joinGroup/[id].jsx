@@ -123,13 +123,13 @@ export default function JoinGroupPage({ token, groupId }) {
             <div className="self-end flex gap-3">
               <button
                 type="button"
-                className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
+                className="w-32 py-2 text-center text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className="w-28 px-6 py-2 text-center text-lg font-semibold text-white bg-primaryColor rounded-[50px]"
+                className="w-32 py-2 text-center text-2xl font-semibold text-white bg-primaryColor rounded-[50px]"
                 onClick={handleJoinGroup}
               >
                 Join
