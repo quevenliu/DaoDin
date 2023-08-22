@@ -86,15 +86,19 @@ async function leaveGroup(myId, groupId) {
 
 
 async function searchGroup(category, location, sort, joined, cursor, myId, creatorId) {
+
+    sort = sort || "recent";
+    joined = joined || 0;
+
     let Query = `
-    SELECT  \`group\`.id, \`group\`.*, membership.user_id, region.area
+    SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (
+    SELECT  \`group\`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count
     FROM \`group\`
-    LEFT JOIN membership ON membership.group_id = \`group\`.id AND membership.user_id = ?
+    LEFT JOIN membership ON membership.group_id = \`group\`.id
     LEFT JOIN region ON region.city = \`group\`.location WHERE 1=1 
     `;
 
-    const params = [myId];
-    params.push()
+    const params = [];
 
     if (Array.isArray(category)) {
         for (let i = 0; i < category.length; i++) {
@@ -121,13 +125,6 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     }
 
 
-    if (joined == 0) {
-        Query += ` AND user_id IS NULL `;
-        Query += ` AND status = 'pending' `;
-    } else if (joined == 1) {
-        Query += ` AND user_id = ? `;
-        params.push(myId);
-    }
     if (creatorId == 1) {
         Query += ` AND creator_id = ? `;
         params.push(myId);
@@ -144,15 +141,31 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
         params.push(cursor);
     }
 
+    Query += ` GROUP BY membership.group_id ) AS g`;
+
+    Query += ` LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = ? `;
+    params.push(myId);
+
+    if (joined == 0) {
+        Query += ` WHERE membership.user_id IS NULL `;
+        Query += ` AND status = 'pending' `;
+    } else if (joined == 1) {
+        Query += ` WHERE membership.user_id = ? `;
+        params.push(myId);
+    }
+
     if (sort === "recent") {
         Query += " ORDER BY id DESC ";
+    }
+    else if (sort === "popular") {
+        Query += " ORDER BY count DESC ";
     }
 
     Query += ' LIMIT 11'
     console.log(Query, params);
     let nextCursor = null;
     const [groups] = await pool.query(Query, params);
-    // 判斷是否有下一頁
+
     if (groups.length === 11) {
 
         nextCursor = groups[10].id.toString();
@@ -175,6 +188,7 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
                 "creator_id": group["creator_id"],
                 "picture": group["picture"],
                 "area": group["area"],
+                "count": group["count"]
             }
         }),
 

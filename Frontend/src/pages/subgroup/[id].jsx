@@ -1,67 +1,141 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Topbar from "@/components/Topbar";
 import Member from "@/components/Member";
 import Message from "@/components/Message";
-import groupMockdata from "@/data/groupMockdata";
-import chatMockdata from "@/data/chatMockdata";
 
 const apiUrl = process.env.API_URL;
 
-export default function Subgroup({ token, groupId }) {
-  const sortedChat = chatMockdata.chats
-    .slice()
-    .sort((a, b) => a.chat_id - b.chat_id);
+export default function Subgroup({ token, userId, groupId }) {
+  const [members, setMembers] = useState([]);
+  const [chats, setChats] = useState([]);
+  const newChatRef = useRef("");
+  const chatroomRef = useRef(null);
+  const [cursor, setCursor] = useState("");
+  const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
+  const [isScrollToBottom, serIsScrollToBottom] = useState(true);
 
   const socket = new WebSocket(
     `wss://canchu.online/api/chat/socket?group_id=${groupId}`
   );
   socket.onopen = (event) => {
     console.log("WebSocket connection opened.", event);
-    socket.send(
-      JSON.stringify({
-        Authorization: `Bearer ${token}`,
-        message: "Fuck",
-      })
-    );
   };
-
-  socket.onmessage = (event) => {
-    console.log("Received message from WebSocket:", event.data);
-  };
-
   socket.onerror = (error) => {
     console.error("WebSocket error:", error);
   };
-
   socket.onclose = (event) => {
     console.log("WebSocket connection closed.", event);
   };
 
-  const getChatList = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const scrollToBottom = () => {
+    if (chatroomRef.current) {
+      const { scrollHeight } = chatroomRef.current;
+      const height = chatroomRef.current.clientHeight;
+      const maxScrollTop = scrollHeight - height;
+      chatroomRef.current.scrollTo(0, maxScrollTop);
+    }
+  };
+
+  const getMatchList = async () => {
     await axios
-      .get(`${apiUrl}/chat/${groupId}`, config)
+      .get(`${apiUrl}/match/${groupId}`, config)
       .then((res) => {
         console.log(res);
+        setMembers(res.data.users);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const getChatList = async () => {
+    await axios
+      .get(`${apiUrl}/chat/${groupId}`, config)
+      .then((res) => {
+        setChats(res.data.chats.sort((a, b) => a.chat_id - b.chat_id));
+        setCursor(res.data.next_cursor);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getChatListByCursor = async () => {
+    await axios
+      .get(`${apiUrl}/chat/${groupId}?cursor=${cursor}`, config)
+      .then((res) => {
+        setChats([
+          ...res.data.chats.sort((a, b) => a.chat_id - b.chat_id),
+          ...chats,
+        ]);
+        setCursor(res.data.next_cursor);
+        serIsScrollToBottom(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setIsGettingGroupsByCursor(false);
+  };
+  const isScrolling = () => {
+    if (chatroomRef.current.scrollTop !== 0) {
+      return;
+    }
+    setIsGettingGroupsByCursor(true);
+  };
+
   useEffect(() => {
     getChatList();
+    getMatchList();
+    const element = chatroomRef.current;
+    element.addEventListener("scroll", isScrolling);
+    return () => {
+      element.removeEventListener("scroll", isScrolling);
+    };
   }, []);
+  useEffect(() => {
+    if (isGettingGroupsByCursor && cursor !== 0) {
+      getChatListByCursor();
+    }
+  }, [isGettingGroupsByCursor]);
+  useEffect(() => {
+    if (isScrollToBottom) {
+      scrollToBottom();
+    } else {
+      chatroomRef.current.scrollTo({ top: 1700, behavior: "instant" });
+    }
+    serIsScrollToBottom(true);
+  }, [chats]);
 
+  socket.onmessage = async (event) => {
+    console.log("Received message from WebSocket:", event.data);
+    await getChatList();
+  };
+
+  const sendChat = async () => {
+    await socket.send(
+      JSON.stringify({
+        Authorization: `Bearer ${token}`,
+        message: newChatRef.current.value,
+      })
+    );
+  };
+  const resetNewChat = () => {
+    newChatRef.current.value = "";
+  };
+  const handleCreateChat = async () => {
+    await sendChat();
+    await getChatList();
+    resetNewChat();
+  };
   return (
     <>
       <Head>
@@ -88,29 +162,33 @@ export default function Subgroup({ token, groupId }) {
             >
               Members
             </div>
-            <div className="px-10 pt-px pb-10 bg-white rounded-b-[20px]">
-              {groupMockdata.users.map((user) => (
+            <div className="px-5 pt-px pb-10 bg-white rounded-b-[20px]">
+              {members.map((member) => (
                 <Member
-                  key={user.user_id}
-                  picture={user.picture}
-                  nickname={user.nickname}
+                  key={member.user_id}
+                  picture={member.picture}
+                  nickname={member.nickname}
                 />
               ))}
             </div>
           </div>
-          <div className="w-full rounded-[20px] ">
+          <div className="w-full rounded-[20px]">
             <div
               className={`${styles.content} rounded-t-[20px] p-3 text-[26px] font-bold text-center bg-secondaryColor`}
             >
               Chat
             </div>
-            <div className="flex h-[900px] rounded-b-[20px] pb-8 bg-white relative justify-center ">
-              <div className="w-[90%] h-[800px] pt-2 overflow-y-scroll">
-                {sortedChat.map((chat) => (
+            <div className="flex h-[900px] rounded-b-[20px] pb-8 bg-white relative justify-center">
+              <div
+                className="w-[90%] h-[800px] pt-2 overflow-y-scroll"
+                ref={chatroomRef}
+              >
+                {chats.map((chat) => (
                   <Message
                     key={chat.chat_id}
                     message={chat.message}
-                    user_id={chat.user_id}
+                    userId={userId}
+                    chatUserId={chat.user_id}
                     sent_at={chat.sent_at}
                     picture={chat.picture}
                     nickname={chat.nickname}
@@ -120,8 +198,9 @@ export default function Subgroup({ token, groupId }) {
               <textarea
                 className="w-[90%] h-12 rounded-[20px] bg-backgroundColor pl-6 pr-16 py-2 text-xl absolute bottom-8 resize-none overflow-hidden"
                 placeholder="Leave a message"
+                ref={newChatRef}
               />
-              <button type="button">
+              <button type="button" onClick={handleCreateChat}>
                 <Image
                   src="/send-grey.svg"
                   alt="Send button"
