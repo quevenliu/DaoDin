@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "daodin_backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -20,8 +20,6 @@
     "jsonwebtoken": "^9.0.1",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.0",
-    "net": "^1.0.2",
-    "rabbitmq": "^0.0.2",
     "ws": "^8.13.0"
   }
 }
