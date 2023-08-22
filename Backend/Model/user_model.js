@@ -3,7 +3,7 @@ const Cache = require('../utils/cache');
 
 async function getUser(column, value) {
     try {
-        if (column == id) {
+        if (column == 'id') {
             var cacheKey = `user_${column}_${value}`;
             const cacheData = await Cache.getCache(cacheKey);
             if (cacheData) {
@@ -13,7 +13,7 @@ async function getUser(column, value) {
 
         const [[result]] = await pool.query(`SELECT * FROM user WHERE ${column} = ?`, [value]);
 
-        if (column == id)
+        if (column == 'id')
             Cache.addCache(cacheKey, result, { expire: 60 * 60 * 24, resetExpire: true });
 
         return result;
