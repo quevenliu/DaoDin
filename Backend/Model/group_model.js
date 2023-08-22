@@ -1,4 +1,5 @@
 const pool = require('./db').pool;
+const Cache = require('../utils/cache');
 
 async function createGroup(myId, name, category, location, description, imageUrl) {
     let Query = `SELECT * FROM \`group\` WHERE category =  ? AND location = ? AND status = 'pending'`;
@@ -15,6 +16,14 @@ async function createGroup(myId, name, category, location, description, imageUrl
 }
 
 async function getGroup(groupId) {
+
+    const cacheKey = `group_${groupId}`;
+    const cacheData = await Cache.getCache(cacheKey);
+
+    if (cacheData) {
+        return cacheData;
+    }
+
     const [data] = await pool.query('SELECT g.*, r.area FROM \`group\` AS g LEFT JOIN region AS r ON r.city = g.location WHERE id = ?', [groupId]);
     if (data.length === 0) { return false; }
 
@@ -29,6 +38,9 @@ async function getGroup(groupId) {
         "picture": data[0]["picture"],
         "area": data[0]["area"]
     }
+
+    Cache.addCache(cacheKey, returnData, { expire: 60 * 60 * 24, resetExpire: true });
+
     return returnData;
 }
 
@@ -43,8 +55,10 @@ async function updateGroup(myId, groupId, name, category, location, description,
                 WHERE id = ?
             `;
     const [result] = await pool.query(Query, [name, category, location, description, picture, groupId]);
-    return parseInt(groupId);
 
+    Cache.deleteCache(`group_${groupId}`);
+
+    return parseInt(groupId);
 }
 
 async function joinGroup(myId, groupId, nickname, self_intro, match_msg) {
@@ -171,7 +185,9 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
 }
 
 async function getGroupMemberCount(groupId) {
+
     const [data] = await pool.query('SELECT COUNT(*) as count FROM membership WHERE group_id = ?', [groupId]);
+
     return data[0]["count"];
 }
 
@@ -182,6 +198,7 @@ async function getAllMembers(groupId) {
 
 async function switchToComplete(groupId) {
     await pool.query(`UPDATE \`group\` SET status = 'complete' WHERE id = ?`, [groupId]);
+    Cache.deleteCache(`group_${groupId}`);
 }
 
 async function getMembership(myId, groupId) {
