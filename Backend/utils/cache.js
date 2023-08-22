@@ -2,10 +2,15 @@ const redis = require('ioredis');
 const client = new redis.Redis({ host: process.env.REDIS_HOST });
 const EXPIRE_TIME = 3000;
 
-async function addCache(key, data, subdata = undefined, isHash = true, expire = EXPIRE_TIME, resetExpire = true) {
+async function addCache(key, data, params) {
+
+    subdata = params.subdata || undefined;
+    expire = params.expire || EXPIRE_TIME;
+    resetExpire = params.resetExpire && true;
+
     key = JSON.stringify(key);
     data = JSON.stringify(data);
-    if (isHash === true)
+    if (subdata)
         client.hset(key, data, JSON.stringify(subdata)).catch((error) => { console.log(error); console.log("HSET cache ERROR"); });
     else
         client.set(key, data).catch((error) => { console.log(error); console.log("SET cache ERROR"); });
@@ -14,7 +19,12 @@ async function addCache(key, data, subdata = undefined, isHash = true, expire = 
         client.expire(key, `${expire}`).catch((error) => { console.log(error); console.log("EXPIRE cache ERROR"); });
 }
 
-async function appendCache(key, data, mode = 'L', expire = EXPIRE_TIME, resetExpire = true) {
+async function appendCache(key, data, params) {
+
+    mode = params.mode || 'L';
+    expire = params.expire || EXPIRE_TIME;
+    resetExpire = params.resetExpire && true;
+
     key = JSON.stringify(key);
     data = JSON.stringify(data);
     if (mode != 'L' && mode != 'R') {
@@ -29,6 +39,7 @@ async function appendCache(key, data, mode = 'L', expire = EXPIRE_TIME, resetExp
 }
 
 async function getCache(key, data = undefined, all = false) {
+
     var result;
     key = JSON.stringify(key);
     data = JSON.stringify(data);
