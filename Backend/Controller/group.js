@@ -2,7 +2,7 @@ const model = require('../Model/group_model');
 const match_model = require('../Model/match_model');
 const axios = require('axios');
 const RabbitMQ = require('../pubsub');
-const MATCH_THRESHOLD = 13;
+const MATCH_THRESHOLD = 9;
 const createGroup = async (req, res) => {
 
     let imageUrl = null;
