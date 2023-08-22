@@ -1,23 +1,23 @@
 services:
-  # nginx:
-  #   container_name: daodin_nginx
-  #   image: jonasal/nginx-certbot:latest
-  #   restart: always
-  #   environment:
-  #     CERTBOT_EMAIL: $CERTBOT_EMAIL
-  #   volumes:
-  #     - nginx_secrets:/etc/letsencrypt
-  #     - ./user_conf.d:/etc/nginx/user_conf.d
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   networks:
-  #     - daodin
+  nginx:
+    container_name: daodin_nginx
+    image: jonasal/nginx-certbot:latest
+    restart: always
+    environment:
+      CERTBOT_EMAIL: $CERTBOT_EMAIL
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - daodin
 
   app:
     container_name: daodin_node
     image: node:latest
-    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && npm install amqplib && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs "
+    command: sh -c "cd /app && mkdir -p static && cd /app/Backend && npm install pm2 -g && npm install && pm2 start index.js && pm2 start wss_index.js && pm2 save && pm2 startup && pm2 logs "
     init: true
     restart: always
     volumes:
@@ -33,7 +33,7 @@ services:
     networks:
       - daodin
     depends_on:
-      # - nginx
+      - nginx
       - rabbitmq
 
   python:
@@ -48,12 +48,14 @@ services:
     networks:
       - daodin
     ports:
-      - "5001:5000"
+      - "5000:5000"
     expose:
-      - "5001"
+      - "5000"
   rabbitmq:
     container_name: rabbitmq
-    image: "rabbitmq:management"
+    image: rabbitmq:management
+    init: true
+    restart: always
     ports:
       - "5672:5672"  
       - "15672:15672"  
@@ -64,11 +66,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - daodin
-    healthcheck:
-      test: ["CMD", "rabbitmqctl", "status"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    
 volumes:
   rabbitmq_data:
   node_modules:
