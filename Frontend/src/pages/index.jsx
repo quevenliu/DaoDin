@@ -7,12 +7,13 @@ import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
 import { getServerCookie } from "../utils/cookie";
-import Filter from "@/components/Filter";
+import MultiFilter from "@/components/MultiFilter";
 
 const apiUrl = process.env.API_URL;
 
 export default function Home({ token, userId }) {
   const [allGroups, setAllGroups] = useState([]);
+  const [filterGroups, setFilterGroups] = useState([]);
   const router = useRouter();
   const path = router.pathname;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -177,34 +178,56 @@ export default function Home({ token, userId }) {
             </button>
           </div>
           {isFilterOpen && (
-            <Filter
+            <MultiFilter
+              token={token}
               setIsFilterOpen={setIsFilterOpen}
+              setFilterGroups={setFilterGroups}
               activeLocations={activeLocations}
               setActiveLocations={setActiveLocations}
               activeCategories={activeCategories}
               setActiveCategories={setActiveCategories}
-              // activeTags={activeTags}
-              // setActiveTags={setActiveTags}
             />
           )}
-          <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
-            {allGroups?.map((group) => (
-              <Group
-                path={path}
-                key={group.group_id}
-                groupId={group.group_id}
-                creatorId={group.creator_id}
-                userId={userId}
-                name={group.name}
-                category={group.category}
-                location={group.location}
-                description={group.description}
-                status={group.status}
-                picture={group.picture}
-                area={group.area}
-              />
-            ))}
-          </div>
+
+          {filterGroups.length === 0 ? (
+            <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
+              {allGroups?.map((group) => (
+                <Group
+                  path={path}
+                  key={group.group_id}
+                  groupId={group.group_id}
+                  creatorId={group.creator_id}
+                  userId={userId}
+                  name={group.name}
+                  category={group.category}
+                  location={group.location}
+                  description={group.description}
+                  status={group.status}
+                  picture={group.picture}
+                  area={group.area}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
+              {filterGroups.map((group) => (
+                <Group
+                  path={path}
+                  key={group.group_id}
+                  groupId={group.group_id}
+                  creatorId={group.creator_id}
+                  userId={userId}
+                  name={group.name}
+                  category={group.category}
+                  location={group.location}
+                  description={group.description}
+                  status={group.status}
+                  picture={group.picture}
+                  area={group.area}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </>
