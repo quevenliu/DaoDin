@@ -1,12 +1,16 @@
 const model = require('../Model/event_model');
 const RabbitMQ = require('../pubsub');
-
+const  moment = require('moment-timezone');
+moment.tz.setDefault("Asia/Taipei");
 const getEvent = async (req, res) => {   
     const myId = req.authorization_id;
     const channel = await RabbitMQ.connect();
     const groupIdList = await RabbitMQ.consumeMessagesFromQueue(channel,`user_${myId}_queue`); 
     const data = await model.getEvent(myId, groupIdList);
-    const events = data.map((event) => {           
+    const events = data.map((event) => {          
+        const taipeiDateTime = moment.utc(event["created_at"]).tz('Asia/Taipei');
+		const formattedDate = taipeiDateTime.format('YYYY-MM-DD HH:mm:ss');	
+ 
         return {
             "event_id": event.id,
             "group_id": event.group_id,
@@ -18,6 +22,7 @@ const getEvent = async (req, res) => {
             "picture": event.picture,
             "is_read": event.is_read,
             "message" : `${event.name} has been matched, you can join now!`,
+            "created_at" : formattedDate,
         }
     });
         

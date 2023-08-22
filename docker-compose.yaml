@@ -24,6 +24,8 @@ services:
       - ./Backend:/app/Backend
       - picture_storage:/app/static
       - node_modules:/app/Backend/node_modules
+      - ./default_images:/app/default_images
+
     ports:
       - "3000:3000"
       - "3001:3001"
@@ -54,11 +56,12 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:management
+    hostname: rabbitmq
     init: true
     restart: always
     ports:
-      - "5672:5672"  
-      - "15672:15672"  
+      - "5672:5672"
+      - "15672:15672"
     expose:
       - "5672"
       - "15672"
@@ -66,13 +69,27 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - daodin
-    
+  redis:
+    container_name: daodin_redis
+    image: redis:alpine
+    init: true
+    restart: always
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - daodin
+
 volumes:
   rabbitmq_data:
   node_modules:
   picture_storage:
   nginx_secrets:
   python-packages:
+  redis_data:
 
 
 networks:
