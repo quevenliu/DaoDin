@@ -228,6 +228,7 @@ const searchGroup = async (req, res) => {
         res.status(400).send(JSON.stringify({ "error": "only recent and popular is allowed" }));
     }
 
+
     try {
 
         if (category !== undefined) {
@@ -238,12 +239,23 @@ const searchGroup = async (req, res) => {
         }
 
         if (cursor !== undefined) {
-            const decodedString = Buffer.from(cursor, "base64").toString();
-            if (isNaN(parseInt(decodedString))) {
-                res.status(400).send(JSON.stringify({ "error": "can't search" }));
-                return;
+            var decodedString = Buffer.from(cursor, "base64").toString();
+            if (sort === 'recent') {
+                if (isNaN(parseInt(decodedString))) {
+                    res.status(400).send(JSON.stringify({ "error": "can't search" }));
+                    return;
+                }
+                decodedString = parseInt(decodedString);
             }
-            groups = await model.searchGroup(category, location, sort, joined, parseInt(decodedString), myId, creatorId);
+            else if (sort === 'popular') {
+                decodedString = JSON.parse(decodedString);
+                console.log(decodedString);
+                if (decodedString.id === undefined || decodedString.count === undefined) {
+                    res.status(400).send(JSON.stringify({ "error": "can't search" }));
+                    return;
+                }
+            }
+            groups = await model.searchGroup(category, location, sort, joined, decodedString, myId, creatorId);
 
         } else {
             groups = await model.searchGroup(category, location, sort, joined, cursor, myId, creatorId);
