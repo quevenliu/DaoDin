@@ -13,15 +13,11 @@ const getEvent = async (req, res) => {
  
         return {
             "event_id": event.id,
-            "group_id": event.group_id,
             "name": event.name,
-            "category": event.category,
-            "location": event.location,
-            "description": event.description,
-            "creator_id": event.creator_id,
             "picture": event.picture,
             "is_read": event.is_read,
             "message" : `${event.name} has been matched, you can join now!`,
+            "subgroup_id": event.match_id,
             "created_at" : formattedDate,
         }
     });

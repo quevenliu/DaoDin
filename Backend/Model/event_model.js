@@ -8,8 +8,9 @@ const getEvent = async (myId, groupIdList) => {
         await pool.query(Query);
 
     }
-    let Query = `   SELECT * , event.id AS id FROM event 
+    let Query = `   SELECT * , \`match\`.id AS match_id , event.id AS id FROM event 
                     LEFT JOIN \`group\` ON event.group_id = group.id
+                    LEFT JOIN \`match\` ON \`match\`.group_id = \`group\`.id
                     WHERE user_id = ${myId}
                 `;
     const [result] = await pool.query(Query);
