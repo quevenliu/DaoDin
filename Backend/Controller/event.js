@@ -19,6 +19,7 @@ const getEvent = async (req, res) => {
             "message" : `${event.name} has been matched, you can join now!`,
             "subgroup_id": event.match_id,
             "created_at" : formattedDate,
+            "group_id": event.group_id
         }
     });
         
