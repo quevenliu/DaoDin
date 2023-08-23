@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 import styles from "../../styles/font.module.scss";
 import { setCookie, getServerCookie } from "../../utils/cookie";
@@ -18,6 +19,17 @@ const signIn = async (payload) => {
     .then((res) => {
       const { token, user_id, name } = res.data;
       setCookie("userInfo", { token, user_id, name }, 1800);
+      Swal.fire({
+        title: "Successful login!",
+        padding: "1.2em",
+        background: "#D1E6D2",
+        customClass: {
+          title: "swal_title",
+          confirmButton: "swal_confirm_success",
+          container: "swal_container",
+          popup: "swal_popup",
+        },
+      });
     })
     .catch((err) => {
       console.log(err);

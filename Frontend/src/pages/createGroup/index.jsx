@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
+import Swal from "sweetalert2";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Topbar from "@/components/Topbar";
@@ -243,9 +244,34 @@ export default function CreateGroupPage({ token }) {
       .post(`${apiUrl}/group`, payload, config)
       .then((res) => {
         console.log(res);
+        Swal.fire({
+          title: "Successfully created! Go and join now:)!",
+          padding: "1.2em",
+          background: "#D1E6D2",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_success",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 400) {
+          Swal.fire({
+            title:
+              "Group type already exists.\nTry another combination or filter to find one.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
   };
   const handleCreateGroup = async () => {

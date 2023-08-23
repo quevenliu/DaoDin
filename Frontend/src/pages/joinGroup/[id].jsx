@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Topbar from "@/components/Topbar";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
@@ -47,6 +48,17 @@ export default function JoinGroupPage({ token, groupId }) {
       .post(`${apiUrl}/group/${groupId}/join`, payload, config)
       .then((res) => {
         console.log(res);
+        Swal.fire({
+          title: "Pending request.\nYou'll be notified after getting matched!",
+          padding: "1.2em",
+          background: "#D1E6D2",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_success",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       })
       .catch((err) => {
         console.log(err);

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState, useRef } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const apiUrl = process.env.API_URL;
 let file;
@@ -53,6 +54,17 @@ export default function Profile({ picture, token, getProfile }) {
       .put(`${apiUrl}/user/profile/picture`, formData, config)
       .then((res) => {
         console.log(res);
+        Swal.fire({
+          title: "Profile picture updated ✅",
+          padding: "1.2em",
+          background: "#D1E6D2",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_success",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
