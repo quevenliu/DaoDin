@@ -149,7 +149,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -157,7 +157,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -165,7 +165,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -173,7 +173,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -181,7 +181,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -189,7 +189,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -197,7 +197,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
@@ -205,7 +205,7 @@ export default function Home({ token }) {
               width={120}
               height={120}
               onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              className="hover:animate-homepage-ping"
             />
           </div>
 

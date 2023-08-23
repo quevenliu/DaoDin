@@ -18,7 +18,7 @@ module.exports = {
       },
       animation: {
         "spin-slow": "spin 3s linear infinite",
-        "homepage-pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 1",
+        "homepage-ping": "ping 1s cubic-bezier(0, 0, 0.2, 1) 1",
       },
     },
   },
