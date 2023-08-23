@@ -88,7 +88,6 @@ async function leaveGroup(myId, groupId) {
 async function searchGroup(category, location, sort, joined, cursor, myId, creatorId) {
 
     sort = sort || "recent";
-    joined = joined || 0;
 
     let Query = `
     SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (
@@ -144,15 +143,17 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
 
     Query += ` GROUP BY membership.group_id ) AS g`;
 
-    Query += ` LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = ? `;
+    Query += ` LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = ?  WHERE 1=1 `;
     params.push(myId);
 
-    if (joined == 0) {
-        Query += ` WHERE membership.user_id IS NULL `;
-        Query += ` AND status = 'pending' `;
-    } else if (joined == 1) {
-        Query += ` WHERE membership.user_id = ? `;
-        params.push(myId);
+    if (!creatorId) {
+        if (joined == 0) {
+            Query += ` AND membership.user_id IS NULL `;
+            Query += ` AND status = 'pending' `;
+        } else if (joined == 1) {
+            Query += ` AND membership.user_id = ? `;
+            params.push(myId);
+        }
     }
 
     if (sort === "popular" && cursor !== undefined) {
