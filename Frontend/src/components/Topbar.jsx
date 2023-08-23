@@ -60,6 +60,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 export default function Topbar({ token }) {
   const [events, setEvents] = useState([]);
   const [isEventOpen, setIsEventOpen] = useState(false);
+  const [unreadEventCount, setUnreadEventCount] = useState(0);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const router = useRouter();
 
@@ -75,6 +76,11 @@ export default function Topbar({ token }) {
       .get(`${apiUrl}/event/`, config)
       .then((res) => {
         setEvents(res.data.events);
+
+        const unreadCount = res.data.events.filter(
+          (event) => event.is_read === 0
+        ).length;
+        setUnreadEventCount(unreadCount);
       })
       .catch((err) => {
         console.log(err);
@@ -128,17 +134,24 @@ export default function Topbar({ token }) {
         </h1>
       </Link>
       <div className={`${styles.content} flex gap-4`}>
-        <button type="button">
-          <Image
-            src={darkMode ? "/darkEvent.svg" : "/event.svg"}
-            alt="event"
-            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-bounce"
-            width={40}
-            height={40}
-            onClick={() => setIsEventOpen(!isEventOpen)}
-          />
-          {isEventOpen && (
-            <div className="absolute w-72 top-20 right-14 rounded-[20px] border z-[1000]">
+        <button type="button" className="relative">
+          <div className="hover:animate-bounce">
+            <Image
+              src={darkMode ? "/darkEvent.svg" : "/event.svg"}
+              alt="event"
+              className="w-10 h-10 p-2 bg-white rounded-full hover:animate-bounce"
+              width={40}
+              height={40}
+              onClick={() => setIsEventOpen(!isEventOpen)}
+            />
+            {unreadEventCount === 0 ? null : (
+              <div className="text-white bg-red-500 rounded-full text-sm w-6 h-6 pt-[2px] absolute top-[-8px] right-[-10px]">
+                {unreadEventCount}
+              </div>
+            )}
+          </div>
+          {isEventOpen ? (
+            <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] border z-[1000]">
               <div className="bg-primaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
                 Notification
               </div>
@@ -149,9 +162,9 @@ export default function Topbar({ token }) {
               ) : (
                 <div className="rounded-b-[20px] overflow-auto">
                   {events.map((event) => (
-                    <button
-                      type="button"
+                    <Link
                       key={event.event_id}
+                      href={`/subgroup/${event.group_id}`}
                       onClick={() => readEvent(event.event_id, event.is_read)}
                       className="w-full"
                     >
@@ -174,7 +187,7 @@ export default function Topbar({ token }) {
                           <p className="text-sm">{event.created_at}</p>
                         </div>
                       </div>
-                    </button>
+                    </Link>
                   ))}
                 </div>
               )}
