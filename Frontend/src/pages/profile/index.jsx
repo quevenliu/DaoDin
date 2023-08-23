@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
@@ -80,6 +81,17 @@ export default function ProfilePage({ token, userId }) {
       .put(`${apiUrl}/user/profile?user_id=${userId}`, payload, config)
       .then((res) => {
         console.log(res.data);
+        Swal.fire({
+          title: "Personal profile updated ✅",
+          padding: "1.2em",
+          background: "#D1E6D2",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_success",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -114,6 +126,21 @@ export default function ProfilePage({ token, userId }) {
     e.preventDefault();
     await leaveJoinedGroup(groupId);
     await getJoinedGroups();
+  };
+
+  const pendingGroupAlert = () => {
+    Swal.fire({
+      title:
+        "Join request is still pending,\nyou'll be notified after getting matched!",
+      padding: "1.2em",
+      background: "#fadee5",
+      customClass: {
+        title: "swal_title",
+        confirmButton: "swal_confirm_fail",
+        container: "swal_container",
+        popup: "swal_popup",
+      },
+    });
   };
 
   return (
@@ -326,16 +353,22 @@ export default function ProfilePage({ token, userId }) {
                       </Link>
                     ) : (
                       <div className="group relative">
-                        <Group
-                          path={path}
-                          name={joinedGroup.name}
-                          category={joinedGroup.category}
-                          location={joinedGroup.location}
-                          description={joinedGroup.description}
-                          status={joinedGroup.status}
-                          picture={joinedGroup.picture}
-                          area={joinedGroup.area}
-                        />
+                        <button
+                          type="button"
+                          className="w-full"
+                          onClick={() => pendingGroupAlert()}
+                        >
+                          <Group
+                            path={path}
+                            name={joinedGroup.name}
+                            category={joinedGroup.category}
+                            location={joinedGroup.location}
+                            description={joinedGroup.description}
+                            status={joinedGroup.status}
+                            picture={joinedGroup.picture}
+                            area={joinedGroup.area}
+                          />
+                        </button>
                         <button
                           type="button"
                           className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
@@ -346,6 +379,7 @@ export default function ProfilePage({ token, userId }) {
                           Leave
                         </button>
                       </div>
+                      // </button>
                     )}
                   </div>
                 ))}

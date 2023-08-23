@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const apiUrl = process.env.API_URL;
 
@@ -92,6 +93,21 @@ export default function Filter({
         .then((res) => {
           console.log(res);
           setFilterGroups(res.data.groups);
+
+          if (res.data.groups.length === 0) {
+            Swal.fire({
+              title:
+                "We don't have the group now:(\nWhat about creating one🤩?!",
+              padding: "1.2em",
+              background: "#fadee5",
+              customClass: {
+                title: "swal_title",
+                confirmButton: "swal_confirm_fail",
+                container: "swal_container",
+                popup: "swal_popup",
+              },
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -107,6 +123,21 @@ export default function Filter({
         .then((res) => {
           console.log(res);
           setFilterGroups(res.data.groups);
+
+          if (res.data.groups.length === 0) {
+            Swal.fire({
+              title:
+                "We don't have the group now:(\nWhat about creating one🤩?!",
+              padding: "1.2em",
+              background: "#fadee5",
+              customClass: {
+                title: "swal_title",
+                confirmButton: "swal_confirm_fail",
+                container: "swal_container",
+                popup: "swal_popup",
+              },
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -122,6 +153,21 @@ export default function Filter({
         .then((res) => {
           console.log(res);
           setFilterGroups(res.data.groups);
+
+          if (res.data.groups.length === 0) {
+            Swal.fire({
+              title:
+                "We don't have the group now:(\nWhat about creating one🤩?!",
+              padding: "1.2em",
+              background: "#fadee5",
+              customClass: {
+                title: "swal_title",
+                confirmButton: "swal_confirm_fail",
+                container: "swal_container",
+                popup: "swal_popup",
+              },
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
