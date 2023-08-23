@@ -1,15 +1,6 @@
 import Image from "next/image";
 import styles from "../styles/font.module.scss";
 
-const formatDate = (date) => {
-  const parsedDate = new Date(date);
-  const formattedDate = `${parsedDate
-    .toISOString()
-    .slice(0, 19)
-    .replace("T", " ")}`;
-  return formattedDate;
-};
-
 export default function Message({
   message,
   userId,
@@ -18,16 +9,14 @@ export default function Message({
   picture,
   nickname,
 }) {
-  // const myId = 19;
-
   return (
     <div>
       {userId === chatUserId ? (
         <div className={`${styles.content} max-w-30 mt-6 flex justify-end`}>
           <div className="flex items-end text-base font-normal mb-3">
-            {formatDate(sent_at)}
+            {sent_at}
           </div>
-          <div className="max-w-[60%] flex flex-col items-end px-4 py-3 bg-secondaryColor rounded-[20px] ml-3">
+          <div className="max-w-[60%] flex flex-col items-end px-4 py-3 dark:text-white bg-secondaryColor dark:bg-[#424868] rounded-[20px] ml-3">
             <p className="text-lg font-semibold mb-px">{nickname}</p>
             <p className="text-[17px] font-normal break-all">{message}</p>
           </div>
@@ -35,7 +24,7 @@ export default function Message({
       ) : (
         <div className={`${styles.content} mt-4 flex`}>
           {picture === "" ? (
-            <div className="w-[60px] h-[60px] bg-primaryColor rounded-full mr-4 shrink-0" />
+            <div className="w-[60px] h-[60px] bg-primaryColor dark:bg-[#222a4f] rounded-full mr-4 shrink-0" />
           ) : (
             <Image
               src={picture}
@@ -45,12 +34,12 @@ export default function Message({
               height={60}
             />
           )}
-          <div className="max-w-[60%] px-4 py-3 bg-secondaryColor rounded-[20px] mr-3">
+          <div className="max-w-[60%] px-4 py-3 dark:text-white bg-secondaryColor dark:bg-[#222a4f] rounded-[20px] mr-3">
             <p className="text-lg font-semibold mb-px">{nickname}</p>
             <p className="text-[17px] font-normal break-all">{message}</p>
           </div>
           <div className="flex items-end text-base font-normal mb-3">
-            {formatDate(sent_at)}
+            {sent_at}
           </div>
         </div>
       )}

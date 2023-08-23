@@ -139,8 +139,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("臺北") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("臺北")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("臺北");
                 toggleLocationList("臺北");
@@ -151,8 +153,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("新北") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("新北")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("新北");
                 toggleLocationList("新北");
@@ -163,8 +167,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("基隆") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("基隆")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("基隆");
                 toggleLocationList("基隆");
@@ -175,8 +181,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("新竹") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("新竹")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("新竹");
                 toggleLocationList("新竹");
@@ -187,8 +195,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("桃園") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("桃園")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("桃園");
                 toggleLocationList("桃園");
@@ -199,8 +209,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("宜蘭") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("宜蘭")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("宜蘭");
                 toggleLocationList("宜蘭");
@@ -214,8 +226,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("臺中") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("臺中")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("臺中");
                 toggleLocationList("臺中");
@@ -226,8 +240,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("苗栗") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("苗栗")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("苗栗");
                 toggleLocationList("苗栗");
@@ -238,8 +254,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("彰化") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("彰化")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("彰化");
                 toggleLocationList("彰化");
@@ -250,8 +268,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("南投") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("南投")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("南投");
                 toggleLocationList("南投");
@@ -262,8 +282,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("雲林") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("雲林")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("雲林");
                 toggleLocationList("雲林");
@@ -277,8 +299,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("高雄") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("高雄")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("高雄");
                 toggleLocationList("高雄");
@@ -289,8 +313,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("臺南") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("臺南")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("臺南");
                 toggleLocationList("臺南");
@@ -301,8 +327,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("嘉義") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("嘉義")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("嘉義");
                 toggleLocationList("嘉義");
@@ -313,8 +341,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("屏東") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("屏東")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("屏東");
                 toggleLocationList("屏東");
@@ -325,8 +355,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("澎湖") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("澎湖")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("澎湖");
                 toggleLocationList("澎湖");
@@ -340,8 +372,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("花蓮") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("花蓮")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("花蓮");
                 toggleLocationList("花蓮");
@@ -352,8 +386,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("臺東") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("臺東")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("臺東");
                 toggleLocationList("臺東");
@@ -367,8 +403,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("金門") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("金門")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("金門");
                 toggleLocationList("金門");
@@ -379,8 +417,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeLocations.includes("連江") ? "active-tag" : "tag"
-              }`}
+                activeLocations.includes("連江")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveLocations("連江");
                 toggleLocationList("連江");
@@ -398,8 +438,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("野餐") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("野餐")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("野餐");
                 toggleCategoryList("野餐");
@@ -410,8 +452,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("登山") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("登山")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("登山");
                 toggleCategoryList("登山");
@@ -422,8 +466,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("踏青") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("踏青")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("踏青");
                 toggleCategoryList("踏青");
@@ -437,8 +483,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("慢跑") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("慢跑")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("慢跑");
                 toggleCategoryList("慢跑");
@@ -449,8 +497,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("球類") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("球類")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("球類");
                 toggleCategoryList("球類");
@@ -461,8 +511,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("健身") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("健身")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("健身");
                 toggleCategoryList("健身");
@@ -473,8 +525,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("水上") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("水上")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("水上");
                 toggleCategoryList("水上");
@@ -488,8 +542,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("演唱會") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("演唱會")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("演唱會");
                 toggleCategoryList("演唱會");
@@ -500,8 +556,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("音樂會") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("音樂會")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("音樂會");
                 toggleCategoryList("音樂會");
@@ -512,8 +570,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("展覽") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("展覽")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("展覽");
                 toggleCategoryList("展覽");
@@ -524,8 +584,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("電影") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("電影")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("電影");
                 toggleCategoryList("電影");
@@ -536,8 +598,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("戲劇") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("戲劇")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("戲劇");
                 toggleCategoryList("戲劇");
@@ -551,8 +615,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("讀書會") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("讀書會")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("讀書會");
                 toggleCategoryList("讀書會");
@@ -566,8 +632,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("桌遊") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("桌遊")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("桌遊");
                 toggleCategoryList("桌遊");
@@ -578,8 +646,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("電玩") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("電玩")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("電玩");
                 toggleCategoryList("電玩");
@@ -590,8 +660,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("棋藝") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("棋藝")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("棋藝");
                 toggleCategoryList("棋藝");
@@ -602,8 +674,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("密室逃脫") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("密室逃脫")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("密室逃脫");
                 toggleCategoryList("密室逃脫");
@@ -617,8 +691,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("KTV") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("KTV")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("KTV");
                 toggleCategoryList("KTV");
@@ -629,8 +705,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("逛街") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("逛街")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("逛街");
                 toggleCategoryList("逛街");
@@ -644,8 +722,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("美食") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("美食")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("美食");
                 toggleCategoryList("美食");
@@ -656,8 +736,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("酒吧") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("酒吧")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("酒吧");
                 toggleCategoryList("酒吧");
@@ -668,8 +750,10 @@ export default function Filter({
             <button
               type="button"
               className={`${
-                activeCategories.includes("咖啡廳") ? "active-tag" : "tag"
-              }`}
+                activeCategories.includes("咖啡廳")
+                  ? "active-tag dark:bg-darkPrimaryColor dark:border-darkPrimaryColor dark:hover:border-[#bfbfbf]"
+                  : "tag"
+              } dark:hover:border-darkPrimaryColor`}
               onClick={() => {
                 toggleActiveCategories("咖啡廳");
                 toggleCategoryList("咖啡廳");
@@ -710,7 +794,7 @@ export default function Filter({
                 setIsFilterOpen(false);
                 getFilterGroups();
               }}
-              className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-primaryColor rounded-[50px] text-white"
+              className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px] text-white"
             >
               Apply
             </button>

@@ -93,10 +93,10 @@ export default function Home({ token }) {
       </Head>
       <Topbar token={token} />
       <main
-        className={`${styles.content} min-h-screen pt-8 bg-backgroundColor`}
+        className={`${styles.content} min-h-screen pt-8 bg-backgroundColor dark:bg-darkBackgroundColor`}
       >
         <div className="w-[90%] pb-5 max-w-5xl m-auto">
-          <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
+          <div className="h-[100px] bg-secondaryColor dark:bg-darkSecondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
             <Image
               src="/pal-1.png"
               alt="pal"
@@ -166,13 +166,13 @@ export default function Home({ token }) {
             <button
               type="button"
               onClick={() => setIsFilterOpen(true)}
-              className="w-32 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
+              className="w-32 bg-primaryColor dark:bg-white text-[26px] font-bold text-white dark:text-darkPrimaryColor rounded-[50px]"
             >
               Filter
             </button>
             <button
               type="button"
-              className="w-32 px-6 py-1 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
+              className="w-32 px-6 py-1 bg-primaryColor dark:bg-white dark:bg-darkPrimaryColor text-[26px] font-bold text-white dark:text-darkPrimaryColor rounded-[50px]"
             >
               Sortby
             </button>

@@ -22,7 +22,7 @@ export default function Group({
   return (
     <div className={`${styles.content} group mt-6`}>
       <div
-        className={`h-20 px-8 flex justify-between items-center bg-backgroundColor rounded-[16px] ${
+        className={`h-20 px-8 flex justify-between items-center bg-backgroundColor dark:bg-[#222a4f] rounded-[16px] ${
           path !== "/profile" && "group-hover:rounded-b-none"
         } relative ${
           path === "/profile" && status === "pending" && "opacity-40"
@@ -38,7 +38,9 @@ export default function Group({
             path !== "/profile" && "group-hover:rounded-b-none"
           } `}
         />
-        <h3 className="p-5 ml-36 text-[26px] font-bold">{name}</h3>
+        <h3 className="p-5 ml-36 text-[26px] font-bold dark:text-white">
+          {name}
+        </h3>
         <Tag category={category} location={location} area={area} />
       </div>
       {path !== "/profile" && (
@@ -49,7 +51,7 @@ export default function Group({
             </p>
             <Link
               href={`/joinGroup/${groupId}`}
-              className="w-full py-1.5 self-end bg-primaryColor text-center text-xl font-bold text-white rounded-b-[20px] shrink-0"
+              className="w-full py-1.5 self-end bg-primaryColor dark:bg-darkPrimaryColor text-center text-xl font-bold text-white rounded-b-[20px] shrink-0"
             >
               Join
             </Link>
