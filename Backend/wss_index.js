@@ -7,6 +7,7 @@ class ExpressWebSocketServer extends WebSocketServer {
     constructor(app, options) {
         super(options);
         this.app = app;
+        this.app.init();
     }
 
     on(event, callback) {
@@ -16,10 +17,14 @@ class ExpressWebSocketServer extends WebSocketServer {
                 ws.httpStatus = code;
                 return ws;
             };
+            ws.cleanClose = () => {
+                this.app.onClose(ws);
+                ws.close();
+            };
             ws.json = (data) => {
-                if (ws.httpStatus % 100 !== 2) {
+                if (parseInt(Math.floor(ws.httpStatus / 100)) != 2) {
                     ws.send(JSON.stringify(data));
-                    ws.close();
+                    ws.cleanClose();
                     return ws;
                 }
                 ws.send(JSON.stringify(data));
@@ -51,32 +56,45 @@ chatServer.on("connection", (connection, req) => {
     connection.on("message", async (body) => {
 
         try {
-            connection.body = JSON.parse(body);
+
+            try {
+                connection.body = JSON.parse(body);
+            } catch (error) {
+                connection.status(400).json({ error: "Invalid JSON" });
+                return;
+            }
 
             if (!connection.authorization_id) {
+                if (!connection.body.Authorization) {
+                    return connection.status(400).json({ error: "No Authorization provided" });
+                }
                 req.headers = {
                     Authorization: connection.body.Authorization
                 };
                 await authorization(req, connection, () => { });
                 connection.authorization_id = req.authorization_id;
+                await app.processMetadata(connection);
             }
 
-            if (!connection.body.message) {
+            if (!connection.body.message && connection.authorization_id) {
+                connection.status(200).json({ status: "Authorization Finished" });
+            } else if (!connection.body.message) {
                 connection.status(400).json({ error: "No message provided" });
                 return;
             }
-
-            await app.processChat(connection);
-            const clients = chatServer.app.filterClients(chatServer.clients, await app.groupFilterer(connection));
-            if (clients) {
-                clients.forEach(client => {
-                    client.send(JSON.stringify(connection.body));
-                });
+            else {
+                await app.processMessage(connection);
+                const clients = chatServer.app.filterClients(connection);
+                if (clients) {
+                    clients.forEach(client => {
+                        client.send(JSON.stringify(connection.body));
+                    });
+                }
             }
 
         } catch (error) {
             console.log(error);
-            connection.status(400).json({ error: "Not authorized to send message." });
+            connection.status(500).json({ error: "Internal Server Error in chat websocket" });
         }
     });
 });

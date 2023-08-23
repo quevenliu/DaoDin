@@ -357,11 +357,27 @@ Method: WebSocket
 
 response type: application/json
 
-Input Format
+Input format of the first time connecting to the websocket for authorization
+```
+{
+    Authorization: "Bearer ${JWT}"
+}
+```
+
+If the authorization is not yet complete, the user cannot receive any message from the websocket.
+
+Input format once the websocket is connected
 ```
 {
     message: string
-    Authorizatoin: "Bearer ${JWT}"
+}
+```
+
+Authorization success receive format
+
+```
+{
+    status: "Authorization Finished"
 }
 ```
 
@@ -385,6 +401,13 @@ If there are any errors, the client will receive the error message in the format
     error: string
 }
 ```
+
+To ensure the user get up to date message, it is advised to call the API in the following way:
+
+1. Connect to the websocket
+2. Send authorization message
+3. Call the get chat list API
+4. Send message to the websocket
 
 ### Get Chat List
 
