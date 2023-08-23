@@ -125,7 +125,7 @@ export default function Topbar({ token }) {
   };
 
   return (
-    <div className="px-14 h-16 flex justify-between items-center bg-backgroundColor dark:bg-darkBackgroundColor relative">
+    <div className="px-14 h-16 flex justify-between items-center relative">
       <Link href="/">
         <h1
           className={`${styles.title} text-5xl text-white hover:animate-pulse`}
@@ -142,7 +142,10 @@ export default function Topbar({ token }) {
               className="w-10 h-10 p-2 bg-white rounded-full hover:animate-bounce"
               width={40}
               height={40}
-              onClick={() => setIsEventOpen(!isEventOpen)}
+              onClick={() => {
+                setIsEventOpen(!isEventOpen);
+                setIsSettingOpen(false);
+              }}
             />
             {unreadEventCount === 0 ? null : (
               <div className="text-white bg-red-500 rounded-full text-sm w-6 h-6 pt-[2px] absolute top-[-8px] right-[-10px]">
@@ -151,13 +154,16 @@ export default function Topbar({ token }) {
             )}
           </div>
           {isEventOpen && (
-            <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] border z-[1000]">
-              <div className="bg-primaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
+            <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] z-[1000]">
+              <div
+                className="bg-primaryColor dark:bg-darkPrimaryColor 
+ text-white py-2 rounded-t-[20px] text-[22px] font-medium"
+              >
                 Notification
               </div>
               {events.length === 0 ? (
                 <div className="rounded-b-[20px] overflow-auto">
-                  <p className="bg-white p-4">You have no notifications.</p>
+                  <p className="bg-[#F9EDED] p-4">You have no notifications.</p>
                 </div>
               ) : (
                 <div className="rounded-b-[20px] overflow-auto">
@@ -170,8 +176,8 @@ export default function Topbar({ token }) {
                     >
                       <div
                         className={`${
-                          event.is_read ? "bg-white" : "bg-backgroundColor"
-                        } p-4 flex`}
+                          event.is_read ? "text-[#A4A3A3]" : null
+                        } p-4 flex bg-[#F9EDED] dark:bg-[#EDF2FB]`}
                       >
                         <Image
                           src={event.picture}
@@ -206,7 +212,10 @@ export default function Topbar({ token }) {
         <button
           type="button"
           className="hover:animate-spin-slow"
-          onClick={() => setIsSettingOpen(!isSettingOpen)}
+          onClick={() => {
+            setIsSettingOpen(!isSettingOpen);
+            setIsEventOpen(false);
+          }}
         >
           <Image
             src="/setting.svg"
@@ -217,21 +226,21 @@ export default function Topbar({ token }) {
           />
         </button>
         {isSettingOpen && (
-          <div className="absolute w-40 top-20 right-14 rounded-[20px] border dark:border-hidden z-[1000]">
+          <div className="absolute w-40 top-[76px] right-14 rounded-[20px] z-[1000]">
             <div className="bg-primaryColor dark:bg-darkPrimaryColor text-center text-white py-2 rounded-t-[19px] text-[22px] font-medium">
               Setting
             </div>
             <div className="rounded-b-[19px] overflow-auto">
               <button
                 type="button"
-                className="w-full py-1 text-lg bg-white dark:bg-[#EDF2FB] border-b border-solid"
+                className="w-full py-2 text-lg bg-[#F9EDED] dark:bg-[#EDF2FB] border-b border-[#BFBFBF]  border-solid"
                 onClick={handleLogout}
               >
                 Logout
               </button>
               <button
                 type="button"
-                className="w-full py-1 bg-white dark:bg-[#EDF2FB]"
+                className="w-full py-2 bg-[#F9EDED] dark:bg-[#EDF2FB]"
               >
                 <MaterialUISwitch
                   onClick={handleSwitchMode}

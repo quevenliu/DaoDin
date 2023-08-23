@@ -10,16 +10,16 @@
 }
 
 .tag:hover {
-  border: 1px solid #f77b54;
+  border: 1px solid #C43F3F;
 }
 
 .active-tag {
   padding: 3px 12px;
-  border: 1px solid #f77b54;
+  border: 1px solid #C43F3F;
   border-radius: 50px;
   margin-left: 10px;
   color: white;
-  background-color: #f77b54;
+  background-color: #C43F3F;
 }
 
 .active-tag:hover {
