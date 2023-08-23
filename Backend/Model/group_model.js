@@ -90,8 +90,8 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     sort = sort || "recent";
 
     let Query = `
-    SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count, ISNULL(g.isJoined) AS isJoined FROM (
-    SELECT  \`group\`.*, membership.user_id as isJoined, region.area , COUNT(membership.user_id) AS count
+    SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count, NOT ISNULL(membership.user_id) AS isJoined FROM (
+    SELECT  \`group\`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count
     FROM \`group\`
     LEFT JOIN membership ON membership.group_id = \`group\`.id
     LEFT JOIN region ON region.city = \`group\`.location WHERE 1=1 
