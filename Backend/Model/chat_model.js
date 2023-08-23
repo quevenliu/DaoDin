@@ -1,4 +1,5 @@
 const pool = require('./db').pool;
+const { format_date } = require('../utils/utils');
 
 async function getMatchId(group_id, user_id) {
 
@@ -67,7 +68,7 @@ async function getMessages(match_id, cursor) {
     }
 
     result.forEach(chat => {
-        chat.sent_at = new Date(chat.sent_at).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+        chat.sent_at = format_date(chat.sent_at);
     });
 
     return {

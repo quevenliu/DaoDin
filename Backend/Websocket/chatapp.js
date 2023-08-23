@@ -2,6 +2,7 @@ const chatModel = require('../Model/chat_model');
 const matchModel = require('../Model/match_model');
 const userModel = require('../Model/user_model');
 const groupModel = require('../Model/group_model');
+const { format_date } = require('../utils/utils');
 
 async function processChat(connection) {
 
@@ -22,7 +23,8 @@ async function processChat(connection) {
         return;
     }
 
-    const timenow = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+    let timenow = new Date().toISOString();
+    timenow = format_date(timenow);
 
     connection.body = {
         message: connection.body.message,
@@ -49,7 +51,7 @@ function groupFilterer(connection) {
         connection.status(400).json({ error: "Invalid group_id, no match can be found." });
         return;
     }
-    return connection.match.users.map(user => user.user_id).filter(user_id => user_id !== connection.authorization_id);
+    return connection.match.users.map(user => user.user_id);
 }
 
 module.exports = {
