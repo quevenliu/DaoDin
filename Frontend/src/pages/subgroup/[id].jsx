@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
@@ -11,6 +12,7 @@ import Message from "@/components/Message";
 const apiUrl = process.env.API_URL;
 
 export default function Subgroup({ token, userId, groupId }) {
+  const router = useRouter();
   const [groupName, setGroupName] = useState("Group Name");
   const [members, setMembers] = useState([]);
   const [chats, setChats] = useState([]);
@@ -145,6 +147,19 @@ export default function Subgroup({ token, userId, groupId }) {
     await getChatList();
     resetNewChat();
   };
+
+  const handleLeaveMatch = async () => {
+    await axios
+      .delete(`${apiUrl}/group/${groupId}/leave`, config)
+      .then((res) => {
+        console.log(res);
+        router.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <Head>
@@ -157,14 +172,18 @@ export default function Subgroup({ token, userId, groupId }) {
       <Topbar token={token} />
       <div className="min-h-screen bg-backgroundColor dark:bg-darkBackgroundColor p-8">
         <div className="flex justify-between w-[90%] max-w-5xl px-10 m-auto items-center">
-          <div className={`${styles.content} text-[26px] font-bold dark:text-white`}>
+          <div
+            className={`${styles.content} text-[26px] font-bold dark:text-white`}
+          >
             {groupName}
           </div>
-          <div
+          <button
+            type="button"
             className={`${styles.content} text-2xl font-normal dark:text-white underline`}
+            onClick={handleLeaveMatch}
           >
             Leave
-          </div>
+          </button>
         </div>
         <div className="flex justify-between w-[90%] max-w-5xl m-auto pt-5 items-start">
           <div className="w-1/4 rounded-[20px] text-center mr-12 shrink-0">

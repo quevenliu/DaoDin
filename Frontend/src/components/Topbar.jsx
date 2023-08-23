@@ -150,7 +150,7 @@ export default function Topbar({ token }) {
               </div>
             )}
           </div>
-          {isEventOpen ? (
+          {isEventOpen && (
             <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] border z-[1000]">
               <div className="bg-primaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
                 Notification

@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { useState } from "react";
+import Image from "next/image";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
@@ -34,16 +35,32 @@ const signUp = async (payload) => {
     });
 };
 
+const getRandomNumber = (x) => Math.floor(Math.random() * x) + 1;
+
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
 
+  const [isSlip, setIsSlip] = useState(false);
   const toggleToLogin = () => {
     setIsLogin(true);
+    setIsSlip(false);
   };
   const toggleToRegister = () => {
     setIsLogin(false);
+    setTimeout(() => {
+      setIsSlip(true);
+    }, 200);
   };
+
+  const [isBreaking, setIsBreaking] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsBreaking((prevIsFlipped) => !prevIsFlipped);
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (payload) => {
     if (isLogin) {
@@ -56,6 +73,33 @@ export default function LoginPage() {
     setIsLogin(true);
   };
 
+  const [angle1, setAngle1] = useState(0);
+  const [angle2, setAngle2] = useState(0);
+  const [angle3, setAngle3] = useState(0);
+  const [angle4, setAngle4] = useState(0);
+  const [angle5, setAngle5] = useState(0);
+  const [angle6, setAngle6] = useState(0);
+  const [angle7, setAngle7] = useState(0);
+  const [angle8, setAngle8] = useState(0);
+  const [angle9, setAngle9] = useState(0);
+  const [angle10, setAngle10] = useState(0);
+  const [angle11, setAngle11] = useState(0);
+  const [angle12, setAngle12] = useState(0);
+  useEffect(() => {
+    setAngle1(getRandomNumber(360));
+    setAngle2(getRandomNumber(360));
+    setAngle3(getRandomNumber(360));
+    setAngle4(getRandomNumber(360));
+    setAngle5(getRandomNumber(360));
+    setAngle6(getRandomNumber(360));
+    setAngle7(getRandomNumber(360));
+    setAngle8(getRandomNumber(360));
+    setAngle9(getRandomNumber(360));
+    setAngle10(getRandomNumber(360));
+    setAngle11(getRandomNumber(360));
+    setAngle12(getRandomNumber(360));
+  }, [isSlip]);
+
   return (
     <>
       <Head>
@@ -67,7 +111,168 @@ export default function LoginPage() {
       </Head>
       <div className="h-screen pt-12 px-8 bg-backgroundColor">
         <div className="w-8/12 mx-auto p-9 flex justify-between bg-primaryColor rounded-[20px]">
-          <div>PIC</div>
+          <div className="relative flex-1">
+            {isLogin ? (
+              <>
+                <Image
+                  src="/pal-1.png"
+                  alt="pal-1"
+                  width={180}
+                  height={180}
+                  className="absolute top-2 right-6 hover:animate-bounce"
+                  style={{
+                    transform: `rotate(${angle1}deg)`,
+                  }}
+                />
+                <Image
+                  src="/pal-1.png"
+                  alt="pal-1"
+                  width={180}
+                  height={180}
+                  className="absolute -top-8 left-48 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle2}deg)` }}
+                />
+                <Image
+                  src="/pal-1.png"
+                  alt="pal-1"
+                  width={180}
+                  height={180}
+                  className="absolute -bottom-7 -left-8 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle3}deg)` }}
+                />
+                <Image
+                  src="/pal-2.png"
+                  alt="pal-2"
+                  width={180}
+                  height={180}
+                  className="absolute -bottom-6 left-40 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle4}deg)` }}
+                />
+                <Image
+                  src="/pal-2.png"
+                  alt="pal-2"
+                  width={180}
+                  height={180}
+                  className="absolute top-20 right-44 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle5}deg)` }}
+                />
+                <Image
+                  src="/pal-2.png"
+                  alt="pal-2"
+                  width={180}
+                  height={180}
+                  className="absolute -bottom-5 right-1 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle6}deg)` }}
+                />
+                <Image
+                  src="/pal-3.png"
+                  alt="pal-3"
+                  width={180}
+                  height={180}
+                  className="absolute -top-4 left-6 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle7}deg)` }}
+                />
+                <Image
+                  src="/pal-3.png"
+                  alt="pal-3"
+                  width={180}
+                  height={180}
+                  className="absolute bottom-28 right-52 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle8}deg)` }}
+                />
+                <Image
+                  src="/pal-3.png"
+                  alt="pal-3"
+                  width={180}
+                  height={180}
+                  className="absolute -bottom-6 right-36 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle9}deg)` }}
+                />
+                <Image
+                  src="/pal-4.png"
+                  alt="pal-4"
+                  width={180}
+                  height={180}
+                  className="absolute top-48 left-28 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle10}deg)` }}
+                />
+                <Image
+                  src="/pal-4.png"
+                  alt="pal-4"
+                  width={180}
+                  height={180}
+                  className="absolute top-44 right-10 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle11}deg)` }}
+                />
+                <Image
+                  src="/pal-4.png"
+                  alt="pal-4"
+                  width={180}
+                  height={180}
+                  className="absolute top-28 -left-6 hover:animate-bounce"
+                  style={{ transform: `rotate(${angle12}deg)` }}
+                />
+              </>
+            ) : (
+              <div className="h-full flex flex-col justify-end items-center">
+                <div>
+                  <Image
+                    src="/pal-3.png"
+                    alt="pal-3"
+                    width={180}
+                    height={180}
+                    className={`transition-transform transform duration-500 delay-[900ms] ease-out ${
+                      isSlip ? "translate-y-10" : "-translate-y-[600%]"
+                    }`}
+                  />
+                </div>
+                <div>
+                  <Image
+                    src="/pal-1.png"
+                    alt="pal-1"
+                    width={180}
+                    height={180}
+                    className={`transition-transform transform duration-500 delay-[600ms] ease-out ${
+                      isSlip ? "translate-y-5" : "-translate-y-[600%]"
+                    }`}
+                  />
+                </div>
+                <div>
+                  <Image
+                    src="/pal-2.png"
+                    alt="pal-2"
+                    width={180}
+                    height={180}
+                    className={`transition-transform transform duration-500 delay-300 ease-out ${
+                      isSlip ? "translate-y-2.5" : "-translate-y-[600%]"
+                    }`}
+                  />
+                </div>
+                <div>
+                  <Image
+                    src="/pal-4.png"
+                    alt="pal-4"
+                    width={180}
+                    height={180}
+                    className={`transition-transform transform duration-500 ease-out ${
+                      isSlip ? "translate-y-0" : "-translate-y-[600%]"
+                    }`}
+                  />
+                </div>
+                <div>
+                  <Image
+                    src="/chouchou.png"
+                    alt="chouchou"
+                    width={180}
+                    height={180}
+                    className={`transition-transform ${
+                      isBreaking && "scale-x-[-1]"
+                    }`}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
           <div className="w-5/12 p-7 flex flex-col items-center bg-white rounded-[20px]">
             <h1
               className={`${styles.title} text-6xl font-normal text-primaryColor`}
@@ -138,7 +343,7 @@ export default function LoginPage() {
                         type="email"
                         name="email"
                         placeholder="例: shirney@appworks.tw"
-                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
+                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor ring-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor rounded-[20px]"
                       />
                     </div>
                     <div>
@@ -154,7 +359,7 @@ export default function LoginPage() {
                         type="password"
                         name="password"
                         placeholder="大小寫英文及數字且 8 碼以上"
-                        className="w-full mt-2.5 px-3 py-1 border border-solid border-primaryColor rounded-[20px]"
+                        className="w-full mt-2.5 px-3 py-1 border border-solid border-primaryColor ring-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor rounded-[20px]"
                       />
                     </div>
                     <button
@@ -227,7 +432,7 @@ export default function LoginPage() {
                         type="text"
                         name="name"
                         placeholder="例: Chou Chou"
-                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
+                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor ring-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor rounded-[20px]"
                       />
                     </div>
                     <div>
@@ -243,7 +448,7 @@ export default function LoginPage() {
                         type="text"
                         name="email"
                         placeholder="例: shirney@appworks.tw"
-                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
+                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor ring-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor rounded-[20px]"
                       />
                     </div>
                     <div>
@@ -262,7 +467,7 @@ export default function LoginPage() {
                         type="password"
                         name="firstPassword"
                         placeholder="大小寫英文及數字且 8 碼以上"
-                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
+                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor ring-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor rounded-[20px]"
                       />
                     </div>
                     <div>
@@ -281,7 +486,7 @@ export default function LoginPage() {
                         type="password"
                         name="secondPassword"
                         placeholder="大小寫英文及數字且 8 碼以上"
-                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor rounded-[20px]"
+                        className="w-full mt-2.5 px-3 py-1 placeholder-[#BFBFBF] border border-solid border-primaryColor ring-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor rounded-[20px]"
                       />
                     </div>
                     <button
