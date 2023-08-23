@@ -1,8 +1,10 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Image from "next/image";
+import { AudioContext } from "./_app";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
@@ -21,9 +23,14 @@ export default function Home({ token }) {
   const [activeCategories, setActiveCategories] = useState([]);
   const [isDefault, setIsDefault] = useState(true);
 
-  const playHoverSound = () => {
-    const audio = new Audio("hedgehogSound.mp3");
-    audio.play();
+  const audios = useContext(AudioContext);
+  const playHedgehogCrySound = () => {
+    const { hedgehogCry } = audios;
+    if (hedgehogCry) {
+      hedgehogCry.play().catch((error) => {
+        console.error("Failed to play audio:", error);
+      });
+    }
   };
 
   const config = {
@@ -107,8 +114,23 @@ export default function Home({ token }) {
   }, [isDefault]);
 
   useEffect(() => {
-    if (isGettingGroupsByCursor && cursor !== null) {
-      getGroupsByCursor();
+    if (isGettingGroupsByCursor) {
+      if (cursor !== null) {
+        getGroupsByCursor();
+      } else {
+        Swal.fire({
+          title:
+            "Haven't found the group you're looking for?\nWhat about creating one🤩?!",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      }
     }
   }, [isGettingGroupsByCursor, isDefault]);
 
@@ -132,64 +154,64 @@ export default function Home({ token }) {
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
           </div>
 

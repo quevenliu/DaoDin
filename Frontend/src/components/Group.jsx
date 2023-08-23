@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useContext } from "react";
+import { AudioContext } from "../pages/_app";
+
 import styles from "../styles/font.module.scss";
 import Tag from "./Tag";
 
@@ -14,9 +17,16 @@ export default function Group({
   picture,
   area,
 }) {
-  const playHoverSound = () => {
-    const audio = new Audio("/dong.wav");
-    audio.play();
+  const audios = useContext(AudioContext);
+  const playDongSound = () => {
+    if (path !== "/profile") {
+      const { dong } = audios;
+      if (dong) {
+        dong.play().catch((error) => {
+          console.error("Failed to play audio:", error);
+        });
+      }
+    }
   };
 
   return (
@@ -27,7 +37,7 @@ export default function Group({
         } relative ${
           path === "/profile" && status === "pending" && "opacity-40"
         }`}
-        onMouseEnter={path !== "/profile" ? playHoverSound : undefined}
+        onMouseEnter={playDongSound}
       >
         <Image
           src={picture}
