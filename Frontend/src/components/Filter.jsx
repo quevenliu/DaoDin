@@ -466,7 +466,7 @@ export default function Filter({
               onClick={() => {
                 setIsFilterOpen(false);
               }}
-              className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-primaryColor rounded-[50px] text-white"
+              className="flex w-28 justify-center py-1.5 text-[22px] font-bold bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px] text-white"
             >
               Apply
             </button>

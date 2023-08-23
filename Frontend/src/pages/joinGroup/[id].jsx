@@ -25,7 +25,7 @@ export default function JoinGroupPage({ token, groupId }) {
   const resetForm = () => {
     nicknameRef.current.value = "";
     introRef.current.value = "";
-    introRef.current.value = "";
+    msgRef.current.value = "";
   };
   const getGroup = async () => {
     await axios
@@ -73,13 +73,13 @@ export default function JoinGroupPage({ token, groupId }) {
       </Head>
       <Topbar token={token} />
       <main
-        className={`${styles.content} min-h-screen bg-backgroundColor p-14`}
+        className={`${styles.content} min-h-screen bg-backgroundColor dark:bg-darkBackgroundColor p-14`}
       >
-        <div className="w-[90%] max-w-5xl bg-secondaryColor m-auto rounded-t-[20px] text-center py-3 text-[26px] font-bold">
+        <div className="w-[90%] max-w-5xl bg-secondaryColor dark:bg-darkSecondaryColor dark:text-white m-auto rounded-t-[20px] text-center py-3 text-[26px] font-bold">
           {group.name || "Mystery Group"}
         </div>
-        <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-[20px] flex">
-          <form className="w-full px-2.5 mb-6 flex flex-col justify-between gap-7">
+        <div className="w-[90%] max-w-5xl bg-white m-auto mb-10 px-12 py-8 rounded-b-[20px] flex">
+          <form className="w-full px-2.5 mb-6 flex flex-col justify-between gap-5">
             <label
               htmlFor="nickname"
               className="text-[28px] font-semibold flex flex-col"
@@ -89,7 +89,7 @@ export default function JoinGroupPage({ token, groupId }) {
                 type="text"
                 id="nickname"
                 name="nickname"
-                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor dark:border-darkPrimaryColor rounded-[20px] ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                 ref={nicknameRef}
               />
             </label>
@@ -102,7 +102,7 @@ export default function JoinGroupPage({ token, groupId }) {
                 id="intro"
                 name="intro"
                 rows="6"
-                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor dark:border-darkPrimaryColor rounded-[20px] resize-none overflow-hidden ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                 ref={introRef}
               />
             </label>
@@ -115,7 +115,7 @@ export default function JoinGroupPage({ token, groupId }) {
                 id="tendency"
                 name="tendency"
                 rows="6"
-                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor dark:border-darkPrimaryColor rounded-[20px] resize-none overflow-hidden ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                 ref={msgRef}
               />
             </label>
@@ -123,12 +123,13 @@ export default function JoinGroupPage({ token, groupId }) {
               <button
                 type="button"
                 className="w-32 py-2 text-center text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
+                onClick={resetForm}
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className="w-32 py-2 text-center text-2xl font-semibold text-white bg-primaryColor rounded-[50px]"
+                className="w-32 py-2 text-center text-2xl font-semibold text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px]"
                 onClick={handleJoinGroup}
               >
                 Join
