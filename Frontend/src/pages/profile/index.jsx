@@ -45,6 +45,7 @@ export default function ProfilePage({ token, userId }) {
     await axios
       .get(`${apiUrl}/group/search?creator_id=1`, config)
       .then((res) => {
+        console.log(res.data.groups);
         setMyGroups(res.data.groups);
       })
       .catch((err) => {
@@ -297,31 +298,56 @@ export default function ProfilePage({ token, userId }) {
                   </Link>
                 ))
               : joinedGroups.map((joinedGroup) => (
-                  <Link
-                    href={`/subgroup/${joinedGroup.group_id}`}
-                    key={joinedGroup.group_id}
-                    className="group relative"
-                  >
-                    <Group
-                      path={path}
-                      name={joinedGroup.name}
-                      category={joinedGroup.category}
-                      location={joinedGroup.location}
-                      description={joinedGroup.description}
-                      status={joinedGroup.status}
-                      picture={joinedGroup.picture}
-                      area={joinedGroup.area}
-                    />
-                    <button
-                      type="button"
-                      className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
-                      onClick={(e) => {
-                        handleLeaveJoinedGroup(e, joinedGroup.group_id);
-                      }}
-                    >
-                      Leave
-                    </button>
-                  </Link>
+                  <div key={joinedGroup.group_id}>
+                    {joinedGroup.status === "complete" ? (
+                      <Link
+                        href={`/subgroup/${joinedGroup.group_id}`}
+                        className="group relative"
+                      >
+                        <Group
+                          path={path}
+                          name={joinedGroup.name}
+                          category={joinedGroup.category}
+                          location={joinedGroup.location}
+                          description={joinedGroup.description}
+                          status={joinedGroup.status}
+                          picture={joinedGroup.picture}
+                          area={joinedGroup.area}
+                        />
+                        <button
+                          type="button"
+                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
+                          onClick={(e) => {
+                            handleLeaveJoinedGroup(e, joinedGroup.group_id);
+                          }}
+                        >
+                          Leave
+                        </button>
+                      </Link>
+                    ) : (
+                      <div className="group relative">
+                        <Group
+                          path={path}
+                          name={joinedGroup.name}
+                          category={joinedGroup.category}
+                          location={joinedGroup.location}
+                          description={joinedGroup.description}
+                          status={joinedGroup.status}
+                          picture={joinedGroup.picture}
+                          area={joinedGroup.area}
+                        />
+                        <button
+                          type="button"
+                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
+                          onClick={(e) => {
+                            handleLeaveJoinedGroup(e, joinedGroup.group_id);
+                          }}
+                        >
+                          Leave
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 ))}
           </div>
         </div>
