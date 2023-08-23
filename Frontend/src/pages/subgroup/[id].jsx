@@ -177,7 +177,7 @@ export default function Subgroup({ token, userId, groupId }) {
           </div>
           <button
             type="button"
-            className={`${styles.content} text-2xl font-normal dark:text-white underline`}
+            className={`${styles.content} text-2xl font-normal text-white underline`}
             onClick={handleLeaveMatch}
           >
             Leave
