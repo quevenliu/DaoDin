@@ -22,10 +22,12 @@ async function processChat(connection) {
         return;
     }
 
+    const timenow = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+
     connection.body = {
         message: connection.body.message,
         user_id: connection.authorization_id,
-        sent_at: new Date().toISOString(),
+        sent_at: timenow,
         picture: connection.user.picture,
         nickname: connection.membership.nickname
     }

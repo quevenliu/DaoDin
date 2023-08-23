@@ -66,6 +66,10 @@ async function getMessages(match_id, cursor) {
         next_cursor = result[result.length - 1].chat_id;
     }
 
+    result.forEach(chat => {
+        chat.sent_at = new Date(chat.sent_at).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+    });
+
     return {
         chats: result,
         next_cursor: next_cursor

@@ -247,24 +247,3 @@ module.exports = {
     switchToComplete,
     getMembership
 }
-
-/*
-
-Remove uncessary text and just keep the SQL code
-
-SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (\n' +
-2023-08-22 17:37:21 0|index  |     '    SELECT  `group`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count\n' +
-2023-08-22 17:37:21 0|index  |     '    FROM `group`\n' +
-2023-08-22 17:37:21 0|index  |     '    LEFT JOIN membership ON membership.group_id = `group`.id\n' +
-2023-08-22 17:37:21 0|index  |     '    LEFT JOIN region ON region.city = `group`.location WHERE 1=1 \n' +
-2023-08-22 17:37:21 0|index  |     "     AND  id <= NULL and count <= NULL  GROUP BY membership.group_id ) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE membership.user_id IS NULL  AND status = 'pending'  ORDER BY count DESC, id DESC  LIMIT 11",
-
-Type here: 
-SELECT DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count FROM (
-    SELECT `group`.*, membership.user_id, region.area , COUNT(membership.user_id) AS count
-    FROM `group`
-    LEFT JOIN membership ON membership.group_id = `group`.id
-    LEFT JOIN region ON region.city = `group`.location WHERE 1=1
-    AND  id <= 100  GROUP BY membership.group_id ) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE membership.user_id IS NULL  AND status = 'pending'  AND count <= 100 ORDER BY count DESC, id DESC  LIMIT 11
-
-*/
