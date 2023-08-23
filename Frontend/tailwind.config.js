@@ -11,11 +11,15 @@ module.exports = {
         primaryColor: "#F77B54",
         backgroundColor: "#F3F3F3",
         secondaryColor: "#FCC3C3",
+        darkPrimaryColor: "#01061B",
+        darkSecondaryColor: "#243477",
+        darkBackgroundColor: "#020B35",
       },
       animation: {
         "spin-slow": "spin 3s linear infinite",
       },
     },
   },
+  darkMode: "class",
   plugins: [],
 };

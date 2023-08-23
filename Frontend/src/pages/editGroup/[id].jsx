@@ -291,7 +291,7 @@ export default function EditGroupPage({ token, groupId }) {
       </Head>
       <Topbar token={token} />
       <main
-        className={`${styles.content} min-h-screen bg-backgroundColor p-14`}
+        className={`${styles.content} min-h-screen bg-backgroundColor dark:bg-darkBackgroundColor p-14`}
       >
         <div className="w-[90%] max-w-6xl bg-white m-auto mb-10 px-16 py-10 rounded-[20px] flex ">
           <div className="w-full">
@@ -305,7 +305,7 @@ export default function EditGroupPage({ token, groupId }) {
                   type="text"
                   id="groupName"
                   name="groupName"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px]"
+                  className="mt-4 p-2.5 text-lg font-normal border border-solid border-primaryColor dark:border-darkPrimaryColor rounded-[20px] ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                   defaultValue={groupData.name}
                   ref={groupNameRef}
                 />
@@ -320,8 +320,8 @@ export default function EditGroupPage({ token, groupId }) {
                       <Listbox.Label className="block text-3xl font-bold leading-6">
                         Category
                       </Listbox.Label>
-                      <div className="relative mt-2">
-                        <Listbox.Button className="h-10 relative w-full cursor-default border border-solid border-primaryColor rounded-[20px] bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primaryColor sm:text-sm sm:leading-6">
+                      <div className="relative mt-4">
+                        <Listbox.Button className="h-10 relative w-full cursor-default border border-solid border-primaryColor dark:border-darkPrimaryColor rounded-[20px] bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor sm:text-sm sm:leading-6">
                           <span className="flex items-center">
                             <span className="ml-3 block truncate text-xl">
                               {categorySelected.name || "請選擇分類"}
@@ -349,7 +349,7 @@ export default function EditGroupPage({ token, groupId }) {
                                 className={({ active }) =>
                                   classNames(
                                     active
-                                      ? "bg-primaryColor text-white"
+                                      ? "bg-primaryColor dark:bg-darkPrimaryColor text-white"
                                       : "text-gray-900",
                                     "relative cursor-default select-none py-2 pl-3 pr-9 text-xl"
                                   )
@@ -408,8 +408,8 @@ export default function EditGroupPage({ token, groupId }) {
                       <Listbox.Label className="block text-3xl font-bold leading-6">
                         Location
                       </Listbox.Label>
-                      <div className="relative mt-2">
-                        <Listbox.Button className="h-10 relative w-full cursor-default border border-solid border-primaryColor rounded-[20px] bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primaryColor sm:text-sm sm:leading-6">
+                      <div className="relative mt-4">
+                        <Listbox.Button className="h-10 relative w-full cursor-default border border-solid border-primaryColor dark:border-darkPrimaryColor rounded-[20px] bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor sm:text-sm sm:leading-6">
                           <span className="flex items-center">
                             <span className="ml-3 block truncate text-xl">
                               {locationSelected.name || "請選擇縣市"}
@@ -437,7 +437,7 @@ export default function EditGroupPage({ token, groupId }) {
                                 className={({ active }) =>
                                   classNames(
                                     active
-                                      ? "bg-primaryColor text-white"
+                                      ? "bg-primaryColor dark:bg-darkPrimaryColor text-white"
                                       : "text-gray-900",
                                     "relative cursor-default select-none py-2 pl-3 pr-9 text-xl"
                                   )
@@ -496,13 +496,13 @@ export default function EditGroupPage({ token, groupId }) {
                   id="groupDescription"
                   name="groupDescription"
                   rows="6"
-                  className="mt-2 p-2.5 text-lg font-normal border border-solid border-primaryColor rounded-[20px] resize-none overflow-hidden"
+                  className="mt-4 p-2.5 text-lg font-normal border border-solid border-primaryColor dark:border-darkPrimaryColor ring-1 ring-inset ring-primaryColor dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor rounded-[20px] resize-none overflow-hidden"
                   ref={groupDescriptionRef}
                   defaultValue={groupData.description}
                 />
               </label>
               <div
-                className="p-3 flex justify-center text-center text-2xl font-bold border-2 border-dashed border-primaryColor rounded-[20px]"
+                className="p-3 flex justify-center text-center text-2xl font-bold border-2 border-dashed border-primaryColor dark:border-darkPrimaryColor rounded-[20px]"
                 onDrop={handleDrop}
                 onDragEnter={(e) => e.preventDefault()}
                 onDragOver={(e) => e.preventDefault()}
@@ -517,7 +517,7 @@ export default function EditGroupPage({ token, groupId }) {
                   />
                 ) : (
                   <div className="my-10 flex flex-col items-center cursor-pointer">
-                    <p className="text-center">
+                    <p className="text-center dark:text-[#BFBFBF]">
                       拖放圖片到此區域上傳
                       <br />
                       or
@@ -532,7 +532,7 @@ export default function EditGroupPage({ token, groupId }) {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current.click()}
-                      className="text-primaryColor underline"
+                      className="text-primaryColor dark:text-darkPrimaryColor underline"
                     >
                       點擊選擇圖片
                     </button>
@@ -542,13 +542,13 @@ export default function EditGroupPage({ token, groupId }) {
               <div className="self-end flex gap-2">
                 <button
                   type="button"
-                  className="px-6 py-2 text-white bg-[#BFBFBF] rounded-[50px]"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="px-6 py-2 text-white bg-primaryColor rounded-[50px]"
+                  className="w-32 py-2 text-2xl font-semibold text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px]"
                   onClick={handleUpdateGroup}
                 >
                   Confirm
