@@ -46,7 +46,6 @@ export default function ProfilePage({ token, userId }) {
       .get(`${apiUrl}/group/search?creator_id=1`, config)
       .then((res) => {
         setMyGroups(res.data.groups);
-        console.log(res.data.groups);
       })
       .catch((err) => {
         console.log(err);
@@ -57,7 +56,6 @@ export default function ProfilePage({ token, userId }) {
       .get(`${apiUrl}/group/search?isJoined=1`, config)
       .then((res) => {
         setJoinedGroups(res.data.groups);
-        console.log(res.data.groups);
       })
       .catch((err) => {
         console.log(err);

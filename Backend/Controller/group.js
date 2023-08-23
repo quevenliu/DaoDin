@@ -224,6 +224,10 @@ const searchGroup = async (req, res) => {
     const myId = req.authorization_id;
     const creatorId = req.query.creator_id;
 
+    if (sort && sort !== 'recent' && sort !== 'popular') {
+        res.status(400).send(JSON.stringify({ "error": "only recent and popular is allowed" }));
+    }
+
     try {
 
         if (category !== undefined) {
