@@ -12,11 +12,12 @@ async function getMatch(myId, groupId) {
     }
 
     let Query = `
-                SELECT  U.picture, MEM.self_intro, MEM.match_msg, MEM.nickname, MU.match_id, MU.user_id
+                SELECT  U.picture, MEM.self_intro, MEM.match_msg, MEM.nickname, MU.match_id, MU.user_id, G.name AS group_name
                 FROM match_user AS MU
                 LEFT JOIN user AS U ON MU.user_id = U.id 
                 LEFT JOIN \`match\` AS M ON M.id = MU.match_id
                 LEFT JOIN membership AS MEM ON MEM.group_id = M.group_id AND MEM.user_id = MU.user_id
+                LEFT JOIN \`group\` AS G ON G.id = M.group_id
                 WHERE M.group_id = ?;
             `;
 
@@ -38,7 +39,8 @@ async function getMatch(myId, groupId) {
             }
         }),
 
-        "matched_group_id": members[0]["match_id"]
+        "matched_group_id": members[0]["match_id"],
+        "group_name": members[0]["group_name"],
     }
 
     Cache.addCache(cacheKey, matchList, { expire: 60 * 60 * 24, resetExpire: true });
