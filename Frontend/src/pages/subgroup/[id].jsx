@@ -11,6 +11,7 @@ import Message from "@/components/Message";
 const apiUrl = process.env.API_URL;
 
 export default function Subgroup({ token, userId, groupId }) {
+  const [groupName, setGroupName] = useState("Group Name");
   const [members, setMembers] = useState([]);
   const [chats, setChats] = useState([]);
   const newChatRef = useRef("");
@@ -51,8 +52,8 @@ export default function Subgroup({ token, userId, groupId }) {
     await axios
       .get(`${apiUrl}/match/${groupId}`, config)
       .then((res) => {
-        console.log(res);
         setMembers(res.data.users);
+        setGroupName(res.data.group_name);
       })
       .catch((err) => {
         console.log(err);
@@ -149,7 +150,7 @@ export default function Subgroup({ token, userId, groupId }) {
       <div className="min-h-screen bg-backgroundColor p-8">
         <div className="flex justify-between w-[90%] max-w-5xl px-10 m-auto items-center">
           <div className={`${styles.content} text-[26px] font-bold`}>
-            Group Name
+            {groupName}
           </div>
           <div className={`${styles.content} text-2xl font-normal underline`}>
             Leave
