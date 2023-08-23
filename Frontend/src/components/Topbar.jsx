@@ -29,7 +29,6 @@ export default function Topbar({ token }) {
     await axios
       .get(`${apiUrl}/event/`, config)
       .then((res) => {
-        console.log(res.data.events);
         setEvents(res.data.events);
 
         const unreadCount = res.data.events.filter(
@@ -97,9 +96,9 @@ export default function Topbar({ token }) {
               ) : (
                 <div className="rounded-b-[20px] overflow-auto">
                   {events.map((event) => (
-                    <button
-                      type="button"
+                    <Link
                       key={event.event_id}
+                      href={`/subgroup/${event.group_id}`}
                       onClick={() => readEvent(event.event_id, event.is_read)}
                       className="w-full"
                     >
@@ -122,7 +121,7 @@ export default function Topbar({ token }) {
                           <p className="text-sm">{event.created_at}</p>
                         </div>
                       </div>
-                    </button>
+                    </Link>
                   ))}
                 </div>
               )}
