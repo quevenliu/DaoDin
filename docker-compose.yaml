@@ -50,7 +50,7 @@ services:
     networks:
       - daodin
     ports:
-      - "5001:5000"
+      - "5000:5000"
     expose:
       - "5000"
   rabbitmq:
