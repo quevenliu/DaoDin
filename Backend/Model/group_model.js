@@ -139,7 +139,7 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
         }
     }
 
-    Query += ` GROUP BY membership.group_id ) AS g`;
+    Query += ` GROUP BY \`group\`.id ) AS g`;
 
     Query += ` LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = ?  WHERE 1=1 `;
     params.push(myId);
@@ -247,3 +247,15 @@ module.exports = {
     switchToComplete,
     getMembership
 }
+
+/*
+SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, g.creator_id, g.picture, g.area, g.count, NOT ISNULL(membership.user_id) AS isJoined FROM(
+    SELECT`group`.*, membership.user_id, region.area, COUNT(membership.user_id) AS count
+     FROM`group`
+     LEFT JOIN membership ON membership.group_id = `group`.id
+     LEFT JOIN region ON region.city = `group`.location WHERE 1 = 1 AND creator_id = 727 GROUP BY membership.group_id) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE 1 = 1;
+
+SELECT`group`.*, membership.user_id, COUNT(membership.user_id) AS count
+FROM`group`
+     LEFT JOIN membership ON membership.group_id = `group`.id
+     WHERE 1 = 1 AND creator_id = 727 GROUP BY`group`.id*/
