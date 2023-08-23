@@ -174,6 +174,8 @@ const joinGroup = async (req, res) => {
             return;
         }
         const channel = await RabbitMQ.connect();
+        await RabbitMQ.createUserQueue(channel, `user_${myId}_queue`);
+        await RabbitMQ.createGroupExchange(channel, groupId);
         await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
         group_member_count = await model.getGroupMemberCount(groupId);
 
@@ -210,6 +212,8 @@ const leaveGroup = async (req, res) => {
         return;
     }
     const channel = await RabbitMQ.connect();
+    await RabbitMQ.createUserQueue(channel, `user_${myId}_queue`);
+    await RabbitMQ.createGroupExchange(channel, groupId);
     await RabbitMQ.unbindUserQueueFromExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
     res.status(200).send(JSON.stringify({ group_id: id2 }));
 }
