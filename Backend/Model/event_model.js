@@ -11,7 +11,8 @@ const getEvent = async (myId, groupIdList) => {
     let Query = `   SELECT * , \`match\`.id AS match_id , event.id AS id FROM event 
                     LEFT JOIN \`group\` ON event.group_id = group.id
                     LEFT JOIN \`match\` ON \`match\`.group_id = \`group\`.id
-                    WHERE user_id = ${myId}
+                    LEFT JOIN match_user ON match_user.match_id = match.id
+                    WHERE match_user.user_id = ${myId} 
                 `;
     const [result] = await pool.query(Query);
     return result;
