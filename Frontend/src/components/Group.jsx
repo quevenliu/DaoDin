@@ -22,7 +22,7 @@ export default function Group({
   return (
     <div className={`${styles.content} group mt-6`}>
       <div
-        className={`h-20 px-8 flex justify-between items-center bg-backgroundColor dark:bg-[#222a4f] rounded-[16px] ${
+        className={`h-20 px-8 flex justify-between items-center bg-[#F2B9B9] dark:bg-[#222a4f] rounded-[16px] ${
           path !== "/profile" && "group-hover:rounded-b-none"
         } relative ${
           path === "/profile" && status === "pending" && "opacity-40"
@@ -44,14 +44,14 @@ export default function Group({
         <Tag category={category} location={location} area={area} />
       </div>
       {path !== "/profile" && (
-        <div className="w-full opacity-0 transform translate-y-[-10px] transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
-          <div className="hidden group-hover:flex px-6 py-5 flex-col bg-[#BFBFBF] rounded-b-[20px]">
-            <p className="w-full text-[17px] px-5 py-4 bg-backgroundColor rounded-t-[20px]">
+        <div className="w-full w opacity-0 transform translate-y-[-10px] transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+          <div className="hidden group-hover:flex px-6 py-5 flex-col bg-white dark:bg-[#CCCCCC] rounded-b-[20px]">
+            <p className="w-full text-[17px] px-5 py-4 bg-[#F9EDED] dark:white rounded-t-[20px]">
               {description}
             </p>
             <Link
               href={`/joinGroup/${groupId}`}
-              className="w-full py-1.5 self-end bg-primaryColor dark:bg-darkPrimaryColor text-center text-xl font-bold text-white rounded-b-[20px] shrink-0"
+              className="w-full py-1.5 dark:text-white self-end bg-[#FBD7D7] dark:bg-darkPrimaryColor text-center text-xl font-bold bg:text-white rounded-b-[20px] shrink-0"
             >
               Join
             </Link>
