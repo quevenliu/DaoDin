@@ -11,6 +11,7 @@ const apiUrl = process.env.API_URL;
 export default function Topbar({ token }) {
   const [events, setEvents] = useState([]);
   const [isEventOpen, setIsEventOpen] = useState(false);
+  const [unreadEventCount, setUnreadEventCount] = useState(0);
   const router = useRouter();
   const handleLogout = () => {
     removeCookie("userInfo");
@@ -28,7 +29,13 @@ export default function Topbar({ token }) {
     await axios
       .get(`${apiUrl}/event/`, config)
       .then((res) => {
+        console.log(res.data.events);
         setEvents(res.data.events);
+
+        const unreadCount = res.data.events.filter(
+          (event) => event.is_read === 0
+        ).length;
+        setUnreadEventCount(unreadCount);
       })
       .catch((err) => {
         console.log(err);
@@ -62,17 +69,24 @@ export default function Topbar({ token }) {
         </h1>
       </Link>
       <div className={`${styles.content} flex gap-4`}>
-        <button type="button">
-          <Image
-            src="/event.svg"
-            alt="setting"
-            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-bounce"
-            width={40}
-            height={40}
-            onClick={() => setIsEventOpen(!isEventOpen)}
-          />
+        <button type="button" className="relative">
+          <div className="hover:animate-bounce">
+            <Image
+              src="/event.svg"
+              alt="setting"
+              className="w-10 h-10 p-2 bg-white rounded-full"
+              width={40}
+              height={40}
+              onClick={() => setIsEventOpen(!isEventOpen)}
+            />
+            {unreadEventCount === 0 ? null : (
+              <div className="text-white bg-red-500 rounded-full text-sm w-6 h-6 pt-[2px] absolute top-[-8px] right-[-10px]">
+                {unreadEventCount}
+              </div>
+            )}
+          </div>
           {isEventOpen ? (
-            <div className="absolute w-72 top-20 right-14 rounded-[20px] border z-[1000]">
+            <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] border z-[1000]">
               <div className="bg-primaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
                 Notification
               </div>
