@@ -127,10 +127,8 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
     if (creatorId == 1) {
         Query += ` AND creator_id = ? `;
         params.push(myId);
-    } else if (creatorId == 0) {
-        Query += ` AND creator_id != ? `;
-        params.push(myId);
     }
+
     if (cursor !== undefined) {
         if (sort === "recent") {
             Query += ` AND  id <= ? `;
