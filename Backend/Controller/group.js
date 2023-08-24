@@ -246,8 +246,7 @@ const searchGroup = async (req, res) => {
             var decodedString = Buffer.from(cursor, "base64").toString();
             if (sort === 'recent') {
                 if (isNaN(parseInt(decodedString))) {
-                    res.status(400).send(JSON.stringify({ "error": "can't search" }));
-                    return;
+                    decodedString = undefined;
                 }
                 decodedString = parseInt(decodedString);
             }
@@ -255,8 +254,7 @@ const searchGroup = async (req, res) => {
                 decodedString = JSON.parse(decodedString);
                 console.log(decodedString);
                 if (decodedString.id === undefined || decodedString.count === undefined) {
-                    res.status(400).send(JSON.stringify({ "error": "can't search" }));
-                    return;
+                    decodedString = undefined;
                 }
             }
             groups = await model.searchGroup(category, location, sort, joined, decodedString, myId, creatorId);
