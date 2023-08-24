@@ -156,15 +156,6 @@ export default function LoginPage() {
     }, 200);
   };
 
-  const [isBreaking, setIsBreaking] = useState(false);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsBreaking((prevIsFlipped) => !prevIsFlipped);
-    }, 250);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const handleSubmit = async (payload) => {
     if (isLogin) {
       await signIn(payload);
@@ -222,7 +213,7 @@ export default function LoginPage() {
                   alt="pal-1"
                   width={180}
                   height={180}
-                  className="absolute top-2 right-6 hover:animate-login-shake"
+                  className="absolute top-2 right-6 hover:animate-loginShake"
                   style={{
                     transform: `rotate(${angle1}deg)`,
                   }}
@@ -232,7 +223,7 @@ export default function LoginPage() {
                   alt="pal-1"
                   width={180}
                   height={180}
-                  className="absolute -top-8 left-48 hover:animate-login-shake"
+                  className="absolute -top-8 left-48 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle2}deg)` }}
                 />
                 <Image
@@ -240,7 +231,7 @@ export default function LoginPage() {
                   alt="pal-1"
                   width={180}
                   height={180}
-                  className="absolute -bottom-7 -left-8 hover:animate-login-shake"
+                  className="absolute -bottom-7 -left-8 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle3}deg)` }}
                 />
                 <Image
@@ -248,7 +239,7 @@ export default function LoginPage() {
                   alt="pal-2"
                   width={180}
                   height={180}
-                  className="absolute -bottom-6 left-40 hover:animate-login-shake"
+                  className="absolute -bottom-6 left-40 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle4}deg)` }}
                 />
                 <Image
@@ -256,7 +247,7 @@ export default function LoginPage() {
                   alt="pal-2"
                   width={180}
                   height={180}
-                  className="absolute top-20 right-44 hover:animate-login-shake"
+                  className="absolute top-20 right-44 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle5}deg)` }}
                 />
                 <Image
@@ -264,7 +255,7 @@ export default function LoginPage() {
                   alt="pal-2"
                   width={180}
                   height={180}
-                  className="absolute -bottom-5 right-1 hover:animate-login-shake"
+                  className="absolute -bottom-5 right-1 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle6}deg)` }}
                 />
                 <Image
@@ -272,7 +263,7 @@ export default function LoginPage() {
                   alt="pal-3"
                   width={180}
                   height={180}
-                  className="absolute -top-4 left-6 hover:animate-login-shake"
+                  className="absolute -top-4 left-6 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle7}deg)` }}
                 />
                 <Image
@@ -280,7 +271,7 @@ export default function LoginPage() {
                   alt="pal-3"
                   width={180}
                   height={180}
-                  className="absolute bottom-28 right-52 hover:animate-login-shake"
+                  className="absolute bottom-28 right-52 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle8}deg)` }}
                 />
                 <Image
@@ -288,7 +279,7 @@ export default function LoginPage() {
                   alt="pal-3"
                   width={180}
                   height={180}
-                  className="absolute -bottom-6 right-36 hover:animate-login-shake"
+                  className="absolute -bottom-6 right-36 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle9}deg)` }}
                 />
                 <Image
@@ -296,7 +287,7 @@ export default function LoginPage() {
                   alt="pal-4"
                   width={180}
                   height={180}
-                  className="absolute top-48 left-28 hover:animate-login-shake"
+                  className="absolute top-48 left-28 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle10}deg)` }}
                 />
                 <Image
@@ -304,7 +295,7 @@ export default function LoginPage() {
                   alt="pal-4"
                   width={180}
                   height={180}
-                  className="absolute top-44 right-10 hover:animate-login-shake"
+                  className="absolute top-44 right-10 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle11}deg)` }}
                 />
                 <Image
@@ -312,7 +303,7 @@ export default function LoginPage() {
                   alt="pal-4"
                   width={180}
                   height={180}
-                  className="absolute top-28 -left-6 hover:animate-login-shake"
+                  className="absolute top-28 -left-6 hover:animate-loginShake"
                   style={{ transform: `rotate(${angle12}deg)` }}
                 />
               </>
@@ -368,9 +359,7 @@ export default function LoginPage() {
                     alt="chouchou"
                     width={180}
                     height={180}
-                    className={`transition-transform ${
-                      isBreaking && "scale-x-[-1]"
-                    }`}
+                    className="animate-breaking"
                   />
                 </div>
               </div>
@@ -467,7 +456,7 @@ export default function LoginPage() {
                     </div>
                     <button
                       type="submit"
-                      className="ww-4/12 px-7 py-2 self-center bg-primaryColor text-lg text-white rounded-[20px]"
+                      className="ww-4/12 px-7 py-2 self-center bg-primaryColor text-lg text-white rounded-[20px] hover:animate-buttonPush"
                       disabled={isSubmitting}
                     >
                       登入
@@ -594,7 +583,7 @@ export default function LoginPage() {
                     </div>
                     <button
                       type="submit"
-                      className="w-4/12 px-7 py-2 self-center bg-primaryColor text-lg text-white rounded-[20px]"
+                      className="w-4/12 px-7 py-2 self-center bg-primaryColor text-lg text-white rounded-[20px] hover:animate-buttonPush"
                       disabled={isSubmitting}
                     >
                       註冊

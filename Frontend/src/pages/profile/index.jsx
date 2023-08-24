@@ -195,7 +195,7 @@ export default function ProfilePage({ token, userId }) {
       } else {
         Swal.fire({
           title:
-            "Haven't found the group you're looking for?\nWhat about creating one🤩?!",
+            "Haven't found the group you're looking for?\nWhat about joining one🤩?!",
           padding: "1.2em",
           background: "#fadee5",
           customClass: {
@@ -416,7 +416,7 @@ export default function ProfilePage({ token, userId }) {
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="absolute top-2.5 right-5 w-6 h-6 text-center bg-white text-primaryColor dark:text-darkSecondaryColor text-base rounded-full"
+                    className="absolute top-2.5 right-5 w-6 h-6 text-center bg-white text-primaryColor dark:text-darkSecondaryColor text-base rounded-full hover:animate-buttonPush"
                   >
                     X
                   </button>
@@ -446,7 +446,7 @@ export default function ProfilePage({ token, userId }) {
                     <button
                       type="button"
                       onClick={handleEdit}
-                      className="flex justify-center m-auto text-xl bg-primaryColor dark:bg-darkPrimaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF]"
+                      className="flex justify-center m-auto text-xl bg-primaryColor dark:bg-darkPrimaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF] hover:animate-buttonPush"
                     >
                       Update
                     </button>
@@ -458,11 +458,11 @@ export default function ProfilePage({ token, userId }) {
 
           <button
             type="button"
-            className="hidden group-hover:block absolute top-4 right-5"
+            className="hidden group-hover:block absolute top-4 right-5 hover:animate-editGrowRotate"
             onClick={handleEdit}
           >
             <Image
-              src="/edit.png"
+              src="/edit.svg"
               alt="edit"
               width={30}
               height={30}
@@ -476,14 +476,12 @@ export default function ProfilePage({ token, userId }) {
             <div className="flex">
               <button
                 type="button"
-                className={`${
-                  styles.content
-                } h-16 ring-inset focus:outline-none focus:ring-2 ${
+                className={`${styles.content} h-16 ${
                   isShowMyGroups
-                    ? "text-primaryColor dark:text-darkPrimaryColor bg-white focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
-                    : "text-white bg-primaryColor dark:bg-darkPrimaryColor focus:ring-white dark:focus:ring-white"
+                    ? "text-primaryColor dark:text-darkPrimaryColor bg-white"
+                    : "text-white bg-primaryColor dark:bg-darkPrimaryColor border-l-2 border-t-2 border-r-2 border-solid border-white"
                 }
-                  text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-l-2 border-r-2 border-t-2 border-t border-l border-r dark:border-solid dark:border-white`}
+                  text-[26px] font-bold px-6 rounded-t-[20px] flex items-center `}
                 onClick={() => {
                   toggleToMyGroups();
                 }}
@@ -492,13 +490,11 @@ export default function ProfilePage({ token, userId }) {
               </button>
               <button
                 type="button"
-                className={`${
-                  styles.content
-                } h-16 ring-inset focus:outline-none focus:ring-2 ${
+                className={`${styles.content} h-16 ${
                   isShowMyGroups
-                    ? "text-white bg-primaryColor dark:bg-darkPrimaryColor focus:ring-white dark:focus:ring-white"
-                    : "text-primaryColor dark:text-darkPrimaryColor bg-white focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
-                } text-[26px] font-bold px-6 rounded-t-[20px] border-l-2 border-r-2 border-t-2 flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
+                    ? "text-white bg-primaryColor dark:bg-darkPrimaryColor border-l-2 border-t-2 border-r-2 border-solid border-white"
+                    : "text-primaryColor dark:text-darkPrimaryColor bg-white"
+                } text-[26px] font-bold px-6 rounded-t-[20px] flex items-center`}
                 onClick={() => {
                   toggleToJoinedGroups();
                 }}
@@ -508,7 +504,7 @@ export default function ProfilePage({ token, userId }) {
             </div>
             <Link
               href="/createGroup"
-              className={`${styles.content} h-12 text-white dark:text-darkPrimaryColor text-[26px] font-bold bg-primaryColor dark:bg-white px-6 rounded-[50px] flex items-center ring-inset focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#BFBFBF]`}
+              className={`${styles.content} h-12 text-white dark:text-darkPrimaryColor text-[26px] font-bold bg-primaryColor dark:bg-white px-6 rounded-[50px] flex items-center ring-inset focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#BFBFBF] hover:animate-buttonPush`}
             >
               Create
             </Link>
@@ -532,7 +528,7 @@ export default function ProfilePage({ token, userId }) {
                       area={myGroup.area}
                       count={myGroup.count}
                     />
-                    <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-l-[16px]">
+                    <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-l-[16px] animate-tagSweepToLeft">
                       Edit
                     </div>
                   </Link>
@@ -557,7 +553,7 @@ export default function ProfilePage({ token, userId }) {
                         />
                         <button
                           type="button"
-                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
+                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px] animate-tagSweepToLeft"
                           onClick={(e) => {
                             handleLeaveJoinedGroup(e, joinedGroup.group_id);
                           }}
@@ -586,7 +582,7 @@ export default function ProfilePage({ token, userId }) {
                         </button>
                         <button
                           type="button"
-                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px]"
+                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px] animate-tagSweepToLeft"
                           onClick={(e) => {
                             handleLeaveJoinedGroup(e, joinedGroup.group_id);
                           }}
@@ -594,7 +590,6 @@ export default function ProfilePage({ token, userId }) {
                           Leave
                         </button>
                       </div>
-                      // </button>
                     )}
                   </div>
                 ))}

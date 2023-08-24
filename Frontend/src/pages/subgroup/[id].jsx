@@ -237,7 +237,7 @@ export default function Subgroup({ token, userId, groupId }) {
           </div>
           <button
             type="button"
-            className={`${styles.content} text-2xl font-normal text-white underline`}
+            className={`${styles.content} text-2xl font-normal text-white underline hover:animate-togglePop`}
             onClick={handleLeaveMatch}
           >
             Leave
@@ -293,7 +293,9 @@ export default function Subgroup({ token, userId, groupId }) {
                 <Image
                   src={isSendActivated ? "/sendActivated.svg" : "/sendGrey.svg"}
                   alt="Send button"
-                  className="absolute bottom-[42px] right-16"
+                  className={`absolute bottom-[42px] right-16 ${
+                    isSendActivated && "animate-sendGrowRotateOpposite"
+                  }`}
                   width={28}
                   height={28}
                 />

@@ -119,7 +119,7 @@ export default function Profile({ picture, token, getProfile }) {
               <button
                 type="button"
                 onClick={toggleEditingAvatar}
-                className="top-2.5 right-5 w-6 h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-base rounded-full ring-inset focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-[#BFBFBF]"
+                className="top-2.5 right-5 w-6 h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-base rounded-full ring-inset focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-[#BFBFBF] hover:animate-buttonPush"
               >
                 X
               </button>
@@ -158,7 +158,7 @@ export default function Profile({ picture, token, getProfile }) {
                 <button
                   type="button"
                   onClick={handleUpdatePicture}
-                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF]"
+                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF] hover:animate-buttonPush"
                 >
                   Upload
                 </button>
@@ -169,7 +169,7 @@ export default function Profile({ picture, token, getProfile }) {
         <div className="w-full h-full absolute top-0 left-0 border-2 border-solid border-primaryColor dark:border-darkSecondaryColor rounded-full opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-50">
           <button
             type="button"
-            className="w-full absolute top-1/2 left-1/2 text-lg text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
+            className="w-full h-full absolute top-1/2 left-1/2 text-lg text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
             onClick={() => {
               toggleEditingAvatar();
             }}
