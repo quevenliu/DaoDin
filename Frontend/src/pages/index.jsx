@@ -304,7 +304,7 @@ export default function Home({ token }) {
               ))}
             </div>
           ) : (
-            <div className=" px-12 pt-2 pb-8 bg-[#F9EDED] rounded-[20px]">
+            <div>
               {filterGroups.map((group) => (
                 <Group
                   path={path}
