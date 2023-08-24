@@ -12,7 +12,7 @@ const getEvent = async (myId, groupIdList) => {
                     LEFT JOIN \`group\` ON event.group_id = group.id
                     LEFT JOIN \`match\` ON \`match\`.group_id = \`group\`.id
                     LEFT JOIN match_user ON match_user.match_id = match.id
-                    WHERE match_user.user_id = ${myId}
+                    WHERE match_user.user_id = ${myId} AND event.user_id =${myId}
                     ORDER BY event.id DESC
                 `;
     const [result] = await pool.query(Query);
