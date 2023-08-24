@@ -320,7 +320,7 @@ export default function EditGroupPage({ token, groupId }) {
     formData.append("description", groupDescriptionRef.current.value);
     await updateGroup(formData);
     resetForm();
-    router.push("/");
+    router.push("/profile");
   };
 
   const handleCancel = () => {
