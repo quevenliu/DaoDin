@@ -11,6 +11,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - app
     networks:
       - daodin
 
@@ -35,7 +37,6 @@ services:
     networks:
       - daodin
     depends_on:
-      - nginx
       - rabbitmq
 
   python:
