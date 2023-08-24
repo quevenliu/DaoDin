@@ -48,10 +48,9 @@ async function processMessage(connection) {
     return;
 }
 
-function filterClients(connection) {
-    return this.clients.filter(client => {
-        return client.match.matched_group_id === connection.match.matched_group_id;
-    });
+function filterClients(clients, connection) {
+    const user_list = connection.match.users.map(user => user.user_id);
+    return [...clients].filter(client => user_list.includes(client.authorization_id));
 }
 
 module.exports = {

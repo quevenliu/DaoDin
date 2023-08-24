@@ -84,7 +84,7 @@ chatServer.on("connection", (connection, req) => {
             }
             else {
                 await app.processMessage(connection);
-                const clients = chatServer.app.filterClients(connection);
+                const clients = chatServer.app.filterClients(chatServer.clients, connection);
                 if (clients) {
                     clients.forEach(client => {
                         client.send(JSON.stringify(connection.body));

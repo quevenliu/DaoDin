@@ -63,7 +63,7 @@ async function processMessage(connection) {
     return;
 }
 
-function filterClients(connection) {
+function filterClients(clients, connection) {
     return this.matchConnectionMap.get(connection.match.matched_group_id);
 }
 
