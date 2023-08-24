@@ -151,14 +151,14 @@ export default function Topbar({ token }) {
     <div className="max-w-7xl m-auto h-16 flex justify-between items-center relative">
       <Link href="/">
         <h1
-          className={`${styles.title} text-5xl text-white hover:animate-pulse`}
+          className={`${styles.title} text-5xl text-white hover:animate-titlePop`}
         >
           DaoDin
         </h1>
       </Link>
       <div className={`${styles.content} flex gap-4`}>
         <button type="button" className="relative">
-          <div className="hover:animate-topbar-bounce">
+          <div className="hover:animate-topbarBounce">
             <Image
               src={darkMode ? "/darkEvent.svg" : "/event.svg"}
               alt="event"
@@ -224,14 +224,14 @@ export default function Topbar({ token }) {
           <Image
             src={darkMode ? "/darkAvatar.svg" : "/avatar.svg"}
             alt="avatar"
-            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-topbar-bounce"
+            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-topbarBounce"
             width={40}
             height={40}
           />
         </Link>
         <button
           type="button"
-          className="hover:animate-spin-slow"
+          className="hover:animate-spinSlow"
           onClick={() => {
             setIsSettingOpen(!isSettingOpen);
             setIsEventOpen(false);
@@ -256,7 +256,7 @@ export default function Topbar({ token }) {
                 className="w-full py-2 text-lg bg-[#F9EDED] dark:bg-[#EDF2FB] border-b border-[#BFBFBF]  border-solid"
                 onClick={handleLogout}
               >
-                Logout
+                <p className="w-full hover:animate-togglePop">Logout</p>
               </button>
               <button
                 type="button"

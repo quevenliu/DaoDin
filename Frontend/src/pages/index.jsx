@@ -199,7 +199,7 @@ export default function Home({ token }) {
               onClick={() => {
                 setIsFilterOpen(true);
               }}
-              className="mr-5 w-32 px-6 py-1 border border-solid border-2 text-white text-[26px] font-bold border-white rounded-[50px]"
+              className="mr-5 w-32 px-6 py-1 border border-solid border-2 text-white text-[26px] font-bold border-white rounded-[50px] hover:animate-filterShake"
             >
               Filter
             </button>
@@ -209,7 +209,7 @@ export default function Home({ token }) {
               width={50}
               height={50}
               onMouseEnter={playHedgehogCrySound}
-              className="mr-2 hover:animate-homepage-ping"
+              className="mr-2 hover:animate-homepagePing"
             />
             <Image
               src="/pal-1.png"
@@ -217,7 +217,7 @@ export default function Home({ token }) {
               width={50}
               height={50}
               onMouseEnter={playHedgehogCrySound}
-              className="mr-2 hover:animate-homepage-ping opacity-90"
+              className="mr-2 hover:animate-homepagePing opacity-90"
             />
             <Image
               src="/pal-1.png"
@@ -225,7 +225,7 @@ export default function Home({ token }) {
               width={50}
               height={50}
               onMouseEnter={playHedgehogCrySound}
-              className="mr-2 hover:animate-homepage-ping opacity-80"
+              className="mr-2 hover:animate-homepagePing opacity-80"
             />
             <Image
               src="/pal-1.png"
@@ -233,7 +233,7 @@ export default function Home({ token }) {
               width={50}
               height={50}
               onMouseEnter={playHedgehogCrySound}
-              className="mr-2 hover:animate-homepage-ping opacity-70"
+              className="mr-2 hover:animate-homepagePing opacity-70"
             />
             <Image
               src="/pal-1.png"
@@ -241,7 +241,7 @@ export default function Home({ token }) {
               width={50}
               height={50}
               onMouseEnter={playHedgehogCrySound}
-              className="mr-2 hover:animate-homepage-ping opacity-60"
+              className="mr-2 hover:animate-homepagePing opacity-60"
             />
             <Image
               src="/pal-1.png"
@@ -249,7 +249,7 @@ export default function Home({ token }) {
               width={50}
               height={50}
               onMouseEnter={playHedgehogCrySound}
-              className="hover:animate-homepage-ping mr-auto opacity-50"
+              className="hover:animate-homepagePing mr-auto opacity-50"
             />
 
             <div className="text-xl font-medium flex">
@@ -258,16 +258,16 @@ export default function Home({ token }) {
                 onClick={() => setIsDefault(true)}
                 className={`${
                   isDefault ? "text-white" : "text-slate-600"
-                } mr-2 underline`}
+                } mr-2 underline hover:animate-togglePop`}
               >
                 Recent
               </button>
-              <p>|</p>
+              <p className="dark:text-[#EDF2FB]">|</p>
               <button
                 type="button"
                 onClick={() => setIsDefault(false)}
                 className={`${isDefault ? "text-slate-600" : "text-white"} 
-                ml-2 underline`}
+                ml-2 underline hover:animate-togglePop`}
               >
                 Popular
               </button>

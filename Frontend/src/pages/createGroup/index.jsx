@@ -566,14 +566,14 @@ export default function CreateGroupPage({ token }) {
               <div className="self-end flex gap-3">
                 <button
                   type="button"
-                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px] focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px] focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor hover:animate-buttonPush"
                   onClick={handleCancel}
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="w-32 py-2 text-2xl font-semibold text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px] focus:outline-none focus:ring-2 focus:ring-[#BFBFBF]"
+                  className="w-32 py-2 text-2xl font-semibold text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px] focus:outline-none focus:ring-2 focus:ring-[#BFBFBF] hover:animate-buttonPush"
                   onClick={handleCreateGroup}
                 >
                   Create

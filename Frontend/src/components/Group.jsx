@@ -1,7 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useContext } from "react";
-import { AudioContext } from "../pages/_app";
 
 import styles from "../styles/font.module.scss";
 import Tag from "./Tag";
@@ -18,18 +16,6 @@ export default function Group({
   area,
   count,
 }) {
-  const audios = useContext(AudioContext);
-  const playDongSound = () => {
-    if (path !== "/profile") {
-      const { dong } = audios;
-      if (dong) {
-        dong.play().catch((error) => {
-          console.error("Failed to play audio:", error);
-        });
-      }
-    }
-  };
-
   return (
     <div className={`${styles.content} group mt-6 shadow-md rounded-[16px]`}>
       {path === "/profile" ? (
@@ -39,7 +25,6 @@ export default function Group({
           } relative ${
             path === "/profile" && status === "pending" && "opacity-40"
           }`}
-          onMouseEnter={playDongSound}
         >
           <Image
             src={picture}
@@ -70,7 +55,6 @@ export default function Group({
             } relative ${
               path === "/profile" && status === "pending" && "opacity-40"
             }`}
-            onMouseEnter={playDongSound}
           >
             <Image
               src={picture}
@@ -96,7 +80,7 @@ export default function Group({
               </p>
               <Link
                 href={`/joinGroup/${groupId}`}
-                className="w-32 py-1.5 text-white self-end bg-primaryColor dark:bg-darkPrimaryColor text-center text-xl font-bold bg:text-white rounded-[20px] shrink-0"
+                className="w-32 py-1.5 text-white self-end bg-primaryColor dark:bg-darkPrimaryColor text-center text-xl font-bold bg:text-white rounded-[20px] shrink-0 hover:animate-buttonPush"
               >
                 Join
               </Link>
