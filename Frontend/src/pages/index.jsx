@@ -47,6 +47,7 @@ export default function Home({ token }) {
       await axios
         .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
         .then((res) => {
+          console.log(res.data.groups);
           setAllGroups(res.data.groups);
           setCursor(res.data.next_cursor);
         })
@@ -376,6 +377,7 @@ export default function Home({ token }) {
                   status={group.status}
                   picture={group.picture}
                   area={group.area}
+                  count={group.count}
                 />
               ))}
             </div>
@@ -393,6 +395,7 @@ export default function Home({ token }) {
                   status={group.status}
                   picture={group.picture}
                   area={group.area}
+                  count={group.count}
                 />
               ))}
             </div>

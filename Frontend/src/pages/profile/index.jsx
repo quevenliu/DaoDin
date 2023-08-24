@@ -448,6 +448,7 @@ export default function ProfilePage({ token, userId }) {
                       status={myGroup.status}
                       picture={myGroup.picture}
                       area={myGroup.area}
+                      count={myGroup.count}
                     />
                     <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-l-[16px]">
                       Edit
@@ -470,6 +471,7 @@ export default function ProfilePage({ token, userId }) {
                           status={joinedGroup.status}
                           picture={joinedGroup.picture}
                           area={joinedGroup.area}
+                          count={joinedGroup.count}
                         />
                         <button
                           type="button"
@@ -497,6 +499,7 @@ export default function ProfilePage({ token, userId }) {
                             status={joinedGroup.status}
                             picture={joinedGroup.picture}
                             area={joinedGroup.area}
+                            count={joinedGroup.count}
                           />
                         </button>
                         <button

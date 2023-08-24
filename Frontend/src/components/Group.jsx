@@ -16,6 +16,7 @@ export default function Group({
   status,
   picture,
   area,
+  count,
 }) {
   const audios = useContext(AudioContext);
   const playDongSound = () => {
@@ -48,9 +49,10 @@ export default function Group({
             path !== "/profile" && "group-hover:rounded-b-none"
           } `}
         />
-        <h3 className="p-5 ml-36 text-[26px] font-bold dark:text-white">
-          {name}
-        </h3>
+        <div className="p-5 ml-36 flex items-end">
+          <h3 className="mr-5 text-[26px] font-bold dark:text-white">{name}</h3>
+          <p className="font-medium text-lg text-[#787777]">( {count} / 9 )</p>
+        </div>
         <Tag category={category} location={location} area={area} />
       </div>
       {path !== "/profile" && (
