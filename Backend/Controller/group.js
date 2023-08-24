@@ -129,7 +129,7 @@ const match_random = (member_data) => {
 
     for (let i = 0; i < match_count; i++) {
         const match = [];
-        for (let j = 0; j < MATCH_THRESHOLD; j++) {
+        for (let j = 0; j <= MATCH_THRESHOLD; j++) {
             const random_index = Math.floor(Math.random() * member_data.length);
             match.push(member_data[random_index].user_id);
             member_data.splice(random_index, 1);
@@ -179,7 +179,7 @@ const joinGroup = async (req, res) => {
         await RabbitMQ.bindUserQueueToExchange(channel, `user_${myId}_queue`, `group_${groupId}_exchange`);
         group_member_count = await model.getGroupMemberCount(groupId);
 
-        if (group_member_count > MATCH_THRESHOLD) {
+        if (group_member_count >= MATCH_THRESHOLD) {
             await model.switchToComplete(groupId);
             match(groupId);
             const channel = await RabbitMQ.connect();
