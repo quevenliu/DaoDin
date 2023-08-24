@@ -288,9 +288,8 @@ export default function ProfilePage({ token, userId }) {
               className={`${
                 styles.content
               } w-full px-6 py-4 min-h-[100px] text-xl bg-[#E6E6E6] ${
-                !profileData.self_intro &&
-                "text-[#a2a1a1] dark:text-[#a2a1a1] whitespace-pre-line"
-              } dark:text-darkPrimaryColor rounded-[20px]`}
+                !profileData.self_intro && "text-[#a2a1a1] whitespace-pre-line"
+              } rounded-[20px]`}
             >
               {profileData.self_intro ||
                 "你目前還沒有自我介紹喔\n （點擊右上角編輯！）"}

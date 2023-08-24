@@ -95,6 +95,11 @@ export default function JoinGroupPage({ token, groupId }) {
     router.push("/");
   };
 
+  const handleCancel = () => {
+    resetForm();
+    router.push("/");
+  };
+
   useEffect(() => {
     getGroup();
   });
@@ -160,7 +165,7 @@ export default function JoinGroupPage({ token, groupId }) {
               <button
                 type="button"
                 className="w-32 py-2 text-center text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px] focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
-                onClick={resetForm}
+                onClick={handleCancel}
               >
                 Cancel
               </button>
