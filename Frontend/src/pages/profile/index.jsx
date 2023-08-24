@@ -10,7 +10,6 @@ import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 import ProfilePicture from "@/components/ProfilePicture";
-import profileMockData from "@/data/profileMockData";
 
 const apiUrl = process.env.API_URL;
 
@@ -221,7 +220,7 @@ export default function ProfilePage({ token, userId }) {
           <div className="w-full">
             <div className="flex justify-between items-center px-2.5 mb-5">
               <p className={`${styles.content} text-3xl font-bold`}>
-                {profileData.name || profileMockData.name}
+                {profileData.name || "anonymous"}
               </p>
               <div className="flex gap-3">
                 <Link
@@ -255,11 +254,17 @@ export default function ProfilePage({ token, userId }) {
               </div>
             </div>
             <p
-              className={`${styles.content} w-full px-6 py-4 min-h-[100px] text-xl bg-[#E6E6E6] dark:text-darkPrimaryColor rounded-[20px]`}
+              className={`${
+                styles.content
+              } w-full px-6 py-4 min-h-[100px] text-xl bg-[#E6E6E6] ${
+                !profileData.self_intro &&
+                "text-[#a2a1a1] dark:text-[#a2a1a1] whitespace-pre-line"
+              } dark:text-darkPrimaryColor rounded-[20px]`}
             >
-              {profileData.self_intro || profileMockData.self_intro}
+              {profileData.self_intro ||
+                "我是 Campus Summer 的前端導師抽抽，前端班的同學 Remote 期間有什麼問題都可以在 Discord 上問我，如作業上或技術上的，期待暑假與各位相見\n （點擊右上角編輯）"}
             </p>
-            {isEditing ? (
+            {isEditing && (
               <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center z-[999]">
                 <div className="w-[520px] m-auto bg-white rounded-[20px] relative">
                   <p className="text-2xl bg-primaryColor dark:bg-darkPrimaryColor w-full p-2 rounded-t-[20px] text-white text-center">
@@ -305,7 +310,7 @@ export default function ProfilePage({ token, userId }) {
                   </div>
                 </div>
               </div>
-            ) : null}
+            )}
           </div>
 
           <button
@@ -328,10 +333,12 @@ export default function ProfilePage({ token, userId }) {
             <div className="flex">
               <button
                 type="button"
-                className={`${styles.content} h-16 ${
+                className={`${
+                  styles.content
+                } h-16 ring-inset focus:outline-none focus:ring-2 ${
                   isShowMyGroups
-                    ? "text-primaryColor dark:text-darkPrimaryColor bg-white"
-                    : "text-white bg-primaryColor dark:bg-darkPrimaryColor"
+                    ? "text-primaryColor dark:text-darkPrimaryColor bg-white focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
+                    : "text-white bg-primaryColor dark:bg-darkPrimaryColor focus:ring-white dark:focus:ring-white"
                 }
                   text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
                 onClick={toggleToMyGroups}
@@ -340,10 +347,12 @@ export default function ProfilePage({ token, userId }) {
               </button>
               <button
                 type="button"
-                className={`${styles.content} h-16 ${
+                className={`${
+                  styles.content
+                } h-16 ring-inset focus:outline-none focus:ring-2 ${
                   isShowMyGroups
-                    ? "text-white bg-primaryColor dark:bg-darkPrimaryColor"
-                    : "text-primaryColor dark:text-darkPrimaryColor bg-white"
+                    ? "text-white bg-primaryColor dark:bg-darkPrimaryColor focus:ring-white dark:focus:ring-white"
+                    : "text-primaryColor dark:text-darkPrimaryColor bg-white focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                 } text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
                 onClick={toggleToJoinedGroups}
               >
@@ -352,7 +361,7 @@ export default function ProfilePage({ token, userId }) {
             </div>
             <Link
               href="/createGroup"
-              className={`${styles.content} h-12 text-white dark:text-darkPrimaryColor text-[26px] font-bold bg-primaryColor dark:bg-white px-6 rounded-[50px] flex items-center`}
+              className={`${styles.content} h-12 text-white dark:text-darkPrimaryColor text-[26px] font-bold bg-primaryColor dark:bg-white px-6 rounded-[50px] flex items-center ring-inset focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#BFBFBF]`}
             >
               Create
             </Link>

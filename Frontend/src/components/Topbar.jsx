@@ -178,10 +178,7 @@ export default function Topbar({ token }) {
           </div>
           {isEventOpen && (
             <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] z-[1000]">
-              <div
-                className="bg-primaryColor dark:bg-darkPrimaryColor 
- text-white py-2 rounded-t-[20px] text-[22px] font-medium"
-              >
+              <div className="bg-primaryColor dark:bg-darkPrimaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
                 Notification
               </div>
               {events.length === 0 ? (
@@ -191,7 +188,7 @@ export default function Topbar({ token }) {
               ) : (
                 <div className="rounded-b-[20px] overflow-auto">
                   {events.map((event) => (
-                    <Link
+                    <a
                       key={event.event_id}
                       href={`/subgroup/${event.group_id}`}
                       onClick={() => readEvent(event.event_id, event.is_read)}
@@ -216,7 +213,7 @@ export default function Topbar({ token }) {
                           <p className="text-sm">{event.created_at}</p>
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   ))}
                 </div>
               )}

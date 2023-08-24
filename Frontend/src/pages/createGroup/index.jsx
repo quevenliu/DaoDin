@@ -552,7 +552,7 @@ export default function CreateGroupPage({ token }) {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current.click()}
-                      className="text-primaryColor dark:text-darkPrimaryColor underline"
+                      className="text-primaryColor dark:text-darkPrimaryColor underline focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                     >
                       點擊選擇圖片
                     </button>
@@ -562,14 +562,14 @@ export default function CreateGroupPage({ token }) {
               <div className="self-end flex gap-3">
                 <button
                   type="button"
-                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
+                  className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px] focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                   onClick={resetForm}
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="w-32 py-2 text-2xl font-semibold text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px]"
+                  className="w-32 py-2 text-2xl font-semibold text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-[50px] focus:outline-none focus:ring-2 focus:ring-[#BFBFBF]"
                   onClick={handleCreateGroup}
                 >
                   Create
