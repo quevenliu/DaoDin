@@ -1,5 +1,5 @@
 const { WebSocketServer } = require("ws");
-const chatapp = require("./Websocket/chatapp");
+const chatapp = require("./Websocket/chatapp_old");
 const authorization = require("./utils/authorization").authorization;
 require('dotenv').config();
 
