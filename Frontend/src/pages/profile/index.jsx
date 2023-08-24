@@ -115,7 +115,12 @@ export default function ProfilePage({ token, userId }) {
       .put(`${apiUrl}/user/profile?user_id=${userId}`, payload, config)
       .then((res) => {
         console.log(res.data);
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: "Personal profile updated ✅",
           padding: "1.2em",
           background: "#D1E6D2",
@@ -129,7 +134,12 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",
@@ -161,10 +171,31 @@ export default function ProfilePage({ token, userId }) {
       .delete(`${apiUrl}/group/${groupId}/leave`, config)
       .then((res) => {
         console.log(res);
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          title: "Success leave ✅",
+          padding: "1.2em",
+          background: "#D1E6D2",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_success",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",
@@ -262,7 +293,7 @@ export default function ProfilePage({ token, userId }) {
               } dark:text-darkPrimaryColor rounded-[20px]`}
             >
               {profileData.self_intro ||
-                "我是 Campus Summer 的前端導師抽抽，前端班的同學 Remote 期間有什麼問題都可以在 Discord 上問我，如作業上或技術上的，期待暑假與各位相見\n （點擊右上角編輯）"}
+                "你目前還沒有自我介紹喔\n （點擊右上角編輯！）"}
             </p>
             {isEditing && (
               <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center z-[999]">
@@ -303,7 +334,7 @@ export default function ProfilePage({ token, userId }) {
                     <button
                       type="button"
                       onClick={handleEdit}
-                      className="flex justify-center m-auto text-xl bg-primaryColor dark:bg-darkPrimaryColor w-28 p-1 rounded-[50px] text-white text-center"
+                      className="flex justify-center m-auto text-xl bg-primaryColor dark:bg-darkPrimaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF]"
                     >
                       Update
                     </button>

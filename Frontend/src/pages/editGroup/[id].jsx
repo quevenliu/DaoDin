@@ -272,7 +272,12 @@ export default function EditGroupPage({ token, groupId }) {
       .put(`${apiUrl}/group/${groupId}`, payload, config)
       .then((res) => {
         console.log(res);
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: "Group information updated ✅",
           padding: "1.2em",
           background: "#D1E6D2",
@@ -286,7 +291,12 @@ export default function EditGroupPage({ token, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",

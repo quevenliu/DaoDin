@@ -20,7 +20,12 @@ const signIn = async (payload) => {
     .then((res) => {
       const { token, user_id, name } = res.data;
       setCookie("userInfo", { token, user_id, name }, 1800);
-      Swal.fire({
+      Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1500,
+      }).fire({
         title: "Successful login!",
         padding: "1.2em",
         background: "#D1E6D2",
@@ -34,10 +39,14 @@ const signIn = async (payload) => {
     })
     .catch((err) => {
       console.log(err);
-
       if (err.response.status === 400) {
-        Swal.fire({
-          title: "Email already exists.",
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          title: "Invalid email or password.",
           padding: "1.2em",
           background: "#fadee5",
           customClass: {
@@ -48,7 +57,12 @@ const signIn = async (payload) => {
           },
         });
       } else {
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",
@@ -68,13 +82,32 @@ const signUp = async (payload) => {
     .post(`${apiUrl}/user/signup`, payload)
     .then((res) => {
       console.log(res);
+      Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1500,
+      }).fire({
+        title: "Successful signup!",
+        padding: "1.2em",
+        background: "#D1E6D2",
+        customClass: {
+          title: "swal_title",
+          confirmButton: "swal_confirm_fail",
+          container: "swal_container",
+          popup: "swal_popup",
+        },
+      });
     })
     .catch((err) => {
-      console.log(err);
-
       if (err.response.status === 400) {
-        Swal.fire({
-          title: "Invalid email or password.",
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          title: "Email already exists.",
           padding: "1.2em",
           background: "#fadee5",
           customClass: {
@@ -85,7 +118,12 @@ const signUp = async (payload) => {
           },
         });
       } else {
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",
