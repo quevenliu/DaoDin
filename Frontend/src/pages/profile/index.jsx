@@ -16,7 +16,13 @@ const apiUrl = process.env.API_URL;
 export default function ProfilePage({ token, userId }) {
   const [profileData, setProfileData] = useState({});
   const [myGroups, setMyGroups] = useState([]);
+  const [myGroupsCursor, setMyGroupCursor] = useState("");
+  const [isGettingMyGroupsByCursor, setIsGettingMyGroupsByCursor] =
+    useState(false);
   const [joinedGroups, setJoinedGroups] = useState([]);
+  const [joinedGroupsCursor, setJoinedGroupCursor] = useState("");
+  const [isGettingJoinedGroupsByCursor, setIsGettingJoinedGroupsByCursor] =
+    useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isShowMyGroups, setIsShowMyGroups] = useState(true);
   const router = useRouter();
@@ -38,7 +44,6 @@ export default function ProfilePage({ token, userId }) {
         setProfileData(res.data);
       })
       .catch((err) => {
-        console.log(err);
         Swal.fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
@@ -57,11 +62,10 @@ export default function ProfilePage({ token, userId }) {
     await axios
       .get(`${apiUrl}/group/search?creator_id=1`, config)
       .then((res) => {
-        console.log(res.data.groups);
         setMyGroups(res.data.groups);
+        setMyGroupCursor(res.data.next_cursor);
       })
       .catch((err) => {
-        console.log(err);
         Swal.fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
@@ -75,7 +79,31 @@ export default function ProfilePage({ token, userId }) {
         });
       });
   };
-
+  const getMyGroupsByCursor = async () => {
+    await axios
+      .get(
+        `${apiUrl}/group/search?creator_id=1&cursor=${myGroupsCursor}&sort=recent`,
+        config
+      )
+      .then((res) => {
+        setMyGroups([...myGroups, ...res.data.groups]);
+        setMyGroupCursor(res.data.next_cursor);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      });
+    setIsGettingMyGroupsByCursor(false);
+  };
   const getJoinedGroups = async () => {
     await axios
       .get(`${apiUrl}/group/search?isJoined=1`, config)
@@ -83,7 +111,6 @@ export default function ProfilePage({ token, userId }) {
         setJoinedGroups(res.data.groups);
       })
       .catch((err) => {
-        console.log(err);
         Swal.fire({
           title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
@@ -97,17 +124,105 @@ export default function ProfilePage({ token, userId }) {
         });
       });
   };
-  const toggleToMyGroups = () => {
+  const getJoinedGroupsByCursor = async () => {
+    await axios
+      .get(
+        `${apiUrl}/group/search?isJoined=1&cursor=${joinedGroupsCursor}`,
+        config
+      )
+      .then((res) => {
+        setJoinedGroups([...joinedGroups, ...res.data.groups]);
+        setJoinedGroupCursor(res.data.next_cursor);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      });
+    setIsGettingJoinedGroupsByCursor(false);
+  };
+  const isScrolling = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    ) {
+      return;
+    }
+    if (isShowMyGroups) {
+      setIsGettingMyGroupsByCursor(true);
+    } else {
+      setIsGettingJoinedGroupsByCursor(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", isScrolling);
+    return () => window.removeEventListener("scroll", isScrolling);
+  }, [isShowMyGroups]);
+
+  useEffect(() => {
+    if (isGettingMyGroupsByCursor) {
+      if (myGroupsCursor !== null) {
+        getMyGroupsByCursor();
+      } else {
+        Swal.fire({
+          title:
+            "Haven't found the group you're looking for?\nWhat about creating one🤩?!",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      }
+    }
+  }, [isGettingMyGroupsByCursor]);
+  useEffect(() => {
+    if (isGettingJoinedGroupsByCursor) {
+      if (joinedGroupsCursor !== null) {
+        getJoinedGroupsByCursor();
+      } else {
+        Swal.fire({
+          title:
+            "Haven't found the group you're looking for?\nWhat about creating one🤩?!",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      }
+    }
+  }, [isGettingJoinedGroupsByCursor]);
+
+  const toggleToMyGroups = async () => {
+    await getMyGroups();
+    await setJoinedGroups([]);
     setIsShowMyGroups(true);
   };
-  const toggleToJoinedGroups = () => {
+  const toggleToJoinedGroups = async () => {
+    await getJoinedGroups();
+    await setMyGroups([]);
     setIsShowMyGroups(false);
   };
 
   useEffect(() => {
     getProfile();
     getMyGroups();
-    getJoinedGroups();
   }, []);
 
   const putProfile = async (payload) => {
@@ -133,7 +248,6 @@ export default function ProfilePage({ token, userId }) {
         });
       })
       .catch((err) => {
-        console.log(err);
         Swal.mixin({
           toast: true,
           position: "top-end",
@@ -189,7 +303,6 @@ export default function ProfilePage({ token, userId }) {
         });
       })
       .catch((err) => {
-        console.log(err);
         Swal.mixin({
           toast: true,
           position: "top-end",
@@ -372,7 +485,9 @@ export default function ProfilePage({ token, userId }) {
                     : "text-white bg-primaryColor dark:bg-darkPrimaryColor focus:ring-white dark:focus:ring-white"
                 }
                   text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-l-2 border-r-2 border-t-2 border-t border-l border-r dark:border-solid dark:border-white`}
-                onClick={toggleToMyGroups}
+                onClick={() => {
+                  toggleToMyGroups();
+                }}
               >
                 My Groups
               </button>
@@ -385,7 +500,9 @@ export default function ProfilePage({ token, userId }) {
                     ? "text-white bg-primaryColor dark:bg-darkPrimaryColor focus:ring-white dark:focus:ring-white"
                     : "text-primaryColor dark:text-darkPrimaryColor bg-white focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                 } text-[26px] font-bold px-6 rounded-t-[20px] border-l-2 border-r-2 border-t-2 flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
-                onClick={toggleToJoinedGroups}
+                onClick={() => {
+                  toggleToJoinedGroups();
+                }}
               >
                 Joined Groups
               </button>
