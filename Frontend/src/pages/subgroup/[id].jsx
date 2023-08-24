@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Topbar from "@/components/Topbar";
@@ -11,6 +13,8 @@ import Message from "@/components/Message";
 const apiUrl = process.env.API_URL;
 
 export default function Subgroup({ token, userId, groupId }) {
+  const router = useRouter();
+  const [groupName, setGroupName] = useState("Group Name");
   const [members, setMembers] = useState([]);
   const [chats, setChats] = useState([]);
   const newChatRef = useRef("");
@@ -27,6 +31,18 @@ export default function Subgroup({ token, userId, groupId }) {
   };
   socket.onerror = (error) => {
     console.error("WebSocket error:", error);
+    Swal.fire({
+      title:
+        "Something's wrong.\nPlease try again later or notify our engineering team.",
+      padding: "1.2em",
+      background: "#fadee5",
+      customClass: {
+        title: "swal_title",
+        confirmButton: "swal_confirm_fail",
+        container: "swal_container",
+        popup: "swal_popup",
+      },
+    });
   };
   socket.onclose = (event) => {
     console.log("WebSocket connection closed.", event);
@@ -51,13 +67,25 @@ export default function Subgroup({ token, userId, groupId }) {
     await axios
       .get(`${apiUrl}/match/${groupId}`, config)
       .then((res) => {
-        console.log(res);
         setMembers(res.data.users);
+        setGroupName(res.data.group_name);
       })
       .catch((err) => {
         console.log(err);
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
+
   const getChatList = async () => {
     await axios
       .get(`${apiUrl}/chat/${groupId}`, config)
@@ -67,8 +95,20 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
+
   const getChatListByCursor = async () => {
     await axios
       .get(`${apiUrl}/chat/${groupId}?cursor=${cursor}`, config)
@@ -82,9 +122,21 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     setIsGettingGroupsByCursor(false);
   };
+
   const isScrolling = () => {
     if (chatroomRef.current.scrollTop !== 0) {
       return;
@@ -120,6 +172,14 @@ export default function Subgroup({ token, userId, groupId }) {
     await getChatList();
   };
 
+  const [isSendActivated, setIsSendActivated] = useState(false);
+  const handleSendInput = () => {
+    if (newChatRef?.current?.value?.length > 0) {
+      setIsSendActivated(true);
+    } else {
+      setIsSendActivated(false);
+    }
+  };
   const sendChat = async () => {
     await socket.send(
       JSON.stringify({
@@ -136,29 +196,57 @@ export default function Subgroup({ token, userId, groupId }) {
     await getChatList();
     resetNewChat();
   };
+
+  const handleLeaveMatch = async () => {
+    await axios
+      .delete(`${apiUrl}/group/${groupId}/leave`, config)
+      .then((res) => {
+        console.log(res);
+        router.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      });
+  };
+
   return (
     <>
       <Head>
-        <title>Group Page</title>
+        <title>SubGroup Page</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         <meta name="description" content="Generated by create next app" />
       </Head>
-      <Topbar token={token} />
-      <div className="min-h-screen bg-backgroundColor p-8">
-        <div className="flex justify-between w-[90%] max-w-5xl px-10 m-auto items-center">
-          <div className={`${styles.content} text-[26px] font-bold`}>
-            Group Name
+      <div className="min-h-screen bg-gradient-to-br from-[#D14444] to-[#F77B54] dark:from-darkPrimaryColor dark:to-darkSecondaryColor p-8 pt-0">
+        <Topbar token={token} />
+        <div className="flex justify-between w-[90%] max-w-5xl mt-5 px-10 m-auto items-center">
+          <div className={`${styles.content} text-[26px] font-bold text-white`}>
+            {groupName}
           </div>
-          <div className={`${styles.content} text-2xl font-normal underline`}>
+          <button
+            type="button"
+            className={`${styles.content} text-2xl font-normal text-white underline`}
+            onClick={handleLeaveMatch}
+          >
             Leave
-          </div>
+          </button>
         </div>
         <div className="flex justify-between w-[90%] max-w-5xl m-auto pt-5 items-start">
           <div className="w-1/4 rounded-[20px] text-center mr-12 shrink-0">
             <div
-              className={`${styles.content} rounded-t-[20px] py-3 text-[26px] font-bold bg-secondaryColor`}
+              className={`${styles.content} rounded-t-[20px] py-3 text-[26px] font-bold text-white bg-primaryColor dark:bg-darkSecondaryColor`}
             >
               Members
             </div>
@@ -174,7 +262,7 @@ export default function Subgroup({ token, userId, groupId }) {
           </div>
           <div className="w-full rounded-[20px]">
             <div
-              className={`${styles.content} rounded-t-[20px] p-3 text-[26px] font-bold text-center bg-secondaryColor`}
+              className={`${styles.content} rounded-t-[20px] p-3 text-[26px] font-bold text-center text-white bg-primaryColor dark:bg-darkSecondaryColor`}
             >
               Chat
             </div>
@@ -196,13 +284,14 @@ export default function Subgroup({ token, userId, groupId }) {
                 ))}
               </div>
               <textarea
-                className="w-[90%] h-12 rounded-[20px] bg-backgroundColor pl-6 pr-16 py-2 text-xl absolute bottom-8 resize-none overflow-hidden"
+                className="w-[90%] h-12 rounded-[20px] bg-[#F3F3F3] pl-5 pr-16 py-2 text-xl absolute bottom-8 resize-none overflow-hidden dark:ring-darkPrimaryColor focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                 placeholder="Leave a message"
                 ref={newChatRef}
+                onChange={handleSendInput}
               />
               <button type="button" onClick={handleCreateChat}>
                 <Image
-                  src="/send-grey.svg"
+                  src={isSendActivated ? "/sendActivated.svg" : "/sendGrey.svg"}
                   alt="Send button"
                   className="absolute bottom-[42px] right-16"
                   width={28}

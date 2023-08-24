@@ -10,7 +10,7 @@ export default function Member({ picture, nickname }) {
         <Image
           src={picture}
           alt="Profile picture"
-          className="w-[60px] h-[60px] rounded-full shrink-0"
+          className="w-[60px] h-[60px] rounded-full shrink-0 mr-4"
           width={60}
           height={60}
         />

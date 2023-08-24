@@ -8,14 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primaryColor: "#F77B54",
-        backgroundColor: "#F3F3F3",
-        secondaryColor: "#FCC3C3",
+        primaryColor: "#C43F3F",
+        backgroundColor: "#D14444",
+        secondaryColor: "#E79292",
+        textColor: "#5E0D0D",
+        darkPrimaryColor: "#01061B",
+        darkSecondaryColor: "#243477",
+        darkBackgroundColor: "#020B35",
       },
       animation: {
         "spin-slow": "spin 3s linear infinite",
+        "homepage-ping": "ping 1s cubic-bezier(0, 0, 0.2, 1) 1",
       },
     },
   },
+  darkMode: "class",
   plugins: [],
 };

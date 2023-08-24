@@ -1,8 +1,10 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Image from "next/image";
+import { AudioContext } from "./_app";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
 import styles from "../styles/font.module.scss";
@@ -19,10 +21,16 @@ export default function Home({ token }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeLocations, setActiveLocations] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
+  const [isDefault, setIsDefault] = useState(true);
 
-  const playHoverSound = () => {
-    const audio = new Audio("hedgehogSound.mp3");
-    audio.play();
+  const audios = useContext(AudioContext);
+  const playHedgehogCrySound = () => {
+    const { hedgehogCry } = audios;
+    if (hedgehogCry) {
+      hedgehogCry.play().catch((error) => {
+        console.error("Failed to play audio:", error);
+      });
+    }
   };
 
   const config = {
@@ -35,33 +43,105 @@ export default function Home({ token }) {
   const [cursor, setCursor] = useState("");
   const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const getGroups = async () => {
-    await axios
-      .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
-      .then((res) => {
-        console.log(res.data.groups);
-        setAllGroups(res.data.groups);
-        setCursor(res.data.next_cursor);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isDefault) {
+      await axios
+        .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
+        .then((res) => {
+          console.log(res.data.groups);
+          setAllGroups(res.data.groups);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.fire({
+            title: `${err.message}\nPlease try again later or notify our engineering team.`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        });
+    } else {
+      await axios
+        .get(`${apiUrl}/group/search?isJoined=0&sort=popular`, config)
+        .then((res) => {
+          setAllGroups(res.data.groups);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.fire({
+            title: `${err.message}\nPlease try again later or notify our engineering team.`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        });
+    }
   };
 
   const getGroupsByCursor = async () => {
-    await axios
-      .get(
-        `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
-        config
-      )
-      .then((res) => {
-        setAllGroups([...allGroups, ...res.data.groups]);
-        setCursor(res.data.next_cursor);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isDefault) {
+      await axios
+        .get(
+          `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
+          config
+        )
+        .then((res) => {
+          setAllGroups([...allGroups, ...res.data.groups]);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.fire({
+            title: `${err.message}\nPlease try again later or notify our engineering team.`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        });
+    } else {
+      await axios
+        .get(
+          `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=popular`,
+          config
+        )
+        .then((res) => {
+          setAllGroups([...allGroups, ...res.data.groups]);
+          setCursor(res.data.next_cursor);
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.fire({
+            title: `${err.message}\nPlease try again later or notify our engineering team.`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        });
+    }
     setIsGettingGroupsByCursor(false);
   };
+
   const isScrolling = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
@@ -71,16 +151,33 @@ export default function Home({ token }) {
     }
     setIsGettingGroupsByCursor(true);
   };
+
   useEffect(() => {
     getGroups();
     window.addEventListener("scroll", isScrolling);
     return () => window.removeEventListener("scroll", isScrolling);
-  }, []);
+  }, [isDefault]);
+
   useEffect(() => {
-    if (isGettingGroupsByCursor && cursor !== null) {
-      getGroupsByCursor();
+    if (isGettingGroupsByCursor) {
+      if (cursor !== null) {
+        getGroupsByCursor();
+      } else {
+        Swal.fire({
+          title:
+            "Haven't found the group you're looking for?\nWhat about creating one🤩?!",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      }
     }
-  }, [isGettingGroupsByCursor]);
+  }, [isGettingGroupsByCursor, isDefault]);
 
   return (
     <>
@@ -91,91 +188,108 @@ export default function Home({ token }) {
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         <meta name="description" content="Generated by create next app" />
       </Head>
-      <Topbar token={token} />
       <main
-        className={`${styles.content} min-h-screen pt-8 bg-backgroundColor`}
+        className={`${styles.content} min-h-screen bg-gradient-to-br from-[#D14444] to-[#F77B54] dark:from-darkPrimaryColor dark:to-darkSecondaryColor`}
       >
-        <div className="w-[90%] pb-5 max-w-5xl m-auto">
-          <div className="h-[100px] bg-secondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
+        <Topbar token={token} />
+        <div className="w-[90%] pt-8 pb-5 max-w-5xl m-auto">
+          <div className="h-[100px] bg-secondaryColor dark:bg-darkSecondaryColor rounded-[20px] mb-6 flex items-center justify-center ">
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
             <Image
               src="/pal-1.png"
               alt="pal"
               width={120}
               height={120}
-              onMouseEnter={playHoverSound}
-              className="hover:animate-ping"
+              onMouseEnter={playHedgehogCrySound}
+              className="hover:animate-homepage-ping"
             />
           </div>
-          <div className="mb-6 flex gap-5">
+
+          <div className="mb-6 flex justify-between items-center">
             <button
               type="button"
-              onClick={() => setIsFilterOpen(true)}
-              className="w-32 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
+              onClick={() => {
+                setIsFilterOpen(true);
+              }}
+              className="w-32 px-6 py-1 bg-[#F9EDED] dark:white text-[26px] font-bold text-primaryColor dark:text-darkPrimaryColor rounded-[50px]"
             >
               Filter
             </button>
-            <button
-              type="button"
-              className="w-32 px-6 py-1 bg-primaryColor text-[26px] font-bold text-white rounded-[50px]"
-            >
-              Sortby
-            </button>
+            <div className="text-xl font-medium flex">
+              <button
+                type="button"
+                onClick={() => setIsDefault(true)}
+                className={`${
+                  isDefault ? "text-white" : "text-slate-600"
+                } mr-2 underline`}
+              >
+                Recent
+              </button>
+              <p>|</p>
+              <button
+                type="button"
+                onClick={() => setIsDefault(false)}
+                className={`${isDefault ? "text-slate-600" : "text-white"} 
+                ml-2 underline`}
+              >
+                Popular
+              </button>
+            </div>
           </div>
           {isFilterOpen && (
             <MultiFilter
@@ -190,7 +304,7 @@ export default function Home({ token }) {
           )}
 
           {filterGroups.length === 0 ? (
-            <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
+            <div className=" px-12 pt-2 pb-8 bg-[#F9EDED] dark:white rounded-[20px]">
               {allGroups?.map((group) => (
                 <Group
                   path={path}
@@ -203,11 +317,12 @@ export default function Home({ token }) {
                   status={group.status}
                   picture={group.picture}
                   area={group.area}
+                  count={group.count}
                 />
               ))}
             </div>
           ) : (
-            <div className=" px-12 pt-2 pb-8 bg-white rounded-[20px]">
+            <div className=" px-12 pt-2 pb-8 bg-[#F9EDED] rounded-[20px]">
               {filterGroups.map((group) => (
                 <Group
                   path={path}
@@ -220,6 +335,7 @@ export default function Home({ token }) {
                   status={group.status}
                   picture={group.picture}
                   area={group.area}
+                  count={group.count}
                 />
               ))}
             </div>

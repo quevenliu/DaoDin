@@ -10,20 +10,42 @@
 }
 
 .tag:hover {
-  border: 1px solid #f77b54;
+  border: 1px solid #C43F3F;
 }
 
 .active-tag {
   padding: 3px 12px;
-  border: 1px solid #f77b54;
+  border: 1px solid #C43F3F;
   border-radius: 50px;
   margin-left: 10px;
   color: white;
-  background-color: #f77b54;
+  background-color: #C43F3F;
 }
 
 .active-tag:hover {
   border: 1px solid #bfbfbf;
+}
+
+.swal_title {
+  font-size: 18px;
+  padding-top: 0;
+}
+.swal_confirm_fail {
+  font-size: 18px !important;
+  background-color: #fc7e9c !important;
+  padding: 5px 15px;
+}
+.swal_confirm_success {
+  font-size: 18px !important;
+  background-color: #7ED05A !important;
+  padding: 5px 15px;
+}
+.swal_container {
+  background-size: 60vw !important;
+}
+.swal_popup {
+  max-width: 80vw !important;
+  border-radius: 12px;
 }
 
 /* :root {

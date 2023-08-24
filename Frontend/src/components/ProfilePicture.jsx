@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState, useRef } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const apiUrl = process.env.API_URL;
 let file;
@@ -53,9 +54,31 @@ export default function Profile({ picture, token, getProfile }) {
       .put(`${apiUrl}/user/profile/picture`, formData, config)
       .then((res) => {
         console.log(res);
+        Swal.fire({
+          title: "Profile picture updated ✅",
+          padding: "1.2em",
+          background: "#D1E6D2",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_success",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     toggleEditingAvatar();
     getProfile();
@@ -85,17 +108,17 @@ export default function Profile({ picture, token, getProfile }) {
               onDragEnter={(e) => e.preventDefault()}
               onDragOver={(e) => e.preventDefault()}
             >
-              <h3 className="text-2xl bg-primaryColor w-full p-2 rounded-t-[20px] text-white text-center">
+              <h3 className="text-2xl bg-primaryColor dark:bg-darkPrimaryColor w-full p-2 rounded-t-[20px] text-white text-center">
                 Update Profile Picture
               </h3>
               <button
                 type="button"
                 onClick={toggleEditingAvatar}
-                className="top-2.5 right-5 w-6 h-6 absolute text-center bg-white text-primaryColor text-base rounded-full"
+                className="top-2.5 right-5 w-6 h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-base rounded-full"
               >
                 X
               </button>
-              <div className="p-5 w-full">
+              <div className="p-5 w-full bg-white rounded-b-[20px]">
                 {previewImage ? (
                   <Image
                     src={previewImage}
@@ -105,7 +128,7 @@ export default function Profile({ picture, token, getProfile }) {
                     height={280}
                   />
                 ) : (
-                  <div className="mb-5 h-80 flex flex-col items-center justify-center dark:bg-darkBackgroundColor border border-dashed border-primaryColor px-2 py-4  rounded-md cursor-pointer text-lg">
+                  <div className="mb-5 h-80 flex flex-col items-center justify-center dark:border-darkPrimaryColor border border-dashed border-primaryColor px-2 py-4  rounded-md cursor-pointer text-lg">
                     <p className="text-center">
                       拖放圖片到此區域上傳
                       <br />
@@ -121,7 +144,7 @@ export default function Profile({ picture, token, getProfile }) {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current.click()}
-                      className="text-primaryColor underline"
+                      className="text-primaryColor dark:text-darkSecondaryColor underline"
                     >
                       點擊選擇圖片
                     </button>
@@ -130,7 +153,7 @@ export default function Profile({ picture, token, getProfile }) {
                 <button
                   type="button"
                   onClick={handleUpdatePicture}
-                  className="flex justify-center m-auto text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center"
+                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center"
                 >
                   Upload
                 </button>
@@ -138,10 +161,10 @@ export default function Profile({ picture, token, getProfile }) {
             </div>
           </div>
         ) : null}
-        <div className="w-full h-full absolute top-0 left-0 border-2 border-solid border-primaryColor rounded-full opacity-0 hover:opacity-100 transition-opacity">
+        <div className="w-full h-full absolute top-0 left-0 border-2 border-solid border-primaryColor dark:border-darkSecondaryColor rounded-full opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-50">
           <button
             type="button"
-            className="absolute top-1/2 left-1/2 text-base text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
+            className="w-full absolute top-1/2 left-1/2 text-lg text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
             onClick={() => {
               toggleEditingAvatar();
             }}
