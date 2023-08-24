@@ -31,7 +31,7 @@ export default function Group({
   };
 
   return (
-    <div className={`${styles.content} group mt-6`}>
+    <div className={`${styles.content} group mt-6 shadow-md rounded-[16px]`}>
       {path === "/profile" ? (
         <div
           className={`h-20 px-8 flex justify-between items-center bg-[#F2B9B9] dark:bg-[#222a4f] rounded-[16px] ${
