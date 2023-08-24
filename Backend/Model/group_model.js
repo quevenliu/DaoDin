@@ -144,18 +144,13 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
         }
     }
 
-    if (sort === "popular" && cursor !== undefined) {
-        Query += ` AND count <= ? `;
-        params.push(cursor.count);
-    }
-
     if (cursor !== undefined) {
         if (sort === "recent") {
             Query += ` AND  id <= ? `;
             params.push(cursor);
         }
         else if (sort === "popular") {
-            Query += ` AND (count <= ? OR (count = ? AND id <= ?)) `;
+            Query += ` AND (count < ? OR (count = ? AND id <= ?)) `;
             params.push(cursor.count);
             params.push(cursor.count);
             params.push(cursor.id);
@@ -257,5 +252,5 @@ SELECT  DISTINCT g.id, g.name, g.category, g.location, g.description, g.status, 
     SELECT`group`.*, membership.user_id, region.area, COUNT(membership.user_id) AS count
      FROM`group`
      LEFT JOIN membership ON membership.group_id = `group`.id
-     LEFT JOIN region ON region.city = `group`.location WHERE 1 = 1 GROUP BY membership.group_id) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE 1 = 1 AND membership.user_id IS NULL AND status = 'pending' AND count <= 3 AND (count <= 3 OR (count = 3 AND id <= 32)) ORDER BY count DESC, id DESC;
+     LEFT JOIN region ON region.city = `group`.location WHERE 1 = 1 GROUP BY membership.group_id) AS g LEFT JOIN membership ON membership.group_id = g.id AND membership.user_id = 727  WHERE 1 = 1 AND membership.user_id IS NULL AND status = 'pending' AND (count < 1 OR (count = 1 AND id <= 76)) ORDER BY count DESC, id DESC;
 */
