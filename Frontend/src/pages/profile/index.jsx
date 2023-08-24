@@ -333,7 +333,7 @@ export default function ProfilePage({ token, userId }) {
                     ? "text-primaryColor dark:text-darkPrimaryColor bg-white"
                     : "text-white bg-primaryColor dark:bg-darkPrimaryColor"
                 }
-                  text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
+                  text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-l-2 border-r-2 border-t-2 border-t border-l border-r dark:border-solid dark:border-white`}
                 onClick={toggleToMyGroups}
               >
                 My Groups
@@ -344,7 +344,7 @@ export default function ProfilePage({ token, userId }) {
                   isShowMyGroups
                     ? "text-white bg-primaryColor dark:bg-darkPrimaryColor"
                     : "text-primaryColor dark:text-darkPrimaryColor bg-white"
-                } text-[26px] font-bold px-6 rounded-t-[20px] flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
+                } text-[26px] font-bold px-6 rounded-t-[20px] border-l-2 border-r-2 border-t-2 flex items-center border-t border-l border-r dark:border-solid dark:border-white`}
                 onClick={toggleToJoinedGroups}
               >
                 Joined Groups
