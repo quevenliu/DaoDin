@@ -40,32 +40,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -78,34 +63,20 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
+
   const getJoinedGroups = async () => {
     await axios
       .get(`${apiUrl}/group/search?isJoined=1`, config)
@@ -114,32 +85,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
   const toggleToMyGroups = () => {
@@ -174,32 +130,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -224,32 +165,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
