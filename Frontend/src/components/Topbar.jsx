@@ -246,7 +246,7 @@ export default function Topbar({ token }) {
           />
         </button>
         {isSettingOpen && (
-          <div className="absolute w-40 top-[76px] right-14 rounded-[20px] z-[1000]">
+          <div className="absolute w-40 top-[76px] right-0 rounded-[20px] z-[1000]">
             <div className="bg-primaryColor dark:bg-darkPrimaryColor text-center text-white py-2 rounded-t-[19px] text-[22px] font-medium">
               Setting
             </div>
