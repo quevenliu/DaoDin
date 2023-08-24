@@ -40,32 +40,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -78,34 +63,20 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
+
   const getJoinedGroups = async () => {
     await axios
       .get(`${apiUrl}/group/search?isJoined=1`, config)
@@ -114,32 +85,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
   const toggleToMyGroups = () => {
@@ -174,32 +130,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -224,32 +165,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -261,8 +187,7 @@ export default function ProfilePage({ token, userId }) {
 
   const pendingGroupAlert = () => {
     Swal.fire({
-      title:
-        "Join request is still pending,\nyou'll be notified after getting matched!",
+      title: "You'll be notified after getting matched!",
       padding: "1.2em",
       background: "#fadee5",
       customClass: {
@@ -449,6 +374,7 @@ export default function ProfilePage({ token, userId }) {
                       status={myGroup.status}
                       picture={myGroup.picture}
                       area={myGroup.area}
+                      count={myGroup.count}
                     />
                     <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-l-[16px]">
                       Edit
@@ -471,6 +397,7 @@ export default function ProfilePage({ token, userId }) {
                           status={joinedGroup.status}
                           picture={joinedGroup.picture}
                           area={joinedGroup.area}
+                          count={joinedGroup.count}
                         />
                         <button
                           type="button"
@@ -498,6 +425,7 @@ export default function ProfilePage({ token, userId }) {
                             status={joinedGroup.status}
                             picture={joinedGroup.picture}
                             area={joinedGroup.area}
+                            count={joinedGroup.count}
                           />
                         </button>
                         <button

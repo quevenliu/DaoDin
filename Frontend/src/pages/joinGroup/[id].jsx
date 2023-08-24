@@ -37,32 +37,17 @@ export default function JoinGroupPage({ token, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -77,7 +62,7 @@ export default function JoinGroupPage({ token, groupId }) {
       .then((res) => {
         console.log(res);
         Swal.fire({
-          title: "Pending request.\nYou'll be notified after getting matched!",
+          title: "You'll be notified after getting matched!",
           padding: "1.2em",
           background: "#D1E6D2",
           customClass: {
@@ -90,32 +75,17 @@ export default function JoinGroupPage({ token, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status >= 500 && err.response.status < 600) {
-          Swal.fire({
-            title:
-              "Something's wrong.\nPlease try again later or notify our engineering team.",
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        } else {
-          Swal.fire({
-            title: `${err.message}\n${err.respnse.data}`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        }
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 

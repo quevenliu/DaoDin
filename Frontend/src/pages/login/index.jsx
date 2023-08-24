@@ -47,22 +47,9 @@ const signIn = async (payload) => {
             popup: "swal_popup",
           },
         });
-      } else if (err.response.status >= 500 && err.response.status < 600) {
-        Swal.fire({
-          title:
-            "Something's wrong.\nPlease try again later or notify our engineering team.",
-          padding: "1.2em",
-          background: "#fadee5",
-          customClass: {
-            title: "swal_title",
-            confirmButton: "swal_confirm_fail",
-            container: "swal_container",
-            popup: "swal_popup",
-          },
-        });
       } else {
         Swal.fire({
-          title: `${err.message}\n${err.respnse.data}`,
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",
           customClass: {
@@ -97,22 +84,9 @@ const signUp = async (payload) => {
             popup: "swal_popup",
           },
         });
-      } else if (err.response.status >= 500 && err.response.status < 600) {
-        Swal.fire({
-          title:
-            "Something's wrong.\nPlease try again later or notify our engineering team.",
-          padding: "1.2em",
-          background: "#fadee5",
-          customClass: {
-            title: "swal_title",
-            confirmButton: "swal_confirm_fail",
-            container: "swal_container",
-            popup: "swal_popup",
-          },
-        });
       } else {
         Swal.fire({
-          title: `${err.message}\n${err.respnse.data}`,
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
           padding: "1.2em",
           background: "#fadee5",
           customClass: {
