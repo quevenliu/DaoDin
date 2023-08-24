@@ -148,7 +148,7 @@ export default function Topbar({ token }) {
   };
 
   return (
-    <div className="px-14 h-16 flex justify-between items-center relative">
+    <div className="max-w-7xl m-auto h-16 flex justify-between items-center relative">
       <Link href="/">
         <h1
           className={`${styles.title} text-5xl text-white hover:animate-pulse`}
