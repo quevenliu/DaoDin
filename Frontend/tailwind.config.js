@@ -20,6 +20,7 @@ module.exports = {
         "spin-slow": "spin 3s linear infinite",
         "homepage-ping": "ping 1s cubic-bezier(0, 0, 0.2, 1) 1",
         "topbar-bounce": "bounceCustom 1s infinite",
+        "login-shake": "shake 1s infinite",
       },
       keyframes: {
         bounceCustom: {
@@ -30,6 +31,38 @@ module.exports = {
           "50%": {
             transform: "translateY(-25%)",
             animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+          },
+        },
+        shake: {
+          "25%": {
+            transform: "translate(-1px, -2px) rotate(-1deg)",
+          },
+          "30%": {
+            transform: "translate(-3px, 0px) rotate(1deg)",
+          },
+          "35%": {
+            transform: "translate(3px, 2px) rotate(0deg)",
+          },
+          "40%": {
+            transform: "translate(1px, -1px) rotate(1deg)",
+          },
+          "45%": {
+            transform: "translate(-1px, 2px) rotate(-1deg)",
+          },
+          "50%": {
+            transform: "translate(-3px, 1px) rotate(0deg)",
+          },
+          "55%": {
+            transform: "translate(3px, 1px) rotate(-1deg)",
+          },
+          "60%": {
+            transform: "translate(-1px, -1px) rotate(1deg)",
+          },
+          "65%": {
+            transform: "translate(1px, 2px) rotate(0deg)",
+          },
+          "70%": {
+            transform: "translate(1px, -2px) rotate(-1deg)",
           },
         },
       },
