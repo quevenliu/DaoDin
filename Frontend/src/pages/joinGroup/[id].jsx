@@ -28,6 +28,7 @@ export default function JoinGroupPage({ token, groupId }) {
     introRef.current.value = "";
     msgRef.current.value = "";
   };
+
   const getGroup = async () => {
     await axios
       .get(`${apiUrl}/group/${groupId}`, config)
@@ -36,8 +37,35 @@ export default function JoinGroupPage({ token, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status >= 500 && err.response.status < 600) {
+          Swal.fire({
+            title:
+              "Something's wrong.\nPlease try again later or notify our engineering team.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        } else {
+          Swal.fire({
+            title: `${err.message}\n${err.respnse.data}`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
   };
+
   const joinGroup = async () => {
     const payload = {
       self_intro: introRef.current.value,
@@ -62,8 +90,35 @@ export default function JoinGroupPage({ token, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status >= 500 && err.response.status < 600) {
+          Swal.fire({
+            title:
+              "Something's wrong.\nPlease try again later or notify our engineering team.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        } else {
+          Swal.fire({
+            title: `${err.message}\n${err.respnse.data}`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
   };
+
   const handleJoinGroup = async () => {
     await joinGroup();
     resetForm();
