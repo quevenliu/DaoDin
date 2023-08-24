@@ -77,7 +77,7 @@ export default function JoinGroupPage({ token, groupId }) {
       .then((res) => {
         console.log(res);
         Swal.fire({
-          title: "Pending request.\nYou'll be notified after getting matched!",
+          title: "You'll be notified after getting matched!",
           padding: "1.2em",
           background: "#D1E6D2",
           customClass: {

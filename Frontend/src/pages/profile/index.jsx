@@ -261,8 +261,7 @@ export default function ProfilePage({ token, userId }) {
 
   const pendingGroupAlert = () => {
     Swal.fire({
-      title:
-        "Join request is still pending,\nyou'll be notified after getting matched!",
+      title: "You'll be notified after getting matched!",
       padding: "1.2em",
       background: "#fadee5",
       customClass: {
