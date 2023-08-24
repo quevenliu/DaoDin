@@ -184,6 +184,7 @@ const cities = [
     name: "連江",
   },
 ];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -309,6 +310,7 @@ export default function EditGroupPage({ token, groupId }) {
         });
       });
   };
+
   const handleUpdateGroup = async () => {
     const formData = new FormData();
     formData.append("picture", file);
@@ -319,6 +321,11 @@ export default function EditGroupPage({ token, groupId }) {
     await updateGroup(formData);
     resetForm();
     router.push("/");
+  };
+
+  const handleCancel = () => {
+    resetForm();
+    router.push("/profile");
   };
 
   useEffect(() => {
@@ -591,6 +598,7 @@ export default function EditGroupPage({ token, groupId }) {
                 <button
                   type="button"
                   className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px]"
+                  onClick={handleCancel}
                 >
                   Cancel
                 </button>

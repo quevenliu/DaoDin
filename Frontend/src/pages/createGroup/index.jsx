@@ -234,6 +234,11 @@ export default function CreateGroupPage({ token }) {
     fileInputRef.current = null;
   };
 
+  const handleCancel = () => {
+    resetForm();
+    router.push("/profile");
+  };
+
   const createGroup = async (payload) => {
     const config = {
       headers: {
@@ -563,7 +568,7 @@ export default function CreateGroupPage({ token }) {
                 <button
                   type="button"
                   className="w-32 text-center py-2 text-2xl font-semibold text-white bg-[#BFBFBF] rounded-[50px] focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
-                  onClick={resetForm}
+                  onClick={handleCancel}
                 >
                   Cancel
                 </button>
