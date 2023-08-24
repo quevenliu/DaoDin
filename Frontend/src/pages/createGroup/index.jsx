@@ -232,6 +232,7 @@ export default function CreateGroupPage({ token }) {
     setLocationSelected("");
     setPreviewImage(null);
     fileInputRef.current = null;
+    file = "";
   };
 
   const handleCancel = () => {
@@ -249,9 +250,8 @@ export default function CreateGroupPage({ token }) {
     await axios
       .post(`${apiUrl}/group`, payload, config)
       .then((res) => {
-        console.log(res);
         Swal.fire({
-          title: "Successfully created! Go and join now:)!",
+          title: "Successfully created! Join now:)!",
           padding: "1.2em",
           background: "#D1E6D2",
           customClass: {
@@ -261,9 +261,9 @@ export default function CreateGroupPage({ token }) {
             popup: "swal_popup",
           },
         });
+        router.push(`/joinGroup/${res.data.group_id}`);
       })
       .catch((err) => {
-        console.log(err);
         if (err.response.status === 400) {
           Swal.fire({
             title:
@@ -302,7 +302,6 @@ export default function CreateGroupPage({ token }) {
     formData.append("description", groupDescriptionRef.current.value);
     await createGroup(formData);
     resetForm();
-    router.push("/");
   };
 
   return (
