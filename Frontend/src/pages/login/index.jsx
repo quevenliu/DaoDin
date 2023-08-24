@@ -222,7 +222,7 @@ export default function LoginPage() {
                   alt="pal-1"
                   width={180}
                   height={180}
-                  className="absolute top-2 right-6 hover:animate-bounce"
+                  className="absolute top-2 right-6 hover:animate-login-shake"
                   style={{
                     transform: `rotate(${angle1}deg)`,
                   }}
@@ -232,7 +232,7 @@ export default function LoginPage() {
                   alt="pal-1"
                   width={180}
                   height={180}
-                  className="absolute -top-8 left-48 hover:animate-bounce"
+                  className="absolute -top-8 left-48 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle2}deg)` }}
                 />
                 <Image
@@ -240,7 +240,7 @@ export default function LoginPage() {
                   alt="pal-1"
                   width={180}
                   height={180}
-                  className="absolute -bottom-7 -left-8 hover:animate-bounce"
+                  className="absolute -bottom-7 -left-8 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle3}deg)` }}
                 />
                 <Image
@@ -248,7 +248,7 @@ export default function LoginPage() {
                   alt="pal-2"
                   width={180}
                   height={180}
-                  className="absolute -bottom-6 left-40 hover:animate-bounce"
+                  className="absolute -bottom-6 left-40 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle4}deg)` }}
                 />
                 <Image
@@ -256,7 +256,7 @@ export default function LoginPage() {
                   alt="pal-2"
                   width={180}
                   height={180}
-                  className="absolute top-20 right-44 hover:animate-bounce"
+                  className="absolute top-20 right-44 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle5}deg)` }}
                 />
                 <Image
@@ -264,7 +264,7 @@ export default function LoginPage() {
                   alt="pal-2"
                   width={180}
                   height={180}
-                  className="absolute -bottom-5 right-1 hover:animate-bounce"
+                  className="absolute -bottom-5 right-1 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle6}deg)` }}
                 />
                 <Image
@@ -272,7 +272,7 @@ export default function LoginPage() {
                   alt="pal-3"
                   width={180}
                   height={180}
-                  className="absolute -top-4 left-6 hover:animate-bounce"
+                  className="absolute -top-4 left-6 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle7}deg)` }}
                 />
                 <Image
@@ -280,7 +280,7 @@ export default function LoginPage() {
                   alt="pal-3"
                   width={180}
                   height={180}
-                  className="absolute bottom-28 right-52 hover:animate-bounce"
+                  className="absolute bottom-28 right-52 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle8}deg)` }}
                 />
                 <Image
@@ -288,7 +288,7 @@ export default function LoginPage() {
                   alt="pal-3"
                   width={180}
                   height={180}
-                  className="absolute -bottom-6 right-36 hover:animate-bounce"
+                  className="absolute -bottom-6 right-36 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle9}deg)` }}
                 />
                 <Image
@@ -296,7 +296,7 @@ export default function LoginPage() {
                   alt="pal-4"
                   width={180}
                   height={180}
-                  className="absolute top-48 left-28 hover:animate-bounce"
+                  className="absolute top-48 left-28 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle10}deg)` }}
                 />
                 <Image
@@ -304,7 +304,7 @@ export default function LoginPage() {
                   alt="pal-4"
                   width={180}
                   height={180}
-                  className="absolute top-44 right-10 hover:animate-bounce"
+                  className="absolute top-44 right-10 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle11}deg)` }}
                 />
                 <Image
@@ -312,7 +312,7 @@ export default function LoginPage() {
                   alt="pal-4"
                   width={180}
                   height={180}
-                  className="absolute top-28 -left-6 hover:animate-bounce"
+                  className="absolute top-28 -left-6 hover:animate-login-shake"
                   style={{ transform: `rotate(${angle12}deg)` }}
                 />
               </>

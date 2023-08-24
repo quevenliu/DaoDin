@@ -158,11 +158,11 @@ export default function Topbar({ token }) {
       </Link>
       <div className={`${styles.content} flex gap-4`}>
         <button type="button" className="relative">
-          <div className="hover:animate-bounce">
+          <div className="hover:animate-topbar-bounce">
             <Image
               src={darkMode ? "/darkEvent.svg" : "/event.svg"}
               alt="event"
-              className="w-10 h-10 p-2 bg-white rounded-full hover:animate-bounce"
+              className="w-10 h-10 p-2 bg-white rounded-full"
               width={40}
               height={40}
               onClick={() => {
@@ -224,7 +224,7 @@ export default function Topbar({ token }) {
           <Image
             src={darkMode ? "/darkAvatar.svg" : "/avatar.svg"}
             alt="avatar"
-            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-bounce"
+            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-topbar-bounce"
             width={40}
             height={40}
           />
