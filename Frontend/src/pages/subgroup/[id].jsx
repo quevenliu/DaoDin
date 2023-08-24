@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Topbar from "@/components/Topbar";
@@ -30,6 +31,18 @@ export default function Subgroup({ token, userId, groupId }) {
   };
   socket.onerror = (error) => {
     console.error("WebSocket error:", error);
+    Swal.fire({
+      title:
+        "Something's wrong.\nPlease try again later or notify our engineering team.",
+      padding: "1.2em",
+      background: "#fadee5",
+      customClass: {
+        title: "swal_title",
+        confirmButton: "swal_confirm_fail",
+        container: "swal_container",
+        popup: "swal_popup",
+      },
+    });
   };
   socket.onclose = (event) => {
     console.log("WebSocket connection closed.", event);
@@ -59,8 +72,35 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status >= 500 && err.response.status < 600) {
+          Swal.fire({
+            title:
+              "Something's wrong.\nPlease try again later or notify our engineering team.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        } else {
+          Swal.fire({
+            title: `${err.message}\n${err.respnse.data}`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
   };
+
   const getChatList = async () => {
     await axios
       .get(`${apiUrl}/chat/${groupId}`, config)
@@ -70,8 +110,35 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status >= 500 && err.response.status < 600) {
+          Swal.fire({
+            title:
+              "Something's wrong.\nPlease try again later or notify our engineering team.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        } else {
+          Swal.fire({
+            title: `${err.message}\n${err.respnse.data}`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
   };
+
   const getChatListByCursor = async () => {
     await axios
       .get(`${apiUrl}/chat/${groupId}?cursor=${cursor}`, config)
@@ -85,9 +152,36 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status >= 500 && err.response.status < 600) {
+          Swal.fire({
+            title:
+              "Something's wrong.\nPlease try again later or notify our engineering team.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        } else {
+          Swal.fire({
+            title: `${err.message}\n${err.respnse.data}`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
     setIsGettingGroupsByCursor(false);
   };
+
   const isScrolling = () => {
     if (chatroomRef.current.scrollTop !== 0) {
       return;
@@ -157,6 +251,32 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status >= 500 && err.response.status < 600) {
+          Swal.fire({
+            title:
+              "Something's wrong.\nPlease try again later or notify our engineering team.",
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        } else {
+          Swal.fire({
+            title: `${err.message}\n${err.respnse.data}`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
+        }
       });
   };
 

@@ -34,8 +34,48 @@ const signIn = async (payload) => {
     })
     .catch((err) => {
       console.log(err);
+
+      if (err.response.status === 400) {
+        Swal.fire({
+          title: "Email already exists.",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      } else if (err.response.status >= 500 && err.response.status < 600) {
+        Swal.fire({
+          title:
+            "Something's wrong.\nPlease try again later or notify our engineering team.",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      } else {
+        Swal.fire({
+          title: `${err.message}\n${err.respnse.data}`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      }
     });
 };
+
 const signUp = async (payload) => {
   await axios
     .post(`${apiUrl}/user/signup`, payload)
@@ -44,6 +84,45 @@ const signUp = async (payload) => {
     })
     .catch((err) => {
       console.log(err);
+
+      if (err.response.status === 400) {
+        Swal.fire({
+          title: "Invalid email or password.",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      } else if (err.response.status >= 500 && err.response.status < 600) {
+        Swal.fire({
+          title:
+            "Something's wrong.\nPlease try again later or notify our engineering team.",
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      } else {
+        Swal.fire({
+          title: `${err.message}\n${err.respnse.data}`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
+      }
     });
 };
 
