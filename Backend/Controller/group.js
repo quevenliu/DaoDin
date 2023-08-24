@@ -245,14 +245,13 @@ const searchGroup = async (req, res) => {
         if (cursor !== undefined) {
             var decodedString = Buffer.from(cursor, "base64").toString();
             if (sort === 'recent') {
-                if (isNaN(parseInt(decodedString))) {
+                decodedString = parseInt(decodedString);
+                if (isNaN(decodedString)) {
                     decodedString = undefined;
                 }
-                decodedString = parseInt(decodedString);
             }
             else if (sort === 'popular') {
                 decodedString = JSON.parse(decodedString);
-                console.log(decodedString);
                 if (decodedString.id === undefined || decodedString.count === undefined) {
                     decodedString = undefined;
                 }

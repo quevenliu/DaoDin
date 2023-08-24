@@ -144,7 +144,7 @@ async function searchGroup(category, location, sort, joined, cursor, myId, creat
         }
     }
 
-    if (cursor !== undefined) {
+    if (cursor) {
         if (sort === "recent") {
             Query += ` AND  id <= ? `;
             params.push(cursor);
