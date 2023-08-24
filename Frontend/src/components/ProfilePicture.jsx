@@ -54,7 +54,12 @@ export default function Profile({ picture, token, getProfile }) {
       .put(`${apiUrl}/user/profile/picture`, formData, config)
       .then((res) => {
         console.log(res);
-        Swal.fire({
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
           title: "Profile picture updated ✅",
           padding: "1.2em",
           background: "#D1E6D2",
@@ -114,7 +119,7 @@ export default function Profile({ picture, token, getProfile }) {
               <button
                 type="button"
                 onClick={toggleEditingAvatar}
-                className="top-2.5 right-5 w-6 h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-base rounded-full"
+                className="top-2.5 right-5 w-6 h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-base rounded-full ring-inset focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-[#BFBFBF]"
               >
                 X
               </button>
@@ -144,7 +149,7 @@ export default function Profile({ picture, token, getProfile }) {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current.click()}
-                      className="text-primaryColor dark:text-darkSecondaryColor underline"
+                      className="text-primaryColor dark:text-darkSecondaryColor underline focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-darkPrimaryColor"
                     >
                       點擊選擇圖片
                     </button>
@@ -153,7 +158,7 @@ export default function Profile({ picture, token, getProfile }) {
                 <button
                   type="button"
                   onClick={handleUpdatePicture}
-                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center"
+                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF]"
                 >
                   Upload
                 </button>
