@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { SyncLoader } from "react-spinners";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
@@ -25,6 +26,8 @@ export default function ProfilePage({ token, userId }) {
     useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isShowMyGroups, setIsShowMyGroups] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   const router = useRouter();
   const path = router.pathname;
 
@@ -38,6 +41,7 @@ export default function ProfilePage({ token, userId }) {
     },
   };
   const getProfile = async () => {
+    setIsLoading(true);
     await axios
       .get(`${apiUrl}/user/profile?user_id=${userId}`, config)
       .then((res) => {
@@ -57,9 +61,11 @@ export default function ProfilePage({ token, userId }) {
         //   },
         // });
       });
+    setIsLoading(false);
   };
 
   const getMyGroups = async () => {
+    setIsLoading(true);
     await axios
       .get(`${apiUrl}/group/search?creator_id=1`, config)
       .then((res) => {
@@ -80,6 +86,7 @@ export default function ProfilePage({ token, userId }) {
         //   },
         // });
       });
+    setIsLoading(false);
   };
   const getMyGroupsByCursor = async () => {
     await axios
@@ -108,6 +115,7 @@ export default function ProfilePage({ token, userId }) {
     setIsGettingMyGroupsByCursor(false);
   };
   const getJoinedGroups = async () => {
+    setIsLoading(true);
     await axios
       .get(`${apiUrl}/group/search?isJoined=1`, config)
       .then((res) => {
@@ -127,6 +135,7 @@ export default function ProfilePage({ token, userId }) {
         //   },
         // });
       });
+    setIsLoading(false);
   };
   const getJoinedGroupsByCursor = async () => {
     await axios
@@ -362,7 +371,7 @@ export default function ProfilePage({ token, userId }) {
         className={`${styles.content} min-h-screen bg-gradient-to-br from-[#D14444] to-[#F77B54] dark:from-darkPrimaryColor dark:to-darkSecondaryColor p-12 pt-0`}
       >
         <Topbar token={token} />
-        <div className="group w-[90%] max-w-5xl flex gap-7 bg-white m-auto mt-8 mb-7 px-12 py-8 rounded-[20px] flex relative">
+        <div className="relative group w-[90%] max-w-5xl flex gap-7 bg-white m-auto mt-8 mb-7 px-12 py-8 rounded-[20px] flex relative">
           <ProfilePicture
             picture={profileData.picture}
             token={token}
@@ -602,6 +611,16 @@ export default function ProfilePage({ token, userId }) {
                 ))}
           </div>
         </div>
+        {isLoading && (
+          <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white opacity-80">
+            <SyncLoader
+              color="#C43F3F"
+              loading={isLoading}
+              size={50}
+              margin={4}
+            />
+          </div>
+        )}
       </div>
     </>
   );
