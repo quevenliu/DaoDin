@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState, useEffect, useContext, CSSProperties } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from "sweetalert2";
