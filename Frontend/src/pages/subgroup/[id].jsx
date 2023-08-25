@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Topbar from "@/components/Topbar";
@@ -31,18 +31,18 @@ export default function Subgroup({ token, userId, groupId }) {
   };
   socket.onerror = (error) => {
     console.error("WebSocket error:", error);
-    Swal.fire({
-      title:
-        "Something's wrong.\nPlease try again later or notify our engineering team.",
-      padding: "1.2em",
-      background: "#fadee5",
-      customClass: {
-        title: "swal_title",
-        confirmButton: "swal_confirm_fail",
-        container: "swal_container",
-        popup: "swal_popup",
-      },
-    });
+    // Swal.fire({
+    //   title:
+    //     "Something's wrong.\nPlease try again later or notify our engineering team.",
+    //   padding: "1.2em",
+    //   background: "#fadee5",
+    //   customClass: {
+    //     title: "swal_title",
+    //     confirmButton: "swal_confirm_fail",
+    //     container: "swal_container",
+    //     popup: "swal_popup",
+    //   },
+    // });
   };
   socket.onclose = (event) => {
     console.log("WebSocket connection closed.", event);
@@ -72,17 +72,17 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
-          title: `${err.message}\nPlease try again later or notify our engineering team.`,
-          padding: "1.2em",
-          background: "#fadee5",
-          customClass: {
-            title: "swal_title",
-            confirmButton: "swal_confirm_fail",
-            container: "swal_container",
-            popup: "swal_popup",
-          },
-        });
+        // Swal.fire({
+        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+        //   padding: "1.2em",
+        //   background: "#fadee5",
+        //   customClass: {
+        //     title: "swal_title",
+        //     confirmButton: "swal_confirm_fail",
+        //     container: "swal_container",
+        //     popup: "swal_popup",
+        //   },
+        // });
       });
   };
 
@@ -95,17 +95,17 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
-          title: `${err.message}\nPlease try again later or notify our engineering team.`,
-          padding: "1.2em",
-          background: "#fadee5",
-          customClass: {
-            title: "swal_title",
-            confirmButton: "swal_confirm_fail",
-            container: "swal_container",
-            popup: "swal_popup",
-          },
-        });
+        // Swal.fire({
+        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+        //   padding: "1.2em",
+        //   background: "#fadee5",
+        //   customClass: {
+        //     title: "swal_title",
+        //     confirmButton: "swal_confirm_fail",
+        //     container: "swal_container",
+        //     popup: "swal_popup",
+        //   },
+        // });
       });
   };
 
@@ -122,17 +122,17 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
-          title: `${err.message}\nPlease try again later or notify our engineering team.`,
-          padding: "1.2em",
-          background: "#fadee5",
-          customClass: {
-            title: "swal_title",
-            confirmButton: "swal_confirm_fail",
-            container: "swal_container",
-            popup: "swal_popup",
-          },
-        });
+        // Swal.fire({
+        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+        //   padding: "1.2em",
+        //   background: "#fadee5",
+        //   customClass: {
+        //     title: "swal_title",
+        //     confirmButton: "swal_confirm_fail",
+        //     container: "swal_container",
+        //     popup: "swal_popup",
+        //   },
+        // });
       });
     setIsGettingGroupsByCursor(false);
   };
@@ -206,17 +206,17 @@ export default function Subgroup({ token, userId, groupId }) {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
-          title: `${err.message}\nPlease try again later or notify our engineering team.`,
-          padding: "1.2em",
-          background: "#fadee5",
-          customClass: {
-            title: "swal_title",
-            confirmButton: "swal_confirm_fail",
-            container: "swal_container",
-            popup: "swal_popup",
-          },
-        });
+        // Swal.fire({
+        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+        //   padding: "1.2em",
+        //   background: "#fadee5",
+        //   customClass: {
+        //     title: "swal_title",
+        //     confirmButton: "swal_confirm_fail",
+        //     container: "swal_container",
+        //     popup: "swal_popup",
+        //   },
+        // });
       });
   };
 

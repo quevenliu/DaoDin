@@ -53,17 +53,17 @@ export default function Home({ token }) {
         })
         .catch((err) => {
           console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
+          // Swal.fire({
+          //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          //   padding: "1.2em",
+          //   background: "#fadee5",
+          //   customClass: {
+          //     title: "swal_title",
+          //     confirmButton: "swal_confirm_fail",
+          //     container: "swal_container",
+          //     popup: "swal_popup",
+          //   },
+          // });
         });
     } else {
       await axios
@@ -74,17 +74,17 @@ export default function Home({ token }) {
         })
         .catch((err) => {
           console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
+          // Swal.fire({
+          //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          //   padding: "1.2em",
+          //   background: "#fadee5",
+          //   customClass: {
+          //     title: "swal_title",
+          //     confirmButton: "swal_confirm_fail",
+          //     container: "swal_container",
+          //     popup: "swal_popup",
+          //   },
+          // });
         });
     }
   };
@@ -102,17 +102,17 @@ export default function Home({ token }) {
         })
         .catch((err) => {
           console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
+          // Swal.fire({
+          //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          //   padding: "1.2em",
+          //   background: "#fadee5",
+          //   customClass: {
+          //     title: "swal_title",
+          //     confirmButton: "swal_confirm_fail",
+          //     container: "swal_container",
+          //     popup: "swal_popup",
+          //   },
+          // });
         });
     } else {
       await axios
@@ -126,17 +126,17 @@ export default function Home({ token }) {
         })
         .catch((err) => {
           console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
+          // Swal.fire({
+          //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          //   padding: "1.2em",
+          //   background: "#fadee5",
+          //   customClass: {
+          //     title: "swal_title",
+          //     confirmButton: "swal_confirm_fail",
+          //     container: "swal_container",
+          //     popup: "swal_popup",
+          //   },
+          // });
         });
     }
     setIsGettingGroupsByCursor(false);
