@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import { SyncLoader } from "react-spinners";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
