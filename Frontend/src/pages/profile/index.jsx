@@ -49,17 +49,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     setIsLoading(false);
   };
@@ -74,17 +74,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     setIsLoading(false);
   };
@@ -100,17 +100,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     setIsGettingMyGroupsByCursor(false);
   };
@@ -123,17 +123,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     setIsLoading(false);
   };
@@ -149,17 +149,17 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
     setIsGettingJoinedGroupsByCursor(false);
   };
@@ -263,22 +263,22 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.mixin({
-        //   toast: true,
-        //   position: "top-end",
-        //   showConfirmButton: false,
-        //   timer: 1500,
-        // }).fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -319,22 +319,22 @@ export default function ProfilePage({ token, userId }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.mixin({
-        //   toast: true,
-        //   position: "top-end",
-        //   showConfirmButton: false,
-        //   timer: 1500,
-        // }).fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
