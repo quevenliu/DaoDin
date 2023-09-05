@@ -5,12 +5,14 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { SyncLoader } from "react-spinners";
+// import { SyncLoader } from "react-spinners";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import styles from "../../styles/font.module.scss";
 import { getServerCookie } from "../../utils/cookie";
 import Group from "@/components/Group";
 import Topbar from "@/components/Topbar";
 import ProfilePicture from "@/components/ProfilePicture";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const apiUrl = process.env.API_URL;
 
@@ -525,64 +527,51 @@ export default function ProfilePage({ token, userId }) {
               Create
             </Link>
           </div>
-          <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-12 pt-2 pb-8">
-            {isShowMyGroups
-              ? myGroups.map((myGroup) => (
-                  <Link
-                    href={`/editGroup/${myGroup.group_id}`}
-                    key={myGroup.group_id}
-                    className="group relative"
-                  >
-                    <Group
-                      path={path}
-                      name={myGroup.name}
-                      category={myGroup.category}
-                      location={myGroup.location}
-                      description={myGroup.description}
-                      status={myGroup.status}
-                      picture={myGroup.picture}
-                      area={myGroup.area}
-                      count={myGroup.count}
-                    />
-                    <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-l-[16px] animate-tagSweepToLeft">
-                      Edit
-                    </div>
-                  </Link>
-                ))
-              : joinedGroups.map((joinedGroup) => (
-                  <div key={joinedGroup.group_id}>
-                    {joinedGroup.status === "complete" ? (
-                      <Link
-                        href={`/subgroup/${joinedGroup.group_id}`}
-                        className="group relative"
-                      >
-                        <Group
-                          path={path}
-                          name={joinedGroup.name}
-                          category={joinedGroup.category}
-                          location={joinedGroup.location}
-                          description={joinedGroup.description}
-                          status={joinedGroup.status}
-                          picture={joinedGroup.picture}
-                          area={joinedGroup.area}
-                          count={joinedGroup.count}
-                        />
-                        <button
-                          type="button"
-                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px] animate-tagSweepToLeft"
-                          onClick={(e) => {
-                            handleLeaveJoinedGroup(e, joinedGroup.group_id);
-                          }}
-                        >
-                          Leave
-                        </button>
-                      </Link>
-                    ) : (
-                      <div className="group relative">
-                        <button
-                          type="button"
-                          className="w-full"
-                          onClick={() => pendingGroupAlert()}
+          {isLoading ? (
+            <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-12 pt-2 pb-8">
+              <SkeletonTheme baseColor="#DDD" highlightColor="#FFF">
+                <Skeleton
+                  count={5}
+                  style={{
+                    width: "100%",
+                    height: "80px",
+                    borderRadius: "16px",
+                    marginTop: "24px",
+                  }}
+                />
+              </SkeletonTheme>
+            </div>
+          ) : (
+            <div className="bg-white rounded-tr-[20px] rounded-b-[20px] px-12 pt-2 pb-8">
+              {isShowMyGroups
+                ? myGroups.map((myGroup) => (
+                    <Link
+                      href={`/editGroup/${myGroup.group_id}`}
+                      key={myGroup.group_id}
+                      className="group relative"
+                    >
+                      <Group
+                        path={path}
+                        name={myGroup.name}
+                        category={myGroup.category}
+                        location={myGroup.location}
+                        description={myGroup.description}
+                        status={myGroup.status}
+                        picture={myGroup.picture}
+                        area={myGroup.area}
+                        count={myGroup.count}
+                      />
+                      <div className="hidden group-hover:flex w-40 h-20 absolute bottom-0 left-0 justify-center items-center text-2xl text-white bg-primaryColor dark:bg-darkPrimaryColor rounded-l-[16px] animate-tagSweepToLeft">
+                        Edit
+                      </div>
+                    </Link>
+                  ))
+                : joinedGroups.map((joinedGroup) => (
+                    <div key={joinedGroup.group_id}>
+                      {joinedGroup.status === "complete" ? (
+                        <Link
+                          href={`/subgroup/${joinedGroup.group_id}`}
+                          className="group relative"
                         >
                           <Group
                             path={path}
@@ -595,23 +584,52 @@ export default function ProfilePage({ token, userId }) {
                             area={joinedGroup.area}
                             count={joinedGroup.count}
                           />
-                        </button>
-                        <button
-                          type="button"
-                          className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px] animate-tagSweepToLeft"
-                          onClick={(e) => {
-                            handleLeaveJoinedGroup(e, joinedGroup.group_id);
-                          }}
-                        >
-                          Leave
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-          </div>
+                          <button
+                            type="button"
+                            className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px] animate-tagSweepToLeft"
+                            onClick={(e) => {
+                              handleLeaveJoinedGroup(e, joinedGroup.group_id);
+                            }}
+                          >
+                            Leave
+                          </button>
+                        </Link>
+                      ) : (
+                        <div className="group relative">
+                          <button
+                            type="button"
+                            className="w-full"
+                            onClick={() => pendingGroupAlert()}
+                          >
+                            <Group
+                              path={path}
+                              name={joinedGroup.name}
+                              category={joinedGroup.category}
+                              location={joinedGroup.location}
+                              description={joinedGroup.description}
+                              status={joinedGroup.status}
+                              picture={joinedGroup.picture}
+                              area={joinedGroup.area}
+                              count={joinedGroup.count}
+                            />
+                          </button>
+                          <button
+                            type="button"
+                            className="hidden group-hover:block w-40 h-20 absolute bottom-0 left-0 text-2xl text-white bg-red-500 rounded-l-[16px] animate-tagSweepToLeft"
+                            onClick={(e) => {
+                              handleLeaveJoinedGroup(e, joinedGroup.group_id);
+                            }}
+                          >
+                            Leave
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+            </div>
+          )}
         </div>
-        {isLoading && (
+        {/* {isLoading && (
           <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white opacity-80">
             <SyncLoader
               color="#C43F3F"
@@ -620,7 +638,7 @@ export default function ProfilePage({ token, userId }) {
               margin={4}
             />
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

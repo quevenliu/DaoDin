@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-
 import styles from "../styles/font.module.scss";
 import Tag from "./Tag";
 

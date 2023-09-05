@@ -3,8 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { SyncLoader } from "react-spinners";
+// import { SyncLoader } from "react-spinners";
 import Image from "next/image";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { AudioContext } from "./_app";
 import Topbar from "@/components/Topbar";
 import Group from "@/components/Group";
@@ -213,7 +215,7 @@ export default function Home({ token }) {
               src="/pal-1.png"
               alt="pal"
               width={50}
-              height={50}
+              height={42.58}
               onMouseEnter={playHedgehogCrySound}
               className="mr-2 hover:animate-homepagePing"
             />
@@ -221,7 +223,7 @@ export default function Home({ token }) {
               src="/pal-1.png"
               alt="pal"
               width={50}
-              height={50}
+              height={42.58}
               onMouseEnter={playHedgehogCrySound}
               className="mr-2 hover:animate-homepagePing opacity-90"
             />
@@ -229,7 +231,7 @@ export default function Home({ token }) {
               src="/pal-1.png"
               alt="pal"
               width={50}
-              height={50}
+              height={42.58}
               onMouseEnter={playHedgehogCrySound}
               className="mr-2 hover:animate-homepagePing opacity-80"
             />
@@ -237,7 +239,7 @@ export default function Home({ token }) {
               src="/pal-1.png"
               alt="pal"
               width={50}
-              height={50}
+              height={42.58}
               onMouseEnter={playHedgehogCrySound}
               className="mr-2 hover:animate-homepagePing opacity-70"
             />
@@ -245,7 +247,7 @@ export default function Home({ token }) {
               src="/pal-1.png"
               alt="pal"
               width={50}
-              height={50}
+              height={42.58}
               onMouseEnter={playHedgehogCrySound}
               className="mr-2 hover:animate-homepagePing opacity-60"
             />
@@ -253,7 +255,7 @@ export default function Home({ token }) {
               src="/pal-1.png"
               alt="pal"
               width={50}
-              height={50}
+              height={42.58}
               onMouseEnter={playHedgehogCrySound}
               className="hover:animate-homepagePing mr-auto opacity-50"
             />
@@ -291,45 +293,61 @@ export default function Home({ token }) {
             />
           )}
 
-          {filterGroups.length === 0 ? (
-            <div>
-              {allGroups?.map((group) => (
-                <Group
-                  path={path}
-                  key={group.group_id}
-                  groupId={group.group_id}
-                  name={group.name}
-                  category={group.category}
-                  location={group.location}
-                  description={group.description}
-                  status={group.status}
-                  picture={group.picture}
-                  area={group.area}
-                  count={group.count}
-                />
-              ))}
-            </div>
+          {isLoading ? (
+            <SkeletonTheme baseColor="#DDD" highlightColor="#FFF" padding="0px">
+              <Skeleton
+                count={5}
+                style={{
+                  width: "100%",
+                  height: "96px",
+                  borderRadius: "16px",
+                  marginBottom: "24px",
+                }}
+              />
+            </SkeletonTheme>
           ) : (
             <div>
-              {filterGroups.map((group) => (
-                <Group
-                  path={path}
-                  key={group.group_id}
-                  groupId={group.group_id}
-                  name={group.name}
-                  category={group.category}
-                  location={group.location}
-                  description={group.description}
-                  status={group.status}
-                  picture={group.picture}
-                  area={group.area}
-                  count={group.count}
-                />
-              ))}
+              {filterGroups.length === 0 ? (
+                <div>
+                  {allGroups?.map((group) => (
+                    <Group
+                      path={path}
+                      key={group.group_id}
+                      groupId={group.group_id}
+                      name={group.name}
+                      category={group.category}
+                      location={group.location}
+                      description={group.description}
+                      status={group.status}
+                      picture={group.picture}
+                      area={group.area}
+                      count={group.count}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {filterGroups.map((group) => (
+                    <Group
+                      path={path}
+                      key={group.group_id}
+                      groupId={group.group_id}
+                      name={group.name}
+                      category={group.category}
+                      location={group.location}
+                      description={group.description}
+                      status={group.status}
+                      picture={group.picture}
+                      area={group.area}
+                      count={group.count}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
-        {isLoading && (
+        {/* {isLoading && (
           <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white opacity-80">
             <SyncLoader
               color="#C43F3F"
@@ -338,7 +356,7 @@ export default function Home({ token }) {
               margin={4}
             />
           </div>
-        )}
+        )} */}
       </main>
     </>
   );
