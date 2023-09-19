@@ -371,7 +371,7 @@ export default function ProfilePage({ token, userId }) {
         className={`${styles.content} min-h-screen bg-gradient-to-br from-[#D14444] to-[#F77B54] dark:from-darkPrimaryColor dark:to-darkSecondaryColor p-12 pt-0`}
       >
         <Topbar token={token} />
-        <div className="relative group w-[90%] max-w-5xl flex gap-7 bg-white m-auto mt-8 mb-7 px-12 py-8 rounded-[20px] flex relative">
+        <div className="relative group w-[90%] max-w-5xl flex gap-7 bg-white m-auto mt-8 mb-7 px-12 py-8 rounded-[20px]">
           <ProfilePicture
             picture={profileData.picture}
             token={token}
@@ -612,7 +612,7 @@ export default function ProfilePage({ token, userId }) {
           </div>
         </div>
         {isLoading && (
-          <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white opacity-80">
+          <div className="fixed top-0 left-0 w-full h-screen flex justify-center items-center bg-white opacity-80">
             <SyncLoader
               color="#C43F3F"
               loading={isLoading}
