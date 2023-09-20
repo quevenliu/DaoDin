@@ -27,7 +27,7 @@ export default function Home({ token }) {
   const [activeLocations, setActiveLocations] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
   const [isDefault, setIsDefault] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
 
   const audios = useContext(AudioContext);
   const playHedgehogCrySound = () => {
@@ -36,7 +36,6 @@ export default function Home({ token }) {
       hedgehogCry.play().catch((error) => {
         console.error("Failed to play audio:", error);
       });
-      Ｆ;
     }
   };
 
@@ -253,7 +252,7 @@ export default function Home({ token }) {
               setActiveCategories={setActiveCategories}
             />
           )}
-          
+
           {isGroupLoading ? (
             <SkeletonTheme baseColor="#DDD" highlightColor="#FFF" padding="0px">
               <Skeleton
