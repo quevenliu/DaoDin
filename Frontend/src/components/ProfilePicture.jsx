@@ -97,33 +97,33 @@ export default function Profile({ picture, token, getProfile }) {
 
   return (
     <div>
-      <div className="w-32 h-32 relative shrink-0">
+      <div className="w-16 h-16 sm:w-24 sm:h-24 lg:w-28 lg:h-28 relative shrink-0">
         <Image
           src={picture || "/myphoto.svg"}
           alt="avatar"
-          className="w-32 h-32 rounded-full object-cover object-center shrink-0"
+          className="w-16 h-16 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full object-cover object-center shrink-0"
           width={180}
           height={180}
         />
         {isPictureEditing ? (
           <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center z-[999]">
             <div
-              className="m-auto w-[400px] flex flex-col items-center relative dark:bg-darkLayoutColor border-solid border-black dark:border-darkBorderColor rounded-[20px] shadow-lg bg-backgroundColor"
+              className="m-auto w-[80%] max-w-[400px] flex flex-col items-center relative dark:bg-darkLayoutColor border-solid border-black dark:border-darkBorderColor rounded-[20px] shadow-lg bg-backgroundColor"
               onDrop={handleDrop}
               onDragEnter={(e) => e.preventDefault()}
               onDragOver={(e) => e.preventDefault()}
             >
-              <h3 className="text-2xl bg-primaryColor dark:bg-darkPrimaryColor w-full p-2 rounded-t-[20px] text-white text-center">
+              <h3 className="text-[19px] sm:text-xl md:text-[22px] bg-primaryColor dark:bg-darkPrimaryColor w-full p-2 md:p-2.5 rounded-t-[20px] text-white text-center">
                 Update Profile Picture
               </h3>
               <button
                 type="button"
                 onClick={toggleEditingAvatar}
-                className="top-2.5 right-5 w-6 h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-base rounded-full ring-inset focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-[#BFBFBF] hover:animate-buttonPush"
+                className="top-2.5 right-5 md:top-3 w-5 h-5 md:w-6 md:h-6 absolute dark:text-darkPrimaryColor text-center bg-white text-primaryColor text-sm md:text-base rounded-full ring-inset focus:outline-none focus:ring-2 focus:ring-primaryColor dark:focus:ring-[#BFBFBF] hover:animate-buttonPush"
               >
                 X
               </button>
-              <div className="p-5 w-full bg-white rounded-b-[20px]">
+              <div className="p-5 md:p-6 w-full bg-white rounded-b-[20px]">
                 {previewImage ? (
                   <Image
                     src={previewImage}
@@ -133,7 +133,7 @@ export default function Profile({ picture, token, getProfile }) {
                     height={280}
                   />
                 ) : (
-                  <div className="mb-5 h-80 flex flex-col items-center justify-center dark:border-darkPrimaryColor border border-dashed border-primaryColor px-2 py-4  rounded-md cursor-pointer text-lg">
+                  <div className="sm:text-lg md:text-[19px] mb-3 sm:mb-4 h-64 md:h-72 flex flex-col items-center justify-center dark:border-darkPrimaryColor border border-dashed border-primaryColor px-2 py-4 rounded-md cursor-pointer">
                     <p className="text-center">
                       拖放圖片到此區域上傳
                       <br />
@@ -158,7 +158,7 @@ export default function Profile({ picture, token, getProfile }) {
                 <button
                   type="button"
                   onClick={handleUpdatePicture}
-                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-xl bg-primaryColor w-28 p-1 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF] hover:animate-buttonPush"
+                  className="flex justify-center m-auto dark:bg-darkPrimaryColor text-lg sm:text-[19px] md:text-[21px] bg-primaryColor w-20 md:w-28 md:py-2 p-1 sm:w-24 sm:py-1.5 rounded-[50px] text-white text-center ring-inset focus:outline-none focus:ring-2 focus:ring-[#BFBFBF] hover:animate-buttonPush"
                 >
                   Upload
                 </button>
@@ -169,7 +169,7 @@ export default function Profile({ picture, token, getProfile }) {
         <div className="w-full h-full absolute top-0 left-0 border-2 border-solid border-primaryColor dark:border-darkSecondaryColor rounded-full opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-50">
           <button
             type="button"
-            className="w-full h-full absolute top-1/2 left-1/2 text-lg text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
+            className="w-full h-full absolute top-1/2 left-1/2 text-xs sm:text-base lg:text-lg text-white underline opacity-0 hover:opacity-100 transform -translate-x-1/2 -translate-y-1/2 transition-opacity"
             onClick={() => {
               toggleEditingAvatar();
             }}

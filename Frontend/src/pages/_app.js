@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 
 import "@/styles/globals.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const AudioContext = createContext();
 

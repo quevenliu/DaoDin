@@ -64,10 +64,22 @@ export default function Tag({ category, location, area }) {
   }
 
   return (
-    <div className={`${styles.content} absolute top-4 right-6`}>
-      <div className={`${color} px-4 py-1 rounded-[20px] flex`}>
-        <Image src={icon} alt="icon" width={24} height={24} />
-        <p className="text-white text-xl ml-2">{location}</p>
+    <div
+      className={`${styles.content} absolute lg:top-3.5 sm:top-3 sm:right-4 top-2 right-3 lg:right-6`}
+    >
+      <div
+        className={`${color} px-3 sm:px-3.5 lg:px-4 sm:py-1 py-0.5 rounded-[20px] flex items-center`}
+      >
+        <Image
+          src={icon}
+          alt="icon"
+          width={24}
+          height={24}
+          className="w-5 h-5 sm:w-[22px] sm:h-[22px] text-center"
+        />
+        <p className="text-white sm:text-[17px] lg:text-[19px] ml-1 lg:ml-2">
+          {location}
+        </p>
       </div>
     </div>
   );
