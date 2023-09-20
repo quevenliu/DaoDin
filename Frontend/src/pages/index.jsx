@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useSWR from "swr";
 import Image from "next/image";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -17,6 +18,8 @@ const apiUrl = process.env.API_URL;
 
 export default function Home({ token }) {
   const [allGroups, setAllGroups] = useState([]);
+  const [cursor, setCursor] = useState("");
+  const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
   const [filterGroups, setFilterGroups] = useState([]);
   const router = useRouter();
   const path = router.pathname;
@@ -24,7 +27,7 @@ export default function Home({ token }) {
   const [activeLocations, setActiveLocations] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
   const [isDefault, setIsDefault] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const audios = useContext(AudioContext);
   const playHedgehogCrySound = () => {
@@ -33,6 +36,7 @@ export default function Home({ token }) {
       hedgehogCry.play().catch((error) => {
         console.error("Failed to play audio:", error);
       });
+      Ｆ;
     }
   };
 
@@ -43,108 +47,66 @@ export default function Home({ token }) {
     },
   };
 
-  const [cursor, setCursor] = useState("");
-  const [isGettingGroupsByCursor, setIsGettingGroupsByCursor] = useState(false);
-  const getGroups = async () => {
-    if (isDefault) {
-      setIsLoading(true);
-      await axios
-        .get(`${apiUrl}/group/search?isJoined=0&sort=recent`, config)
-        .then((res) => {
-          console.log(res.data.groups);
-          setAllGroups(res.data.groups);
-          setCursor(res.data.next_cursor);
-        })
-        .catch((err) => {
-          console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
+  const getGroupsDataUrl = isDefault
+    ? `${apiUrl}/group/search?isJoined=0&sort=recent`
+    : `${apiUrl}/group/search?isJoined=0&sort=popular`;
+
+  const getGroupsDataFetcher = () =>
+    axios.get(getGroupsDataUrl, config).then((res) => res.data);
+  const { data: initialData, isLoading: isGroupLoading } = useSWR(
+    isDefault
+      ? `${apiUrl}/group/search?isJoined=0&sort=recent`
+      : `${apiUrl}/group/search?isJoined=0&sort=popular`,
+    () => getGroupsDataFetcher(),
+    {
+      onError: (err) => {
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
         });
-    } else {
-      await axios
-        .get(`${apiUrl}/group/search?isJoined=0&sort=popular`, config)
-        .then((res) => {
-          setAllGroups(res.data.groups);
-          setCursor(res.data.next_cursor);
-        })
-        .catch((err) => {
-          console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        });
+      },
     }
-    setIsLoading(false);
-  };
+  );
+  useEffect(() => {
+    if (initialData) {
+      setAllGroups(initialData.groups);
+      setCursor(initialData.next_cursor);
+    }
+  }, [initialData]);
 
   const getGroupsByCursor = async () => {
-    if (isDefault) {
-      setIsLoading(true);
-      await axios
-        .get(
-          `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`,
-          config
-        )
-        .then((res) => {
-          setAllGroups([...allGroups, ...res.data.groups]);
-          setCursor(res.data.next_cursor);
-        })
-        .catch((err) => {
-          console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
+    setIsLoading(true);
+    await axios
+      .get(
+        isDefault
+          ? `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=recent`
+          : `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=popular`,
+        config
+      )
+      .then((res) => {
+        setAllGroups([...allGroups, ...res.data.groups]);
+        setCursor(res.data.next_cursor);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
         });
-    } else {
-      await axios
-        .get(
-          `${apiUrl}/group/search?cursor=${cursor}&isJoined=0&sort=popular`,
-          config
-        )
-        .then((res) => {
-          setAllGroups([...allGroups, ...res.data.groups]);
-          setCursor(res.data.next_cursor);
-        })
-        .catch((err) => {
-          console.log(err);
-          Swal.fire({
-            title: `${err.message}\nPlease try again later or notify our engineering team.`,
-            padding: "1.2em",
-            background: "#fadee5",
-            customClass: {
-              title: "swal_title",
-              confirmButton: "swal_confirm_fail",
-              container: "swal_container",
-              popup: "swal_popup",
-            },
-          });
-        });
-    }
+      });
     setIsGettingGroupsByCursor(false);
     setIsLoading(false);
   };
@@ -160,7 +122,7 @@ export default function Home({ token }) {
   };
 
   useEffect(() => {
-    getGroups();
+    // getGroups();
     window.addEventListener("scroll", isScrolling);
     return () => window.removeEventListener("scroll", isScrolling);
   }, [isDefault]);
@@ -291,8 +253,8 @@ export default function Home({ token }) {
               setActiveCategories={setActiveCategories}
             />
           )}
-
-          {isLoading ? (
+          
+          {isGroupLoading ? (
             <SkeletonTheme baseColor="#DDD" highlightColor="#FFF" padding="0px">
               <Skeleton
                 count={5}
