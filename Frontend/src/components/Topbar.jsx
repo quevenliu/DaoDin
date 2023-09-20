@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import styles from "../styles/font.module.scss";
 import { removeCookie } from "../utils/cookie";
 
@@ -85,17 +85,17 @@ export default function Topbar({ token }) {
       })
       .catch((err) => {
         console.log(err);
-        // Swal.fire({
-        //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-        //   padding: "1.2em",
-        //   background: "#fadee5",
-        //   customClass: {
-        //     title: "swal_title",
-        //     confirmButton: "swal_confirm_fail",
-        //     container: "swal_container",
-        //     popup: "swal_popup",
-        //   },
-        // });
+        Swal.fire({
+          title: `${err.message}\nPlease try again later or notify our engineering team.`,
+          padding: "1.2em",
+          background: "#fadee5",
+          customClass: {
+            title: "swal_title",
+            confirmButton: "swal_confirm_fail",
+            container: "swal_container",
+            popup: "swal_popup",
+          },
+        });
       });
   };
 
@@ -108,17 +108,17 @@ export default function Topbar({ token }) {
         })
         .catch((err) => {
           console.log(err);
-          // Swal.fire({
-          //   title: `${err.message}\nPlease try again later or notify our engineering team.`,
-          //   padding: "1.2em",
-          //   background: "#fadee5",
-          //   customClass: {
-          //     title: "swal_title",
-          //     confirmButton: "swal_confirm_fail",
-          //     container: "swal_container",
-          //     popup: "swal_popup",
-          //   },
-          // });
+          Swal.fire({
+            title: `${err.message}\nPlease try again later or notify our engineering team.`,
+            padding: "1.2em",
+            background: "#fadee5",
+            customClass: {
+              title: "swal_title",
+              confirmButton: "swal_confirm_fail",
+              container: "swal_container",
+              popup: "swal_popup",
+            },
+          });
         });
     }
   };
@@ -148,21 +148,21 @@ export default function Topbar({ token }) {
   };
 
   return (
-    <div className="max-w-7xl m-auto h-16 flex justify-between items-center relative">
+    <div className="lg:max-w-7xl m-auto lg:h-16 h-12 sm:h-14 flex justify-between items-center relative">
       <Link href="/">
         <h1
-          className={`${styles.title} text-5xl text-white hover:animate-titlePop`}
+          className={`${styles.title} lg:text-5xl md:text-[46px] sm:text-[40px] text-4xl text-white hover:animate-titlePop`}
         >
           DaoDin
         </h1>
       </Link>
-      <div className={`${styles.content} flex gap-4`}>
+      <div className={`${styles.content} flex gap-2 lg:gap-4 sm:gap-2.5`}>
         <button type="button" className="relative">
           <div className="hover:animate-topbarBounce">
             <Image
               src={darkMode ? "/darkEvent.svg" : "/event.svg"}
               alt="event"
-              className="w-10 h-10 p-2 bg-white rounded-full"
+              className="w-8 h-8 p-1.5 sm:w-[34px] sm:h-[34px] lg:w-10 lg:h-10 sm:p-[7px] bg-white rounded-full"
               width={40}
               height={40}
               onClick={() => {
@@ -171,14 +171,14 @@ export default function Topbar({ token }) {
               }}
             />
             {unreadEventCount === 0 ? null : (
-              <div className="text-white bg-red-500 rounded-full text-sm w-6 h-6 pt-[2px] absolute top-[-8px] right-[-10px]">
+              <div className="text-white bg-red-500 rounded-full text-[8px] lg:text-sm lg:w-6 lg:h-6 w-5 h-5 lg:pt-[2px] absolute top-[-4px] lg:top-[-8px] right-[-8px] sm:top-[-7px] lg:right-[-10px]">
                 {unreadEventCount}
               </div>
             )}
           </div>
           {isEventOpen && (
-            <div className="absolute w-72 top-16 right-[-120px] rounded-[20px] z-[1000]">
-              <div className="bg-primaryColor dark:bg-darkPrimaryColor text-white py-2 rounded-t-[20px] text-[22px] font-medium">
+            <div className="absolute w-56 sm:w-64 right-[-80px] lg:w-72 lg:top-16 top-11 lg:right-[-120px] sm:right-[-88px] placeholder:rounded-[20px] z-[1000]">
+              <div className="bg-primaryColor dark:bg-darkPrimaryColor text-white py-1 sm:py-1.5 lg:py-2 rounded-t-[20px] text-[19px] lg:text-[22px] font-medium">
                 Notification
               </div>
               {events.length === 0 ? (
@@ -197,17 +197,17 @@ export default function Topbar({ token }) {
                       <div
                         className={`${
                           event.is_read ? "text-[#A4A3A3]" : null
-                        } p-4 flex bg-[#F9EDED] dark:bg-[#EDF2FB]`}
+                        } lg:p-4 p-3 sm:p-3.5 flex bg-[#F9EDED] dark:bg-[#EDF2FB]`}
                       >
                         <Image
                           src={event.picture}
                           alt="Group picture"
                           width={48}
                           height={48}
-                          className="rounded-full mr-4 shrink-0 w-12 h-12 object-cover"
+                          className="rounded-full mr-4 shrink-0 lg:w-12 lg:h-12 w-10 h-10 object-cover"
                         />
                         <div className="flex flex-col items-start">
-                          <p className="text-base text-left mb-1">
+                          <p className="md:text-base text-[15px] text-left mb-1">
                             {event.message}
                           </p>
                           <p className="text-sm">{event.created_at}</p>
@@ -224,7 +224,7 @@ export default function Topbar({ token }) {
           <Image
             src={darkMode ? "/darkAvatar.svg" : "/avatar.svg"}
             alt="avatar"
-            className="w-10 h-10 p-2 bg-white rounded-full hover:animate-topbarBounce"
+            className="sm:w-[34px] sm:h-[34px] sm:p-[7px] lg:w-10 lg:h-10 lg:p-2 w-8 h-8 p-1.5 bg-white rounded-full hover:animate-topbarBounce"
             width={40}
             height={40}
           />
@@ -240,27 +240,27 @@ export default function Topbar({ token }) {
           <Image
             src="/setting.svg"
             alt="setting"
-            className="w-10 h-10"
+            className="sm:w-[34px] sm:h-[34px] lg:w-10 lg:h-10 w-8 h-8 "
             width={40}
             height={40}
           />
         </button>
         {isSettingOpen && (
-          <div className="absolute w-40 top-[76px] right-0 rounded-[20px] z-[1000]">
-            <div className="bg-primaryColor dark:bg-darkPrimaryColor text-center text-white py-2 rounded-t-[19px] text-[22px] font-medium">
+          <div className="absolute w-40 top-[52px] lg:top-[76px] sm:top-[55px] right-0 rounded-[20px] z-[1000]">
+            <div className="bg-primaryColor dark:bg-darkPrimaryColor text-center text-white sm:py-1.5 py-1 lg:py-2 rounded-t-[19px] text-[19px] lg:text-[22px] font-medium">
               Setting
             </div>
             <div className="rounded-b-[19px] overflow-auto">
               <button
                 type="button"
-                className="w-full py-2 text-lg bg-[#F9EDED] dark:bg-[#EDF2FB] border-b border-[#BFBFBF]  border-solid"
+                className="w-full py-2 lg:text-lg bg-[#F9EDED] dark:bg-[#EDF2FB] border-b border-[#BFBFBF]  border-solid"
                 onClick={handleLogout}
               >
                 <p className="w-full hover:animate-togglePop">Logout</p>
               </button>
               <button
                 type="button"
-                className="w-full py-2 bg-[#F9EDED] dark:bg-[#EDF2FB]"
+                className="w-full lg:py-2 py-1 bg-[#F9EDED] dark:bg-[#EDF2FB]"
               >
                 <MaterialUISwitch
                   onClick={handleSwitchMode}
