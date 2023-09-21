@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { createContext, useEffect, useState } from "react";
 
 import "@/styles/globals.css";
@@ -19,8 +20,16 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <AudioContext.Provider value={audios}>
-      <Component {...pageProps} />
-    </AudioContext.Provider>
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Cherry+Bomb+One|Outfit&display=optional"
+        />
+      </Head>
+      <AudioContext.Provider value={audios}>
+        <Component {...pageProps} />
+      </AudioContext.Provider>
+    </>
   );
 }
