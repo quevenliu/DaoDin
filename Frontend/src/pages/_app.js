@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }) {
       <Head>
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Cherry+Bomb+One|Outfit&display=optional"
+          href="https://fonts.googleapis.com/css?family=Cherry+Bomb+One|Outfit&display=swap"
         />
       </Head>
       <AudioContext.Provider value={audios}>
